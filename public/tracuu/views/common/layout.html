@@ -1,0 +1,11 @@
+<div class="loadingapp hidden">
+	<div class="spinner">
+		<img src="/vcontract/assets/images/loading.jpg">
+	</div>
+</div>
+<div class="page" ng-controller="MainCtrl as mainCtrl">
+	<div class="navbar navbar-expand-md d-print-none sticky-top {{themeConfig.navbarStyle}}" ng-include="'tracuu/views/common/header.html'"></div>
+
+	<div class="content"  ng-class="{'m-0':$state.includes('index.utilities.detail_document_sample')}" ng-include="'tracuu/views/common/main-content.html'"></div>
+
+</div>

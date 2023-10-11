@@ -1,0 +1,1507 @@
+<div class="loadingapp hidden">
+    <div class="spinner">
+        <img src="/vcontract/assets/images/loading.jpg">
+    </div>
+</div>
+<div class="page" ng-controller="CreateInternalDocumentCtrl as internalCtrl">
+    <div class="content m-0">
+        <header class="navbar navbar-expand-md d-print-none sticky-top navbar-primary" style="background: {{configData.theme_header_color}}; color: {{configData.text_color}}">
+            <div class="container-xl">
+                <h1
+                    class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3 border-right d-none d-sm-inline-block">
+                    <img  ng-src="{{configData.logo_dashboard}}" alt="vContract"
+                        class="navbar-brand-image">
+                </h1>
+                <div class="d-flex flex-column flex-md-row flex-fill align-items-center align-items-md-center">
+                    <div class="steps steps-counter steps-{{configData.step_color}}">
+                        <span class="step-item" ng-class="{'active': internalCtrl.currentStep == 1}">
+                        </span>
+                        <span class="step-item" ng-class="{'active': internalCtrl.currentStep == 2}">
+                        </span>
+                        <span class="step-item" ng-class="{'active': internalCtrl.currentStep == 3}">
+                        </span>
+                    </div>
+                </div>
+                <div class="align-items-end d-print-none">
+                    <div class="btn-list">
+                        <div class="border-right pe-2">
+                            <button type="button" id="prevBtn" ng-click="internalCtrl.prevStep()"
+                                class="btn btn-outline-primary btn-outline-primary-customer d-none d-sm-inline-block"
+                                ng-class="{'hidden': internalCtrl.currentStep == 1}">
+                                {{'COMMON.PREV_STEP' | translate}}
+                            </button>
+                            <button type="button" id="nextBtn" ng-click="internalCtrl.nextStep()"
+                                class="btn btn-primary d-none d-sm-inline-block">{{internalCtrl.currentStep == 3 ?
+                                'COMMON.FINISH_STEP' : 'COMMON.NEXT_STEP' | translate}}
+                            </button>
+
+                        </div>
+                        <a ng-click="internalCtrl.exitCompose()" class="btn btn-secondary btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <form>
+            <div class="tab" ng-show="internalCtrl.currentStep == 1">
+                <div class="mt-5">
+                    <div class="container-xl">
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="form-check mb-3" ng-if="!isAddendum">
+                                            <input class="form-check-input" type="checkbox"
+                                                   ng-model="internalCtrl.newDoc.is_use_template">
+                                            <span class="form-check-label">
+                                                {{'DOCUMENT.USE_TEMPLATE' | translate}}
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="internalCtrl.newDoc.is_use_template">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_SAMPLE' |
+                                            translate}}</label>
+                                            <select ng-model="internalCtrl.newDoc.document_sample_id" class="form-select"
+                                                    ng-change="internalCtrl.onDocumentSampleChange()" required="true">
+                                                <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                                <option ng-repeat="type in internalCtrl.lstDocumentSample"
+                                                        value="{{type.id}}">{{type.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_CODE' |
+                                            translate}}</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control font-weight-bold"
+                                                       maxlength="50" required="" ng-model="internalCtrl.newDoc.code" ng-if="internalCtrl.isAutoOrder == 0">
+                                                       <input type="text" class="form-control font-weight-bold"
+                                                       maxlength="50" required="" ng-model="internalCtrl.newDoc.codeNum" ng-if="internalCtrl.isAutoOrder != 0" readonly>
+                                                       <input type="text" class="form-control font-weight-bold" style="width: 40% !important;"
+                                                       maxlength="50" required="" ng-model="internalCtrl.newDoc.codeText" ng-if="internalCtrl.isAutoOrder != 0">
+                                                <div class="input-group-append" ng-show="isExistedDocumentCode">
+                                                    <a class="form-control" style="background: #656d77; color:white;"
+                                                       title="{{'DOCUMENT.REFRESH_DOCUMENT_CODE' | translate}}" href=""
+                                                       ng-click="refreshDocumentCode()"><i
+                                                        class="fa fa-refresh"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_NAME' |
+                                            translate}}</label>
+                                            <input type="text" class="form-control" maxlength="255"
+                                                   autocomplete="off" required="" ng-model="internalCtrl.newDoc.name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_DATE' |
+                                            translate}}</label>
+                                            <div class="input-icon">
+                                                <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                       fp-on-setup="datePostSetup(fpItem)"
+                                                       placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                       ng-model="internalCtrl.newDoc.sent_date" data-enabletime="false">
+                                                <span class="input-icon-addon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                        <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                        <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                        <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_EXPIRE' |
+                                            translate}}</label>
+                                            <div class="input-icon">
+                                                <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                       fp-on-setup="datePostSetup(fpItem)"
+                                                       placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                       ng-model="internalCtrl.newDoc.expired_date" data-enabletime="false">
+                                                <span class="input-icon-addon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                        <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                        <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                        <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox"
+                                                   ng-model="internalCtrl.newDoc.is_verify_content">
+                                            <span class="form-check-label">
+                                                {{'DOCUMENT.DOCUMENT_AUTHORIZED' | translate}}
+                                            </span>
+                                            <span class="form-check-description">
+                                                {{'DOCUMENT.DOCUMENT_AUTHORIZED_DESC' | translate}}
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="!internalCtrl.newDoc.is_use_template">
+                                    <div class="col-md-6" ng-if="!isAddendum">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_TYPE' |
+                                                translate}}</label>
+                                            <select ng-model="internalCtrl.newDoc.document_type_id" class="form-select"
+                                                ng-change="internalCtrl.onDocumentTypeChange()" required="true">
+                                                <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                                <option ng-repeat="type in internalCtrl.lstDocumentType"
+                                                    value="{{type.id}}">{{type.dc_type_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-if="isAddendum">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_FATHER_NAME' |
+                                                translate}}</label>
+                                            <input type="text" class="form-control" maxlength="255"
+                                                autocomplete="off" ng-disabled="fatherName" ng-model="fatherName">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required" ng-if="!isAddendum">{{'DOCUMENT.DOCUMENT_CODE' |
+                                                translate}}</label>
+                                            <label class="form-label required" ng-if="isAddendum">{{'DOCUMENT.ADDENDUM_CODE' |
+                                                translate}}</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control font-weight-bold"
+                                                maxlength="50" required="" ng-model="internalCtrl.newDoc.code" ng-if="internalCtrl.isAutoOrder == 0">
+                                                <input type="text" class="form-control font-weight-bold"
+                                                maxlength="50" required="" ng-model="internalCtrl.newDoc.codeNum" ng-if="internalCtrl.isAutoOrder != 0" readonly>
+                                                <input type="text" class="form-control font-weight-bold" style="width: 40% !important;"
+                                                maxlength="50" required="" ng-model="internalCtrl.newDoc.codeText" ng-if="internalCtrl.isAutoOrder != 0">
+                                                <div class="input-group-append" ng-show="isExistedDocumentCode && !isAddendum">
+                                                    <a class="form-control" style="background: #656d77; color:white;"
+                                                        title="{{'DOCUMENT.REFRESH_DOCUMENT_CODE' | translate}}" href=""
+                                                        ng-click="refreshDocumentCode()"><i
+                                                            class="fa fa-refresh"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" ng-if="!isAddendum">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_NAME' |
+                                                translate}}</label>
+                                            <input type="text" class="form-control" maxlength="255"
+                                                autocomplete="off" required="" ng-model="internalCtrl.newDoc.name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-if="isAddendum">
+                                        <div class="mb-3">
+                                            <label class="form-label required" >{{'DOCUMENT.DOCUMENT_ADDENDUM' |
+                                                translate}}</label>
+                                            <input type="text" class="form-control" maxlength="255"
+                                                autocomplete="off" required="" ng-model="internalCtrl.newDoc.name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-if="isAddendum">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_ADDENDUM_TYPE' |
+                                                translate}}</label>
+                                            <select ng-model="internalCtrl.newDoc.addendum_type" class="form-select"
+                                                required="true">
+                                                <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                                <option ng-repeat="type in internalCtrl.lstAddendumType"
+                                                    value="{{type.id}}">{{type.description}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_DATE' |
+                                                translate}}</label>
+                                            <div class="input-icon">
+                                                <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                    fp-on-setup="datePostSetup(fpItem)"
+                                                    placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                    ng-model="internalCtrl.newDoc.sent_date" data-enabletime="false">
+                                                <span class="input-icon-addon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                        <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                        <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                        <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOCUMENT_EXPIRE' |
+                                                translate}}</label>
+                                            <div class="input-icon">
+                                                <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                    fp-on-setup="datePostSetup(fpItem)"
+                                                    placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                    ng-model="internalCtrl.newDoc.expired_date" data-enabletime="false">
+                                                <span class="input-icon-addon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                        <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                        <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                        <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-if="!isAddendum || isAddendum && internalCtrl.newDoc.addendum_type == 1">
+                                        <div class="mb-3">
+                                            <label ng-if="!isAddendum" class="form-label required">{{'DOCUMENT.EXPIRED_TYPE' |
+                                                translate}}</label>
+                                            <label ng-if="isAddendum" class="form-label required">{{'DOCUMENT.RENEW_EXPIRED_TYPE' |
+                                                translate}}</label>
+                                            <select ng-model="internalCtrl.newDoc.expired_type" class="form-select">
+                                                <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                                <option ng-repeat="type in internalCtrl.lstExpiredType"
+                                                    value="{{type.id}}">{{type.description}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-show="internalCtrl.newDoc.expired_type == 1">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.DOC_EXPIRED_DATE' |
+                                            translate}}</label>
+                                            <div class="input-icon">
+                                                <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                       fp-on-setup="datePostSetup(fpItem)"
+                                                       placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                       ng-model="internalCtrl.newDoc.doc_expired_date" data-enabletime="false">
+                                                <span class="input-icon-addon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                        <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                        <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                        <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 " ng-show="internalCtrl.newDoc.expired_type == 2">
+                                        <div class="mb-3">
+                                            <label class="form-label required">{{'DOCUMENT.EXPIRED_MONTH' |
+                                                translate}}</label>
+                                            <input type="text" class="form-control" maxlength="255"
+                                                autocomplete="off" required="" ng-model="internalCtrl.newDoc.expired_month">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox"
+                                                ng-model="internalCtrl.newDoc.is_verify_content">
+                                            <span class="form-check-label">
+                                                {{'DOCUMENT.DOCUMENT_AUTHORIZED' | translate}}
+                                            </span>
+                                            <span class="form-check-description">
+                                                {{'DOCUMENT.DOCUMENT_AUTHORIZED_DESC' | translate}}
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox"
+                                                   ng-model="internalCtrl.newDoc.is_encrypt">
+                                            <span class="form-check-label">
+                                                {{'DOCUMENT.ENCRYPT' | translate}}
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6" ng-if="internalCtrl.newDoc.is_encrypt">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.USER.USER_PASSWORD' | translate}}</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group input-group-flat">
+                                                    <input id="password" class="form-control" ng-model="internalCtrl.newDoc.encrypt_password" type="password"
+                                                           maxlength="255">
+                                                    <span class="input-group-text">
+                                                        <a href="" id="showPass" onclick="togglePassword()" class="link-secondary ms-2"
+                                                           data-bs-toggle="tooltip" title="Hiển thị mật khẩu">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <circle cx="12" cy="12" r="2"></circle>
+                                                                <path
+                                                                    d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                                                </path>
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <hr>
+                                        <div class="row row-cards" id="upload-panel">
+                                            <div class="col-12">
+                                                <div class="card card-md">
+                                                    <div class="card-body text-center file-drop file-upload">
+                                                        <img class="mx-auto mb-2"
+                                                            src="vcontract/assets/images/upload-icon.png" alt=""
+                                                            width="66">
+                                                        <p class="text-muted">{{'DOCUMENT.DRAG_HERE' | translate}} <a
+                                                                href="javascript:void(0)"><label style="cursor: pointer"
+                                                                    for="uploadFile"><b>{{'DOCUMENT.CLICK_HERE' |
+                                                                        translate}}</b></label></a>
+                                                            {{'DOCUMENT.CHOOSE_FILE'
+                                                            | translate}}</p>
+                                                        <p class="text-muted">{{'DOCUMENT.FILE_EXTENSION' | translate}}{{configData.file_size_upload}}{{'DOCUMENT.FILE_EXTENSION_DATA' | translate}}
+                                                        </p>
+                                                        <input type="file" class="form-control-file hidden"
+                                                            multiple="multiple" name="File" id="uploadFile" required=""
+                                                            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                                    </div>
+                                                    <div class="progress progress-sm card-progress">
+                                                        <div id="progressBar" class="progress-bar" style="width: 0%"
+                                                            role="progressbar" aria-valuenow="10" aria-valuemin="0"
+                                                            aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="selected-file" class="">
+                                            <div class="card mt-3 card-body"
+                                                ng-repeat="file in internalCtrl.selectedFile track by $index">
+                                                <div class="row" style="position:relative;">
+                                                    <div class="col mt-auto mb-auto"><b>{{file.name}}</b></div>
+                                                    <div class="col-auto ms-auto file-size" style="margin-right: 15px;">
+                                                        <strong>{{'DOCUMENT.FILE_SIZE' |
+                                                            translate}} </strong>{{file.size}}
+                                                    </div>
+                                                    <button style="position:absolute; top:0;right:0;" type="button"
+                                                        class="btn-close" ng-click="removeFile(file, $index)"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tab" ng-show="internalCtrl.currentStep == 2">
+                <div class="content" ng-show="internalCtrl.newDoc.is_use_template">
+                    <div class="container-xl">
+                        <div class="page-header d-print-none">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="page-pretitle">
+                                        {{'DOCUMENT.PARTICIPANTS' | translate}}
+                                    </div>
+                                    <h2 class="page-title">
+                                        {{'DOCUMENT.PARTICIPANTS_TITLE' | translate}}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-cards mb-3 bengiaoket-block" ng-class="{'mt-3': $partnerIndex == 0}"
+                             ng-repeat="partner in internalCtrl.newDoc.samplePartners track by $index"
+                             ng-init="$partnerIndex = $index">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <input type="text"
+                                               class="form-control text-center thutugiaoket font-weight-bold text-info me-2"
+                                               ng-model="partner.order_assignee" style="width:36px; height:36px;"
+                                               ng-readonly="">
+                                        <h3 class="card-title" ng-if="partner.organisation_type == 1">{{'DOCUMENT.MY_ORGANISATION' |
+                                        translate}}</h3>
+                                        <div class="card-title" ng-if="partner.organisation_type != 1">
+                                            <div class="align-content-end">
+                                                <label class="form-check form-check-inline">
+                                                    <input class="form-check-input"
+                                                           ng-change="onPartnerOrganisationTypeChange(partner)"
+                                                           ng-model="partner.organisation_type" value="2" type="radio"
+                                                           checked="" required="">
+                                                    <span class="form-check-label">{{'DOCUMENT.OTHER_ORGANISATION' |
+                                                    translate}}</span>
+                                                </label>
+                                                <label class="form-check form-check-inline">
+                                                    <input class="form-check-input"
+                                                           ng-change="onPartnerOrganisationTypeChange(partner)"
+                                                           ng-model="partner.organisation_type" value="3" type="radio"
+                                                           required="">
+                                                    <span class="form-check-label">{{'DOCUMENT.PERSONAL' |
+                                                    translate}}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        <div class="form-group row mb-3" ng-if="partner.organisation_type != 3">
+                                            <div class="col-auto">
+                                                <button type="button" class="btn bg-blue-lt btn-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                                        <path d="M5 21v-14l8 -4v18"></path>
+                                                        <path d="M19 21v-10l-6 -4"></path>
+                                                        <line x1="9" y1="9" x2="9" y2="9.01"></line>
+                                                        <line x1="9" y1="12" x2="9" y2="12.01"></line>
+                                                        <line x1="9" y1="15" x2="9" y2="15.01"></line>
+                                                        <line x1="9" y1="18" x2="9" y2="18.01"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" class="form-control font-weight-bold"
+                                                       ng-model="partner.company_name" maxlength="255"
+                                                       ng-change="internalCtrl.validateField(partner, 'company_name')"
+                                                       placeholder="{{'DOCUMENT.ORGANISATION_NAME' | translate}}"
+                                                       ng-readonly="partner.organisation_type == 1" required="" />
+                                                <label class="error text-danger"
+                                                       ng-show="partner.company_name_err == true">{{'DOCUMENT.NOT_EMPTY' |
+                                                translate}}</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input type="text" class="form-control" ng-model="partner.tax"
+                                                       placeholder="{{'DOCUMENT.TAX_NUMBER' | translate}}"
+                                                       ng-change="internalCtrl.validateField(partner, 'tax')"
+                                                       ng-readonly="partner.organisation_type == 1" maxlength="255" />
+                                                <label class="error text-danger"
+                                                       ng-show="partner.tax_err == true">{{'DOCUMENT.NOT_EMPTY' |
+                                                translate}}</label>
+                                                <label class="error text-danger"
+                                                       ng-show="partner.tax_err_format == true">{{'DOCUMENT.ERROR_FORMAT' |
+                                                translate}}</label>
+                                                <label class="error text-danger"
+                                                       ng-show="partner.tax_err_length == true">{{'DOCUMENT.ERROR_FORMAT' |
+                                                translate}}</label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="nguoigiaoket"
+                                                 ng-repeat="assignee in partner.assignees track by $index">
+                                                <div class="form-group row mb-3">
+                                                    <div class="col">
+                                                        <div class="card">
+                                                            <div class="card-status-start bg-light-card"></div>
+                                                            <div class="card-body">
+                                                                <h3 class="card-title">{{'DOCUMENT.PARTICIPANT' |
+                                                                translate}}</h3>
+                                                                <div class="form-group mb-3 row">
+
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                     class="icon" width="24" height="24"
+                                                                                     viewBox="0 0 24 24" stroke-width="2"
+                                                                                     stroke="currentColor" fill="none"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                          d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <rect x="3" y="5" width="18"
+                                                                                          height="14" rx="2"></rect>
+                                                                                    <polyline points="3 7 12 13 21 7">
+                                                                                    </polyline>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text" maxlength="255"
+                                                                                   ng-blur="internalCtrl.checkExistEmail(partner, assignee, $index)"
+                                                                                   class="form-control"
+                                                                                   ng-model="assignee.email"
+                                                                                   placeholder="{{'DOCUMENT.EMAIL' | translate}}"
+                                                                                   required="">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.email_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.email_err_format == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                     class="icon" width="24" height="24"
+                                                                                     viewBox="0 0 24 24" stroke-width="2"
+                                                                                     stroke="currentColor" fill="none"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                          d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <circle cx="12" cy="7" r="4">
+                                                                                    </circle>
+                                                                                    <path
+                                                                                        d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2">
+                                                                                    </path>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text" class="form-control"
+                                                                                   ng-model="assignee.full_name"
+                                                                                   maxlength="255"
+                                                                                   placeholder="{{'DOCUMENT.USER_NAME' | translate}}"
+                                                                                   required=""
+                                                                                   ng-change="internalCtrl.validateField(assignee, 'full_name')">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.full_name_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.full_name_err_format == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                     class="icon" width="24" height="24"
+                                                                                     viewBox="0 0 24 24" stroke-width="2"
+                                                                                     stroke="currentColor" fill="none"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                          d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <path
+                                                                                        d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2">
+                                                                                    </path>
+                                                                                    <path d="M15 7a2 2 0 0 1 2 2">
+                                                                                    </path>
+                                                                                    <path d="M15 3a6 6 0 0 1 6 6">
+                                                                                    </path>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text"
+                                                                                   ng-blur="internalCtrl.validateField(assignee, 'phone')"
+                                                                                   class="form-control suggestion-doitac"
+                                                                                   ng-model="assignee.phone" maxlength="50"
+                                                                                   placeholder="{{'DOCUMENT.PHONE' | translate}}">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.phone_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.phone_err_format == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                        | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.phone_err_length == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg class="icon" style="opacity:0.6 !important ;"
+                                                                                    width="24" height="24"
+                                                                                    stroke-width="2"
+                                                                                     stroke="currentColor"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round"
+                                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                                     x="0px" y="0px"
+                                                                                     viewBox="0 0 1000 1000"
+                                                                                     enable-background="new 0 0 1000 1000"
+                                                                                     xml:space="preserve">
+                                                                                    <path
+                                                                                        d="M764.4,564.3c-15.3-5.1-26.2-16.7-32.3-34.5c29.2-23,45.1-66.2,45.1-122.6c0-53.2-43.3-96.4-96.5-96.4s-96.4,43.2-96.4,96.3c0,56.4,16,99.7,45.1,122.7c-6.3,17.8-17.2,29.4-32.4,34.5c-58.4,19.5-106.7,41-106.7,108.7c0,4.8,0.9,9.2,2.6,13.8c1.2,2.9,3.9,4.8,7,4.8h361.6c3.2,0,6-1.9,7.1-4.9c1.7-4.5,2.6-8.9,2.6-13.7C871.3,605.4,822.8,583.7,764.4,564.3z M855.8,676.3H505.9c-0.2-1.1-0.2-2.1-0.2-3.4c0-52.9,31.1-72.5,96.3-94.3c21.7-7.3,36.4-24.1,43.8-49.8c0.9-3.2-0.3-6.5-3-8.4c-27.8-19-43.1-59.4-43.1-113.5c0-44.7,36.4-81.2,81.2-81.2c44.8,0,81.2,36.4,81.2,81.2c0,54.1-15.3,94.4-43.1,113.4c-2.7,1.8-3.9,5.2-3.1,8.4c7.1,25.5,22.2,42.7,43.7,49.9c65.4,21.7,96.5,41.4,96.5,94.3C856,674.1,856,675.1,855.8,676.3z" />
+                                                                                    <path
+                                                                                        d="M934.1,171.6H65.9c-30.8,0-55.9,25-55.9,55.9v545c0,30.9,25.1,55.9,55.9,55.9h868.3c30.8,0,55.9-25,55.9-55.9v-545C990,196.7,964.9,171.6,934.1,171.6z M974.7,772.5c0,22.5-18.2,40.7-40.6,40.7H65.9c-22.4,0-40.6-18.2-40.6-40.7v-545c0-22.4,18.3-40.6,40.6-40.6h868.3c22.4,0,40.6,18.2,40.6,40.6V772.5z" />
+                                                                                    <path
+                                                                                        d="M144,396.4h225.8c4.2,0,7.7-3.4,7.7-7.7c0-4.2-3.4-7.6-7.7-7.6H144c-4.2,0-7.7,3.4-7.7,7.6C136.3,393,139.7,396.4,144,396.4z" />
+                                                                                    <path
+                                                                                        d="M144,515.9h185c4.2,0,7.6-3.4,7.6-7.6c0-4.2-3.4-7.7-7.6-7.7H144c-4.2,0-7.7,3.4-7.7,7.7C136.3,512.5,139.7,515.9,144,515.9z" />
+                                                                                    <path
+                                                                                        d="M415.5,658.6H144c-4.2,0-7.7,3.5-7.7,7.7s3.4,7.7,7.7,7.7h271.6c4.2,0,7.7-3.5,7.7-7.7S419.8,658.6,415.5,658.6z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text"
+                                                                                   ng-blur="internalCtrl.validateField(assignee, 'national_id')"
+                                                                                   class="form-control" maxlength="50"
+                                                                                   ng-model="assignee.national_id"
+                                                                                   placeholder="{{'DOCUMENT.NATIONAL_ID' | translate}}">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.national_id_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.national_id_err_format == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-3 row">
+                                                                    <div class="col-md-3">
+                                                                        <select ng-model="assignee.assign_type"
+                                                                                class="form-select"
+                                                                                ng-change="internalCtrl.validateSelectbox(assignee, 'assign_type')">
+                                                                            <option value="-1">
+                                                                                {{'DOCUMENT.PARTICIPANT_ROLE' |
+                                                                            translate}}
+                                                                            </option>
+                                                                            <option ng-repeat="role in lstAssigneeRole"
+                                                                                    value="{{role.id}}">
+                                                                                {{role.description | translate}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.assign_type_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-6"
+                                                                         ng-if="assignee.assign_type == 2">
+                                                                        <selectize options="internalCtrl.lstSignMethod"
+                                                                                   config="internalCtrl.tagSelectConfig"
+                                                                                   ng-change="internalCtrl.validateSelectbox(assignee, 'signing_method')"
+                                                                                   ng-model="assignee.signing_method">
+                                                                        </selectize>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.signing_method_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select ng-model="assignee.noti_type"
+                                                                                class="form-select"
+                                                                                ng-change="internalCtrl.validateSelectbox(assignee, 'noti_type')">
+                                                                            <option value="-1">
+                                                                                {{'DOCUMENT.NOTIFICATION_TYPE' |
+                                                                            translate}}
+                                                                            </option>
+                                                                            <option ng-repeat="type in lstNotiType"
+                                                                                    value="{{type.id}}">{{type.description |
+                                                                            translate}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <label class="error text-danger"
+                                                                               ng-show="assignee.noti_type_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                        | translate}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-3 row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                     data-bs-toggle="tooltip"
+                                                                                     data-bs-placement="left"
+                                                                                     title="Tin nhắn riêng" class="icon"
+                                                                                     width="24" height="24"
+                                                                                     viewBox="0 0 24 24" stroke-width="2"
+                                                                                     stroke="currentColor" fill="none"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                          d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <path
+                                                                                        d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4">
+                                                                                    </path>
+                                                                                    <line x1="8" y1="9" x2="16" y2="9">
+                                                                                    </line>
+                                                                                    <line x1="8" y1="13" x2="14"
+                                                                                          y2="13">
+                                                                                    </line>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text" class="form-control"
+                                                                                   ng-model="assignee.message"
+                                                                                   maxlength="255"
+                                                                                   placeholder="{{'DOCUMENT.PRIVATE_MESSAGE' | translate}}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content" ng-show="!internalCtrl.newDoc.is_use_template">
+                    <div class="container-xl">
+                        <div class="page-header d-print-none">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="page-pretitle">
+                                        {{'DOCUMENT.PARTICIPANTS' | translate}}
+                                    </div>
+                                    <h2 class="page-title">
+                                        {{'DOCUMENT.PARTICIPANTS_TITLE' | translate}}
+                                    </h2>
+                                </div>
+                                <div class="col-auto ms-auto d-print-none">
+                                    <div class="btn-list d-flex align-items-center">
+                                        <label class="form-check form-switch me-2">
+                                            <input class="form-check-input" type="checkbox" checked=""
+                                                ng-model="internalCtrl.newDoc.is_order_approval">
+                                            <span class="form-check-label">{{'DOCUMENT.CONCURRENT_CONFIG' |
+                                                translate}}</span>
+                                        </label>
+                                        <a ng-click="internalCtrl.addPartner()"
+                                            class="btn btn-white d-none d-sm-inline-block addmore-bengiaoket">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                                <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                                            </svg>
+                                            {{'COMMON.ADD_NEW' | translate}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-cards mb-3 bengiaoket-block" ng-class="{'mt-3': $partnerIndex == 0}"
+                            ng-repeat="partner in internalCtrl.newDoc.partners track by $index"
+                            ng-init="$partnerIndex = $index">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <input type="text"
+                                            class="form-control text-center thutugiaoket font-weight-bold text-info me-2"
+                                            ng-model="partner.order_assignee" style="width:36px; height:36px;"
+                                            readonly="">
+                                        <h3 class="card-title" ng-if="$partnerIndex == 0">{{'DOCUMENT.MY_ORGANISATION' |
+                                            translate}}</h3>
+                                        <div class="card-title" ng-if="$partnerIndex > 0">
+                                            <div class="align-content-end">
+                                                <label class="form-check form-check-inline">
+                                                    <input class="form-check-input"
+                                                        ng-change="onPartnerOrganisationTypeChange(partner)"
+                                                        ng-model="partner.organisation_type" value="2" type="radio"
+                                                        checked="" required="">
+                                                    <span class="form-check-label">{{'DOCUMENT.OTHER_ORGANISATION' |
+                                                        translate}}</span>
+                                                </label>
+                                                <label class="form-check form-check-inline">
+                                                    <input class="form-check-input"
+                                                        ng-change="onPartnerOrganisationTypeChange(partner)"
+                                                        ng-model="partner.organisation_type" value="3" type="radio"
+                                                        required="">
+                                                    <span class="form-check-label">{{'DOCUMENT.PERSONAL' |
+                                                        translate}}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <button type="button" class="btn btn-primary btn-icon addmore-nguoigiaoket"
+                                                ng-click="internalCtrl.addAssignee(partner)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <circle cx="9" cy="7" r="4"></circle>
+                                                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                                    <path d="M16 11h6m-3 -3v6"></path>
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="btn btn-red btn-icon delete-bengiaoket"
+                                                ng-if="partner.organisation_type != 1"
+                                                ng-click="internalCtrl.deletePartner($partnerIndex)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <line x1="4" y1="7" x2="20" y2="7"></line>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        <div class="form-group row mb-3" ng-if="partner.organisation_type != 3">
+                                            <div class="col-auto">
+                                                <button type="button" class="btn bg-blue-lt btn-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                                        <path d="M5 21v-14l8 -4v18"></path>
+                                                        <path d="M19 21v-10l-6 -4"></path>
+                                                        <line x1="9" y1="9" x2="9" y2="9.01"></line>
+                                                        <line x1="9" y1="12" x2="9" y2="12.01"></line>
+                                                        <line x1="9" y1="15" x2="9" y2="15.01"></line>
+                                                        <line x1="9" y1="18" x2="9" y2="18.01"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" class="form-control font-weight-bold"
+                                                    ng-model="partner.company_name" maxlength="255"
+                                                    ng-change="internalCtrl.validateField(partner, 'company_name')"
+                                                    placeholder="{{'DOCUMENT.ORGANISATION_NAME' | translate}}"
+                                                    ng-readonly="partner.organisation_type == 1" required="" />
+                                                <label class="error text-danger"
+                                                    ng-show="partner.company_name_err == true">{{'DOCUMENT.NOT_EMPTY' |
+                                                    translate}}</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input type="text" class="form-control" ng-model="partner.tax"
+                                                    placeholder="{{'DOCUMENT.TAX_NUMBER' | translate}}"
+                                                       ng-change="internalCtrl.validateField(partner, 'tax')"
+                                                    ng-readonly="partner.organisation_type == 1" maxlength="255" />
+                                                <label class="error text-danger"
+                                                    ng-show="partner.tax_err == true">{{'DOCUMENT.NOT_EMPTY' |
+                                                    translate}}</label>
+                                            </div>
+                                        </div>
+                                        <div id="summarynguoigiaokets-current">
+                                            <div class="nguoigiaoket"
+                                                ng-repeat="assignee in partner.assignees track by $index">
+                                                <div class="form-group row mb-3">
+                                                    <div class="col-auto align-items-center">
+                                                        <div class="form-group mt-3 mb-3 row">
+                                                            <button type="button"
+                                                                ng-click="internalCtrl.selectAssignee(partner, $index)"
+                                                                class="btn btn-outline-blue btn-icon add-nguoigiaoket">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon"
+                                                                    width="24" height="24" viewBox="0 0 24 24"
+                                                                    stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                    </path>
+                                                                    <circle cx="10" cy="10" r="7"></circle>
+                                                                    <line x1="21" y1="21" x2="15" y2="15"></line>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                        <div class="form-group mb-3 row">
+                                                            <button type="button"
+                                                                ng-click="internalCtrl.deleteAssignee(partner, $index)"
+                                                                class="btn btn-outline-red btn-icon delete-nguoigiaoket">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon"
+                                                                    width="24" height="24" viewBox="0 0 24 24"
+                                                                    stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                    </path>
+                                                                    <circle cx="9" cy="7" r="4"></circle>
+                                                                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2">
+                                                                    </path>
+                                                                    <path d="M17 9l4 4m0 -4l-4 4"></path>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="card">
+                                                            <div class="card-status-start bg-light-card"></div>
+                                                            <div class="card-body">
+                                                                <h3 class="card-title">{{'DOCUMENT.PARTICIPANT' |
+                                                                    translate}}</h3>
+                                                                <div class="form-group mb-3 row">
+
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    class="icon" width="24" height="24"
+                                                                                    viewBox="0 0 24 24" stroke-width="2"
+                                                                                    stroke="currentColor" fill="none"
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                        d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <rect x="3" y="5" width="18"
+                                                                                        height="14" rx="2"></rect>
+                                                                                    <polyline points="3 7 12 13 21 7">
+                                                                                    </polyline>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text" maxlength="255"
+                                                                                ng-blur="internalCtrl.checkExistEmail(partner, assignee, $index)"
+                                                                                class="form-control"
+                                                                                ng-model="assignee.email"
+                                                                                placeholder="{{'DOCUMENT.EMAIL' | translate}}"
+                                                                                required="">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.email_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.email_err_format == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    class="icon" width="24" height="24"
+                                                                                    viewBox="0 0 24 24" stroke-width="2"
+                                                                                    stroke="currentColor" fill="none"
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                        d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <circle cx="12" cy="7" r="4">
+                                                                                    </circle>
+                                                                                    <path
+                                                                                        d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2">
+                                                                                    </path>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text" class="form-control"
+                                                                                ng-model="assignee.full_name"
+                                                                                maxlength="255"
+                                                                                placeholder="{{'DOCUMENT.USER_NAME' | translate}}"
+                                                                                required=""
+                                                                                ng-change="internalCtrl.validateField(assignee, 'full_name')">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.full_name_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    class="icon" width="24" height="24"
+                                                                                    viewBox="0 0 24 24" stroke-width="2"
+                                                                                    stroke="currentColor" fill="none"
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                        d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <path
+                                                                                        d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2">
+                                                                                    </path>
+                                                                                    <path d="M15 7a2 2 0 0 1 2 2">
+                                                                                    </path>
+                                                                                    <path d="M15 3a6 6 0 0 1 6 6">
+                                                                                    </path>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text"
+                                                                                ng-blur="internalCtrl.validateField(assignee, 'phone')"
+                                                                                class="form-control suggestion-doitac"
+                                                                                ng-model="assignee.phone" maxlength="50"
+                                                                                placeholder="{{'DOCUMENT.PHONE' | translate}}">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.phone_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.phone_err_format == true">{{'DOCUMENT.ERROR_FORMAT'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg class="icon" style="opacity:0.6 !important ;"
+                                                                                    width="24" height="24"
+                                                                                    stroke-width="2"
+                                                                                     stroke="currentColor"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round"
+                                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                                     x="0px" y="0px"
+                                                                                     viewBox="0 0 1000 1000"
+                                                                                     enable-background="new 0 0 1000 1000"
+                                                                                     xml:space="preserve">
+                                                                                    <path
+                                                                                        d="M764.4,564.3c-15.3-5.1-26.2-16.7-32.3-34.5c29.2-23,45.1-66.2,45.1-122.6c0-53.2-43.3-96.4-96.5-96.4s-96.4,43.2-96.4,96.3c0,56.4,16,99.7,45.1,122.7c-6.3,17.8-17.2,29.4-32.4,34.5c-58.4,19.5-106.7,41-106.7,108.7c0,4.8,0.9,9.2,2.6,13.8c1.2,2.9,3.9,4.8,7,4.8h361.6c3.2,0,6-1.9,7.1-4.9c1.7-4.5,2.6-8.9,2.6-13.7C871.3,605.4,822.8,583.7,764.4,564.3z M855.8,676.3H505.9c-0.2-1.1-0.2-2.1-0.2-3.4c0-52.9,31.1-72.5,96.3-94.3c21.7-7.3,36.4-24.1,43.8-49.8c0.9-3.2-0.3-6.5-3-8.4c-27.8-19-43.1-59.4-43.1-113.5c0-44.7,36.4-81.2,81.2-81.2c44.8,0,81.2,36.4,81.2,81.2c0,54.1-15.3,94.4-43.1,113.4c-2.7,1.8-3.9,5.2-3.1,8.4c7.1,25.5,22.2,42.7,43.7,49.9c65.4,21.7,96.5,41.4,96.5,94.3C856,674.1,856,675.1,855.8,676.3z" />
+                                                                                    <path
+                                                                                        d="M934.1,171.6H65.9c-30.8,0-55.9,25-55.9,55.9v545c0,30.9,25.1,55.9,55.9,55.9h868.3c30.8,0,55.9-25,55.9-55.9v-545C990,196.7,964.9,171.6,934.1,171.6z M974.7,772.5c0,22.5-18.2,40.7-40.6,40.7H65.9c-22.4,0-40.6-18.2-40.6-40.7v-545c0-22.4,18.3-40.6,40.6-40.6h868.3c22.4,0,40.6,18.2,40.6,40.6V772.5z" />
+                                                                                    <path
+                                                                                        d="M144,396.4h225.8c4.2,0,7.7-3.4,7.7-7.7c0-4.2-3.4-7.6-7.7-7.6H144c-4.2,0-7.7,3.4-7.7,7.6C136.3,393,139.7,396.4,144,396.4z" />
+                                                                                    <path
+                                                                                        d="M144,515.9h185c4.2,0,7.6-3.4,7.6-7.6c0-4.2-3.4-7.7-7.6-7.7H144c-4.2,0-7.7,3.4-7.7,7.7C136.3,512.5,139.7,515.9,144,515.9z" />
+                                                                                    <path
+                                                                                        d="M415.5,658.6H144c-4.2,0-7.7,3.5-7.7,7.7s3.4,7.7,7.7,7.7h271.6c4.2,0,7.7-3.5,7.7-7.7S419.8,658.6,415.5,658.6z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text"
+                                                                                ng-blur="internalCtrl.validateField(assignee, 'national_id')"
+                                                                                class="form-control" maxlength="50"
+                                                                                ng-model="assignee.national_id"
+                                                                                placeholder="{{'DOCUMENT.NATIONAL_ID' | translate}}">
+                                                                        </div>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.national_id_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-3 row">
+                                                                    <div class="col-md-3">
+                                                                        <select ng-model="assignee.assign_type"
+                                                                            class="form-select"
+                                                                            ng-change="internalCtrl.validateSelectbox(assignee, 'assign_type');assignee.is_auto_sign = false">
+                                                                            <option value="-1">
+                                                                                {{'DOCUMENT.PARTICIPANT_ROLE' |
+                                                                                translate}}
+                                                                            </option>
+                                                                            <option ng-repeat="role in lstAssigneeRole"
+                                                                                value="{{role.id}}">
+                                                                                {{role.description | translate}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.assign_type_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-6"
+                                                                        ng-if="assignee.assign_type == 2">
+                                                                        <selectize options="internalCtrl.lstSignMethod" ng-if="!assignee.is_auto_sign"
+                                                                            config="internalCtrl.tagSelectConfig"
+                                                                            ng-change="internalCtrl.validateSelectbox(assignee, 'signing_method')"
+                                                                            ng-model="assignee.signing_method">
+                                                                        </selectize>
+                                                                        <selectize options="internalCtrl.lstAutoSign" ng-if="assignee.is_auto_sign"
+                                                                            config="internalCtrl.tagSelectConfig"
+                                                                            ng-change="internalCtrl.validateSelectbox(assignee, 'signing_method')"
+                                                                            ng-model="assignee.signing_method">
+                                                                        </selectize>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.signing_method_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <select ng-model="assignee.noti_type" ng-disabled="assignee.is_auto_sign"
+                                                                            class="form-select"
+                                                                            ng-change="internalCtrl.validateSelectbox(assignee, 'noti_type')">
+                                                                            <option value="-1">
+                                                                                {{'DOCUMENT.NOTIFICATION_TYPE' |
+                                                                                translate}}
+                                                                            </option>
+                                                                            <option ng-repeat="type in lstNotiType"
+                                                                                value="{{type.id}}">{{type.description |
+                                                                                translate}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <label class="error text-danger"
+                                                                            ng-show="assignee.noti_type_err == true">{{'DOCUMENT.NOT_EMPTY'
+                                                                            | translate}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-3 row">
+<!--                                                                    <div class="col-md-3" ng-if="assignee.assign_type == 2">-->
+<!--                                                                        <label class="form-check">-->
+<!--                                                                            <input class="form-check-input" type="checkbox" checked="" ng-change="internalCtrl.changeAutoSign(assignee)"-->
+<!--                                                                                   ng-model="assignee.is_auto_sign">-->
+<!--                                                                            <span class="form-check-label">{{'DOCUMENT.AUTO_SIGN' |-->
+<!--                                                                            translate}}</span>-->
+<!--                                                                        </label>-->
+<!--                                                                    </div>-->
+<!--                                                                    <div ng-class="{'col-md-12': assignee.assign_type != 2 ,'col-md-9' : assignee.assign_type == 2}">-->
+                                                                    <div class="col-md-12">
+                                                                        <div class="input-icon">
+                                                                            <span class="input-icon-addon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="left"
+                                                                                    title="Tin nhắn riêng" class="icon"
+                                                                                    width="24" height="24"
+                                                                                    viewBox="0 0 24 24" stroke-width="2"
+                                                                                    stroke="currentColor" fill="none"
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round">
+                                                                                    <path stroke="none"
+                                                                                        d="M0 0h24v24H0z" fill="none">
+                                                                                    </path>
+                                                                                    <path
+                                                                                        d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4">
+                                                                                    </path>
+                                                                                    <line x1="8" y1="9" x2="16" y2="9">
+                                                                                    </line>
+                                                                                    <line x1="8" y1="13" x2="14"
+                                                                                        y2="13">
+                                                                                    </line>
+                                                                                </svg>
+                                                                            </span>
+                                                                            <input type="text" class="form-control"
+                                                                                ng-model="assignee.message"
+                                                                                maxlength="255"
+                                                                                placeholder="{{'DOCUMENT.PRIVATE_MESSAGE' | translate}}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row"
+                                                                    ng-show="assignee.addNewOptions == true && partner.organisation_type == 1">
+                                                                    <div class="col-md-12">
+                                                                        <div class="btn-list d-flex align-items-center">
+                                                                            <label
+                                                                                class="error text-danger">{{'DOCUMENT.ADD_NEW_ASSIGNEE_OPTIONS'|
+                                                                                translate}}</label>
+                                                                            <a ng-click="openAddEmployeeModal(partner, $index)"
+                                                                                class="btn btn-primary d-none d-sm-inline-block">
+                                                                                {{'COMMON.CREATE' | translate}}
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row"
+                                                                    ng-show="assignee.addNewOptions == true && partner.organisation_type != 1">
+                                                                    <div class="col-md-12">
+                                                                        <div class="btn-list d-flex align-items-center">
+                                                                            <label
+                                                                                class="error text-danger">{{'DOCUMENT.ADD_NEW_ASSIGNEE_OPTIONS'|
+                                                                                translate}}</label>
+                                                                            <a ng-click="openAddCustomerModal(partner, $index)"
+                                                                                class="btn btn-primary d-none d-sm-inline-block">
+                                                                                {{'COMMON.CREATE' | translate}}
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab" ng-show="internalCtrl.currentStep == 3">
+                <div ng-show="internalCtrl.newDoc.is_use_template">
+                    <div class="content">
+                        <div class="container-xl">
+                            <div class="row justify-content-center">
+                                <div class="col-md-8" ng-repeat="info in internalCtrl.sampleInfos" ng-if="info.is_editable">
+                                    <div class="mb-3">
+                                        <label class="form-label" ng-class="{'required': info.is_required}">{{info.description}}</label>
+                                        <div class="input-group mb-3" ng-if="info.type == 'text'">
+                                            <input type="text" class="form-control"
+                                                   maxlength="50" required="" ng-model="info.content">
+                                        </div>
+                                        <div class="input-group mb-3" ng-if="info.type == 'checkbox'" style="display: block">
+                                            <label class="form-check mb-3" ng-repeat="element in info.elements">
+                                                <input class="form-check-input" type="checkbox"
+                                                       ng-model="element.content" />
+                                                <span class="form-check-label">{{element.description}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="input-group mb-3" ng-if="info.type == 'radio'" style="display: block">
+                                            <label class="form-check mb-3" ng-repeat="element in info.elements">
+                                                <input class="form-check-input" name="{{info.group}}" type="radio"
+                                                       ng-model="info.content" ng-value="element.id"/>
+                                                <span class="form-check-label">{{element.description}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="!internalCtrl.newDoc.is_use_template">
+                    <div class="navbar-expand-md sticky-top">
+                        <div class="collapse navbar-collapse" id="navbar-menu">
+                            <div class="navbar navbar-light">
+                                <div class="container-xl">
+                                    <label class="form-label font-weight-bold mt-auto mb-auto">{{'DOCUMENT.DESIGN_DOCUMENT'
+                                    |
+                                    translate}}: {{internalCtrl.newDoc.name}}</label>
+                                    <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                                        <div class="pageTool">
+                                            <div class="btn-group w-100">
+                                                <div class="col-auto ms-auto" style="margin-right:5%" id="scale" ng-show="!scale">
+                                                    <select class="form-select" ng-change="onChangeScale()" ng-model="scale">
+                                                    <option ng-repeat="scale in lstScale |limitTo:1" value="{{scale.value}}">{{scale.description}}</option>
+                                                    </select>
+                                                </div>
+                                                <a href="javascript:void(0)" class="btn btn-white btn-icon"
+                                                   aria-label="Button" id="prev">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M21 5v14l-8 -7z"></path>
+                                                        <path d="M10 5v14l-8 -7z"></path>
+                                                    </svg>
+                                                </a>
+                                                <div class="btn btn-white btn-icon">
+                                                    <label>{{'DOCUMENT.PAGE' | translate}}:</label>
+                                                    &nbsp;<span id="page-num">1</span>&nbsp;/&nbsp;<span
+                                                    id="total-page"></span>
+                                                </div>
+                                                <a href="javascript:void(0)" class="btn btn-white btn-icon"
+                                                   aria-label="Button" id="next">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M3 5v14l8 -7z"></path>
+                                                        <path d="M14 5v14l8 -7z"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="container-xl">
+                            <div class="row">
+                                <div class="d-none d-lg-block col-lg-3">
+                                    <div class="menuleft-preview" style="z-index:1">
+                                        <div class="row row-cards align-content-center">
+                                            <div class="col-12">
+                                                <h5 class="card-title">{{'DOCUMENT.SELECT_ASSIGNEE' | translate}}</h5>
+                                                <select id="otp-bengiaokets" class="form-select"
+                                                        ng-model="internalCtrl.selectedSigningAssignee">
+                                                    <option value="-1" selected="">{{'COMMON.CHOOSE' | translate}}</option>
+                                                    <optgroup ng-repeat="group in internalCtrl.lstSigningAssignee"
+                                                              label="{{group.name}}">
+                                                        <option ng-repeat="signee in group.assignee" ng-value="{{signee}}">
+                                                            {{signee.assignee_name}}
+                                                        </option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="text-muted">{{'DOCUMENT.DRAG_DROP_GUIDE' | translate}}</div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-selectgroup-item signature-content"
+                                                       data-type="signature">
+                                                <span class="form-selectgroup-label bg-green-lt p-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path
+                                                            d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2">
+                                                        </path>
+                                                        <path d="M13 13l9 3l-4 2l-2 4l-3 -9"></path>
+                                                        <line x1="3" y1="3" x2="3" y2="3.01"></line>
+                                                        <line x1="7" y1="3" x2="7" y2="3.01"></line>
+                                                        <line x1="11" y1="3" x2="11" y2="3.01"></line>
+                                                        <line x1="15" y1="3" x2="15" y2="3.01"></line>
+                                                        <line x1="3" y1="7" x2="3" y2="7.01"></line>
+                                                        <line x1="3" y1="11" x2="3" y2="11.01"></line>
+                                                        <line x1="3" y1="15" x2="3" y2="15.01"></line>
+                                                    </svg>
+                                                    {{'DOCUMENT.DRAG_SIGNATURE' | translate}}
+                                                </span>
+                                                    <img class="signature hidden"
+                                                         src="vcontract/assets/images/signature-icon.svg">
+                                                </label>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-selectgroup-item signature-content" data-type="text">
+                                                <span class="form-selectgroup-label bg-blue-lt vanban p-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path
+                                                            d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2">
+                                                        </path>
+                                                        <path d="M13 13l9 3l-4 2l-2 4l-3 -9"></path>
+                                                        <line x1="3" y1="3" x2="3" y2="3.01"></line>
+                                                        <line x1="7" y1="3" x2="7" y2="3.01"></line>
+                                                        <line x1="11" y1="3" x2="11" y2="3.01"></line>
+                                                        <line x1="15" y1="3" x2="15" y2="3.01"></line>
+                                                        <line x1="3" y1="7" x2="3" y2="7.01"></line>
+                                                        <line x1="3" y1="11" x2="3" y2="11.01"></line>
+                                                        <line x1="3" y1="15" x2="3" y2="15.01"></line>
+                                                    </svg>
+                                                    {{'DOCUMENT.DRAG_TEXT' | translate}}
+                                                </span>
+                                                </label>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="hidden" id="add-text-form">
+                                                    <hr>
+                                                    <h5 class="card-title">{{'DOCUMENT.TEXT_FRAME' | translate}}</h5>
+                                                    <div class="card-subtitle">{{'DOCUMENT.TEXT_GUIDE' | translate}}</div>
+                                                    <div class="row">
+                                                        <div class="col-md-5 col-xl-12">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">{{'DOCUMENT.FONT_SIZE' |
+                                                                translate}}</label>
+                                                                <select class="form-select" id="text-font-size">
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12" selected="">12</option>
+                                                                    <option value="13">13</option>
+                                                                    <option value="14">14</option>
+                                                                    <option value="15">15</option>
+                                                                    <option value="16">16</option>
+                                                                    <option value="17">17</option>
+                                                                    <option value="18">18</option>
+                                                                    <option value="19">19</option>
+                                                                    <option value="20">20</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 col-xl-12">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">{{'DOCUMENT.FONT_STYLE' |
+                                                                translate}}</label>
+                                                                <select class="form-select" id="text-font-style">
+                                                                    <option value="Arial">Arial</option>
+                                                                    <option value="Tahoma">Tahoma</option>
+                                                                    <option value="Times New Roman" selected="">Times New
+                                                                        Roman
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="document-container">
+                                        <div id="doc-viewer" class="docs-scroll page-content">
+                                            <div id="viewer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mb-5"></p>
+        </form>
+    </div>
+
+    <footer class="footer d-print-none shadow" style="background: {{configData.theme_footer_color}}; color: {{configData.text_color}}">
+        <div class="container-fluid">
+            <div class="row text-center align-items-center flex-row-reverse">
+                <div class="col-lg-auto ms-lg-auto col-md-auto ms-md-auto d-none d-sm-inline">
+                    <ul class="list-inline list-inline-dots mb-0">
+                        <li class="list-inline-item">Version: 1.0.0</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-lg-auto col-md-auto mt-lg-0 mt-md-0">
+                    <ul class="list-inline list-inline-dots mb-0">
+                        <li class="list-inline-item font-weight-bold">
+                            © 2022
+                            <a href="{{themeConfig.footerUrl}}" target="_blank" class="link-light">{{configData.name_app}}</a>
+                        </li>
+                        <!-- <li class="list-inline-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="11" r="3"></circle><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path></svg>Trụ sở: Tầng 6 tòa nhà Sannam, số 78 phố Duy Tân, phường Dịch Vọng Hậu, quận Cầu Giấy, thành phố Hà Nội, Việt Nam
+                        </li>
+                        <li class="list-inline-item"><svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path><path d="M15 7a2 2 0 0 1 2 2"></path><path d="M15 3a6 6 0 0 1 6 6"></path></svg>Chăm sóc khách hàng: <b>0979.376.677</b></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    var fileDrop = $(".file-drop");
+    fileDrop.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    })
+        .on('drop', function (e) {
+            var droppedFiles = e.originalEvent.dataTransfer.files;
+            $("#uploadFile")[0].files = droppedFiles;
+            $("#uploadFile").trigger("change");
+        });
+
+    $("#uploadFile").on("change", evt => {
+        var files = evt.target.files;
+        angular.element(document.getElementById('uploadFile')).scope().onUploadFile(files);
+        $("#uploadFile").val(null);
+    });
+
+    $("#text-font-size").on("change", evt => {
+        angular.element(document.getElementById('uploadFile')).scope().onChangeFontSize(evt);
+    });
+    $("#text-font-style").on("change", evt => {
+        angular.element(document.getElementById('uploadFile')).scope().onChangeFontStyle(evt);
+    });
+</script>

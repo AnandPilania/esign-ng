@@ -1,0 +1,435 @@
+<div class="container-fluid  mb-5" ng-controller="DashboardCtrl as dashboardCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="page-pretitle">
+                    {{'DASHBOARD.DESKTOP' | translate}}
+                </div>
+                <h2 class="page-title">
+                    {{dashboardCtrl.company.name}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cards row-deck">
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-sm bg-teal shadow" id="total-hoanthanh" >
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                    </path>
+                                    <path d="M9 15l2 2l4 -4"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalCompletedDocument}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_COMPLETED_DOCUMENT' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-sm bg-orange shadow" id="total-choduyet">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M12 21h-5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v4.5"></path>
+                                    <circle cx="16.5" cy="17.5" r="2.5"></circle>
+                                    <line x1="18.5" y1="19.5" x2="21" y2="22"></line>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalWaitingApproveDocument}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_WAITING_APPROVE_DOCUMENT' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-sm bg-primary shadow" id="total-choky">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5"></path>
+                                    <circle cx="6" cy="14" r="3"></circle>
+                                    <path d="M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalWaitingSignDocument}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_WAITING_SIGN_DOCUMENT' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-sm bg-danger shadow" id="total-huybo">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M15 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path
+                                        d="M17 17h-6a2 2 0 0 1 -2 -2v-6m0 -4a2 2 0 0 1 2 -2h4l5 5v7c0 .294 -.063 .572 -.177 .823">
+                                    </path>
+                                    <path d="M16 17v2a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2"></path>
+                                    <line x1="3" y1="3" x2="21" y2="21"></line>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalCancelledDocument}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_CANCELLED_DOCUMENT' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-7">
+            <div class="card shadow-none">
+                <div class="card-body" style="position: relative;">
+                    <div class="d-flex d-print-none">
+                        <h3 class="card-title">{{'DASHBOARD.BOUNDARY_CHANGE' | translate}}
+                            {{dashboardCtrl.dashboardYear}}</h3>
+                    </div>
+                    <div class="col-md-12">
+                        <canvas id="lineChart" style="width: 100%;height: 360px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-5">
+            <style>
+                li {
+                    list-style-type: none;
+                }
+                .label {
+                    margin-left: 15px;
+                    font-family: 'Source Sans Pro', sans-serif;
+                    color: #666666;
+                    font-size: 14px;
+                }
+
+                .legendValue {
+                    float: left;
+                }
+
+                .clear {
+                    clear: both
+                }
+            </style>
+            <div class="card shadow-none">
+                <div class="card-body" style="position: relative;">
+                    <div class="d-print-none">
+                        <h3 class="card-title">{{'DASHBOARD.DOCUMENT_USING_STATUS' | translate}}</h3>
+                    </div>
+                    <div class="col-md-12">
+                        <canvas id="pieChart" style="width: 100%;height: 360px;"></canvas>
+                        <div id="pieChart_legend"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="renderDashboardChart" onclick="render_dashboard_chart()" hidden></button>
+    </div>
+</div>
+<script>
+    var getSuitableYDashboard = (y, yArray = [], direction) => {
+        let result = y;
+        yArray.forEach((existedY) => {
+            if (existedY - 16 < result && existedY + 16 > result) {
+            if (direction === "right") {
+                result = existedY + 16;
+            } else {
+                result = existedY - 16;
+            }
+        }
+        });
+
+        return result;
+    };
+    var pieLabelsLineDashboard = {
+        id: "pieLabelsLineDashboard",
+        afterDraw: function(chart){
+            const ctx = chart.chart.ctx;
+            ctx.save();
+            ctx.font = "12px 'Averta Std CY'";
+            const leftLabelCoordinates = [];
+            const rightLabelCoordinates = [];
+            const chartCenterPoint = {
+            x: (chart.chartArea.right - chart.chartArea.left) / 2 + chart.chartArea.left,
+            y: (chart.chartArea.bottom - chart.chartArea.top) / 2 + chart.chartArea.top
+            };
+
+            chart.config.data.labels.forEach((label, i) => {
+                const meta = chart.getDatasetMeta(0);
+                const arc = meta.data[i];
+                const dataset = chart.config.data.datasets[0];
+                const sum = dataset.data.reduce((a, b) => a + b, 0);
+                // Prepare data to draw
+                // important point 1
+                const centerPoint = arc.getCenterPoint();
+                const model = arc._model;
+                let color = model.backgroundColor;
+                let labelColor = model.backgroundColor;
+
+                const angle = Math.atan2(
+                    centerPoint.y - chartCenterPoint.y,
+                    centerPoint.x - chartCenterPoint.x
+                );
+                // important point 2, this point overlapsed with existed points
+                // so we will reduce y by 14 if it's on the right
+                // or add by 14 if it's on the left
+                const point2X = chartCenterPoint.x + Math.cos(angle) * (model.outerRadius + 10);
+                let point2Y = chartCenterPoint.y + Math.sin(angle) * (model.outerRadius + 10);
+
+                let suitableY;
+                if (point2X < chartCenterPoint.x) {
+                // on the left
+                    suitableY = getSuitableYDashboard(point2Y, leftLabelCoordinates, "left");
+                } else {
+                // on the right
+
+                suitableY = getSuitableYDashboard(point2Y, rightLabelCoordinates, "right");
+                }
+
+                point2Y = suitableY;
+
+                let value = ((dataset.data[i] * 100) / sum).toFixed(2) + '%';
+                if (dataset.polyline && dataset.polyline.formatter) {
+                    value = dataset.polyline.formatter(value);
+                }
+                let edgePointX = point2X < chartCenterPoint.x ? chart.width/5.5 : chart.width - (chart.width/5.5);
+
+                if (point2X < chartCenterPoint.x) {
+                    leftLabelCoordinates.push(point2Y);
+                } else {
+                    rightLabelCoordinates.push(point2Y);
+                }
+                //DRAW CODE
+                // first line: connect between arc's center point and outside point
+                if(dataset.data[i] > 0){
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(centerPoint.x, centerPoint.y);
+                    ctx.lineTo(point2X, point2Y);
+                    ctx.stroke();
+                    // second line: connect between outside point and chart's edge
+                    ctx.beginPath();
+                    ctx.moveTo(point2X, point2Y);
+                    ctx.lineTo(edgePointX, point2Y);
+                    ctx.stroke();
+                    //fill custom label
+                    const labelAlignStyle =
+                    edgePointX < chartCenterPoint.x ? "left" : "right";
+                    const labelX = edgePointX;
+                    const labelY = point2Y;
+                    ctx.textAlign = labelAlignStyle;
+                    ctx.textBaseline = "bottom";
+
+                    ctx.fillStyle = labelColor;
+                    ctx.fillText(value, labelX, labelY);
+                }
+            });
+            ctx.restore();
+        }
+    }
+    var noDataLabelsDashboard = {
+        id: "noDataLabelsDashboard",
+        afterDraw: function (chart) {
+            if (chart.data.datasets[0].data.every(item => item === 0)) {
+                let ctx = chart.chart.ctx;
+                let width = chart.chart.width;
+                let height = chart.chart.height;
+
+                chart.clear();
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = "20px Arial";
+                ctx.fillText('Không có dữ liệu để hiển thị', width / 2, height / 2);
+                ctx.restore();
+            }
+        }
+    }
+    var lineChart;
+    var pieChart;
+    function render_dashboard_chart() {
+        if (lineChart) {
+            lineChart.destroy();
+        }
+        if (pieChart) {
+            pieChart.destroy();
+        }
+        var lineCtx = document.getElementById('lineChart').getContext('2d');
+        var pieCtx = document.getElementById('pieChart').getContext('2d');
+        var internalDoc = [];
+        var commerceDoc = [];
+        var pieData = [];
+        var lineCtx_label = [];
+        var document_type_label = [];
+        var lineChart = null;
+        var pieChart = null;
+        var loaded = false;
+        internalDoc = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().internalData;
+        commerceDoc = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().commerceData;
+        lineCtx_label = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().lineCtx_label;
+        document_type_label = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().document_type_label;
+        pieData = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().pieData;
+        if (((internalDoc != undefined && internalDoc.length > 0) || (commerceDoc != undefined && commerceDoc.length > 0)) && loaded == false) {
+            loaded = true;
+            lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: lineCtx_label,
+                    datasets: [
+                        {
+                            label: document_type_label[0],
+                            fill: false,
+                            lineTension: 0.1,
+                            backgroundColor: "rgba(116, 184, 22, 1)",
+                            borderColor: "rgba(116, 184, 22, 1)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "rgba(116, 184, 22, 1)",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(116, 184, 22, 1)",
+                            pointHoverBorderColor: "rgba(116, 184, 22, 1)",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: internalDoc,
+                            spanGaps: false,
+                        },
+                        {
+                            label: document_type_label[1],
+                            fill: false,
+                            lineTension: 0.1,
+                            backgroundColor: "rgba(255, 99, 71, 1)",
+                            borderColor: "rgba(255, 99, 71, 1)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "rgba(255, 99, 71,1)",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(255, 99, 71,1)",
+                            pointHoverBorderColor: "rgba(255, 99, 71,1)",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: commerceDoc,
+                            spanGaps: false,
+                        }
+                    ],
+                    options: {
+                        responsive: true,
+                    }
+                }
+            })
+
+            pieChart = new Chart(pieCtx, {
+                type: 'pie',
+                plugins: [pieLabelsLineDashboard, noDataLabelsDashboard],
+                data: {
+                    labels: document_type_label,
+                    datasets: [
+                        {
+                            backgroundColor: [
+                                "rgba(116, 184, 22, 1)",
+                                "rgba(255, 99, 71, 1)",
+                            ],
+                            hoverBackgroundColor: ["rgba(116, 184, 22, 0.6)", "rgba(255, 99, 71, 0.6)"],
+                            borderColor: "#fff",
+                            borderCapStyle: 'butt',
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            data: pieData,
+                            polyline: {
+                                formatter: (value) => `${value}`
+                            }
+                        },
+                    ],
+                },
+                options: {
+                    cutoutPercentage: 60,
+                    legend: false,
+                    legendCallback: function (chart) {
+                        var text = [];
+                        text.push('<ul class="' + chart.id + '-legend_url">');
+                        for (var i = 0; i < chart.data.labels.length; i++) {
+                            if (chart.data.labels[i] && chart.data.datasets[0].data[i] > 0) {
+                                var bgColor = chart.data.datasets[0].backgroundColor[i] ? chart.data.datasets[0].backgroundColor[i] : '#6c757d';
+                                text.push('<li><div class="legendValue"><span style="background-color:' + bgColor + '">&nbsp;&nbsp;&nbsp;</span>');
+                                text.push('<span class="label">' + chart.data.labels[i] + '</span>');
+                                text.push('</div></li><div class="clear"></div>');
+                            }
+                        }
+
+                        text.push('</ul>');
+                        return text.join('');
+                    },
+                    layout: {
+                        padding: 50
+                    },
+                    plugins: {
+                        datalabels: {
+                            display: false
+                        }
+                    }
+                }
+            })
+            $('#pieChart_legend').html(pieChart.generateLegend());
+        }
+    }
+
+
+</script>

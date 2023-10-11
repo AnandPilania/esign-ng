@@ -1,0 +1,329 @@
+<div class="container-fluid  mb-5" ng-controller="DashboardCtrl as dashboardCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="page-pretitle">
+                    {{'DASHBOARD.DESKTOP' | translate}}
+                </div>
+                <h2 class="page-title">
+                    {{dashboardCtrl.company.name}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cards row-deck">
+        <div  ng-class="{'col-md-6 col-xl-3' : loginUser.role_id == 1,'col-xl-4 col-md-4' : loginUser.role_id != 1 }">
+            <div class="card card-sm bg-teal shadow">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <?xml version="1.0" ?>
+                                <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalTurnOver}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_TURN_OVER' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3" ng-if="loginUser.role_id == 1 ">
+            <div class="card card-sm bg-info shadow" >
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <?xml version="1.0" ?>
+                                <svg class="icon icon-lg" width="24" height="24" style="enable-background:new 0 0 64 64;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                <g><rect height="2" width="2" x="61" y="61"/><rect height="2" width="2" x="1" y="61"/>
+                                <path d="M39,1c-5.571,0-10.377,3.278-12.63,8H19v8h2v4H7c-1.103,0-2,0.897-2,2v2c0,1.103,0.897,2,2,2v34H5v2h54v-2h-2V17h2V9h-7.37   C49.377,4.278,44.571,1,39,1z M51,15c0,4.015-1.989,7.567-5.026,9.746C45.843,23.212,44.567,22,43,22c-1.103,0-2-0.897-2-2   s0.897-2,2-2c1.615,0,3.067-0.897,3.789-2.342L47,15.236C47.381,14.474,48.147,14,49,14c0.696,0,1.369,0.195,1.977,0.55   C50.983,14.7,51,14.848,51,15z M47.896,6.975C47.828,6.979,47.76,7,47.692,7c-2.047,0-3.861,1.229-4.621,3.129   C42.617,11.266,41.532,12,40.308,12h-3.923C35.621,12,35,11.379,35,10.615c0-0.569,0.342-1.075,0.87-1.286l0.877-0.351   C38.724,8.188,40,6.303,40,4.174c0-0.382,0.077-0.753,0.218-1.112C43.257,3.369,45.954,4.824,47.896,6.975z M38.141,3.044   C38.055,3.416,38,3.794,38,4.174c0,1.306-0.783,2.463-1.995,2.947l-0.877,0.351C33.835,7.989,33,9.223,33,10.615   C33,12.481,34.519,14,36.385,14h3.923c2.047,0,3.861-1.229,4.621-3.129C45.383,9.734,46.468,9,47.692,9   c0.519,0,1.031-0.089,1.534-0.247c0.656,1.069,1.149,2.246,1.444,3.501C50.13,12.094,49.571,12,49,12   c-1.615,0-3.067,0.897-3.789,2.342L45,14.764C44.619,15.526,43.853,16,43,16c-2.206,0-4,1.794-4,4s1.794,4,4,4c0.552,0,1,0.448,1,1   c0,0.278,0.027,0.564,0.075,0.858C42.531,26.583,40.815,27,39,27c-1.41,0-2.758-0.257-4.016-0.706   c0.062-0.086,0.135-0.171,0.193-0.257C36.369,24.247,37,22.166,37,20.017v-1.062C37,17.325,35.675,16,34.045,16   C32.366,16,31,14.634,31,12.955c0-0.777-0.184-1.558-0.532-2.257l-0.337-0.674c-0.294-0.587-0.685-1.136-1.12-1.662   C31.014,5.358,34.335,3.315,38.141,3.044z M27.963,10.295c0.133,0.206,0.271,0.41,0.379,0.624l0.336,0.673   C28.889,12.014,29,12.485,29,12.955C29,15.737,31.263,18,34.045,18C34.571,18,35,18.429,35,18.955v1.062   c0,1.753-0.515,3.451-1.488,4.912c-0.115,0.173-0.245,0.346-0.392,0.521C29.472,23.389,27,19.481,27,15   C27,13.331,27.344,11.741,27.963,10.295z M21,11h4.59C25.21,12.269,25,13.61,25,15h-4V11z M21,35h-8v-4h8V35z M13,37h8v4h-8V37z    M13,43h8v4h-8V43z M13,49h8v4h-8V49z M7,23h14v2H7V23z M9,27h12v2H11v26h10v6H9V27z M47,61h-7V45h7V61z M38,61h-7V45h7V61z M55,61   h-6V43H29v18h-6V17h2.16c0.976,6.773,6.801,12,13.84,12s12.865-5.227,13.84-12H55V61z M57,11v4h-4c0-1.39-0.21-2.731-0.59-4H57z"/>
+                                <path d="M26,31v10h26V31H26z M50,35h-4v-2h4V35z M38,37v2h-4v-2H38z M34,35v-2h4v2H34z M40,37h4v2h-4V37z M40,35v-2h4v2H40z M32,33   v2h-4v-2H32z M28,37h4v2h-4V37z M46,39v-2h4v2H46z"/>
+                                <rect height="2" width="2" x="42" y="51"/>
+                                <rect height="2" width="2" x="34" y="51"/></g></svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalAgency}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_AGENCY' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  ng-class="{'col-md-6 col-xl-3' : loginUser.role_id == 1,'col-xl-4 col-md-4' : loginUser.role_id != 1 }">
+            <div class="card card-sm bg-primary shadow" >
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <?xml version="1.0" ?>
+                                <svg class="icon icon-lg" width="24" height="24" style="enable-background:new 0 0 128 128;" version="1.1" viewBox="0 0 128 128" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                <g><path d="M26.5,126.8h100.3V112l-11.5-21.7l-6.8,3.6l10.6,20v5.2h-17l4-48H20.7L26.5,126.8z M97.8,78.8l-3.4,40.3h-61l-4.2-40.3   H97.8z"/>
+                                <path d="M90.8,38c0-14.8-12-26.8-26.8-26.8S37.2,23.2,37.2,38s12,26.8,26.8,26.8S90.8,52.8,90.8,38z M44.8,38   c0-10.6,8.6-19.2,19.2-19.2S83.2,27.4,83.2,38S74.6,57.2,64,57.2S44.8,48.6,44.8,38z"/>
+                                <polygon points="19.4,94 12.6,90.4 1.1,112 1.1,126.8 18,126.8 18,119.2 8.8,119.2 8.8,114  "/>
+                                <circle cx="63" cy="98" r="4"/></g></svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalCompany}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_COMPANY' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-class="{'col-xl-3 col-md-6 ' : loginUser.role_id == 1,'col-xl-4 col-md-4' : loginUser.role_id != 1 }">
+            <div class="card card-sm bg-warning shadow" >
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="text-white-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg" width="24" height="24"
+                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M12 21h-5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v4.5"></path>
+                                    <circle cx="16.5" cy="17.5" r="2.5"></circle>
+                                    <line x1="18.5" y1="19.5" x2="21" y2="22"></line>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col text-white">
+                            <div class="text-h1 font-weight-bold value">
+                                {{dashboardCtrl.totalDocument}}</div>
+                            <div>
+                                {{'DASHBOARD.TOTAL_DOCUMENT' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-7">
+            <div class="card shadow-none">
+                <div class="card-body" style="position: relative;">
+                    <div class="d-flex d-print-none">
+                        <div class="d-flex d-print-none">
+                            <h3 class="card-title" >{{'DASHBOARD.BOUNDARY_CHANGE' | translate}}
+                                {{dashboardCtrl.dashboardYear}}
+                            </h3>
+                            <div style="margin-left: 2px;">
+                                <div class="up-arrow-year" ng-class="{'arrow-disable':dashboardCtrl.dashboardYear == dashboardCtrl.currentYear}" ng-click="dashboardCtrl.clickArrow(0)">
+                                    <!--                                &#9650;-->
+                                </div>
+                                <div class="down-arrow-year" ng-click="dashboardCtrl.clickArrow(1)">
+                                    <!--                                &#9660;-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <canvas id="lineChart" style="width: 100%;height: 360px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-5">
+            <div class="card shadow-none">
+                <div class="card-body" style="position: relative;">
+                    <div class="d-print-none mb-4">
+                        <span class="font-weight-bold" ng-if="loginUser.role_id == 1">{{'DASHBOARD.CHARTS_AGENCY' | translate}}</span>
+                        <span class="font-weight-bold" ng-if="loginUser.role_id != 1">{{'DASHBOARD.CHARTS_COMPANY' | translate}}</span>
+                        <span class="btn" ng-class="{'btn-success' : dashboardCtrl.barChartLoad == 'total_price', 'btn-outline-success' : dashboardCtrl.barChartLoad != 'total_price'}" style="height: 24px; margin-left: 20px"   ng-click="dashboardCtrl.barChartLoad = 'total_price';dashboardCtrl.loadChart(1)">
+                          {{'DASHBOARD.TURN_OVER' | translate}}
+                        </span>
+                        <span class="btn" ng-class="{'btn-primary' : dashboardCtrl.barChartLoad == 'company', 'btn-outline-primary' : dashboardCtrl.barChartLoad != 'company' }" style="height: 24px; margin-left: 20px" ng-click="dashboardCtrl.barChartLoad = 'company';dashboardCtrl.loadChart(1)" ng-if="loginUser.role_id == 1">
+                            {{'DASHBOARD.COMPANY' | translate}}
+                        </span>
+                        <span class="btn" ng-class="{'btn-warning' : dashboardCtrl.barChartLoad == 'total_doc_year','btn-outline-warning' : dashboardCtrl.barChartLoad != 'total_doc_year'}" style="height: 24px; margin-left: 20px" ng-click="dashboardCtrl.barChartLoad = 'total_doc_year';dashboardCtrl.loadChart(1)">
+                            {{'DASHBOARD.TOTAL_DOC' | translate}}
+
+                        </span>
+                    </div>
+                    <div class="col-md-12">
+                        <canvas id="barChart" style="width: 100%;height: 360px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="renderDashboardChart" onclick="render_dashboard_Chart()" hidden></button>
+        <button id="updateDashboardLineChart" onclick="updateLineChart()" hidden></button>
+        <button id="updateDashboardBarChart" onclick="updateBarChart()" hidden></button>
+    </div>
+</div>
+<script>
+    var lineChart, barChart;
+    function render_dashboard_Chart() {
+        var lineCtx = document.getElementById('lineChart').getContext('2d');
+        var barCtx = document.getElementById('barChart').getContext('2d');
+        var lineData = [], lineCtx_label = [],barData = [],barName = [], barStatus = [], barLabel, lineLabels = "";
+        lineChart = null;
+        barChart = null;
+        barData = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barData;
+        barName = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barName;
+        barLabel = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barLabel;
+        barStatus = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barStatus
+        lineData = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().lineData;
+        lineLabels = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().lineLabels;
+        lineCtx_label = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().lineCtx_label;
+        if (lineData != undefined && lineData.length > 0) {
+            lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: lineCtx_label,
+                    datasets: [
+                        {
+                            label: lineLabels,
+                            fill: false,
+                            lineTension: 0.1,
+                            backgroundColor: "rgba(116, 184, 22, 1)",
+                            borderColor: "rgba(116, 184, 22, 1)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "rgba(116, 184, 22, 1)",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(116, 184, 22, 1)",
+                            pointHoverBorderColor: "rgba(116, 184, 22, 1)",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            cubicInterpolationMode: 'monotone',
+                            tension: 0.4,
+                            data: lineData,
+                            spanGaps: false,
+                        }
+                    ],
+                    options: {
+                        responsive: true,
+                    }
+                }
+            })
+
+            if (barData != undefined && barData.length > 0) {
+                barChart = new Chart(barCtx, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: barName,
+                        datasets: [
+                            {
+                                label: barLabel,
+                                backgroundColor: [
+                                    "rgba(255, 99, 132, 0.5)",
+                                    "rgba(54, 162, 235, 0.5)",
+                                    "rgba(75, 192, 192, 0.5)",
+                                    "rgba(255, 205, 86, 0.5)",
+                                    "rgba(201, 203, 207, 0.5)",
+                                ],
+                                hoverBackgroundColor:  [
+                                    "rgba(255, 99, 132, 0.2)",
+                                    "rgba(54, 162, 235, 0.2)",
+                                    "rgba(75, 192, 192, 0.2)",
+                                    "rgba(255, 205, 86, 0.2)",
+                                    "rgba(201, 203, 207, 0.2)",
+                                ],
+                                borderColor: [
+                                    "rgba(255, 99, 132, 1)",
+                                    "rgba(54, 162, 235, 1)",
+                                    "rgba(75, 192, 192, 1)",
+                                    "rgba(255, 205, 86, 1)",
+                                    "rgba(201, 203, 207, 1)",
+                                ],
+                                borderWidth: 1,
+                                data: barData,
+                                statusData: barStatus
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    callback: (value, index, values) => {
+                                        return new Intl.NumberFormat().format(value)
+                                    },
+                                    fontSize:6
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    callback: (value, index, values) => {
+                                        // break text label ( chưa tìm được cách tốt hơn )
+                                        let val = value.split(' ');
+                                        if(val.length > 5){
+                                            val.splice(5, 0, "<br>");
+                                            if(val.length > 11){
+                                                val.splice(11, 0, "<br>");
+                                            }
+                                            val.join(' ');
+                                            value = val.join(' ').split('<br>');
+                                        }
+                                        return value;
+                                    },
+                                    fontSize:8
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                title: function(tooltipItem, data) {
+                                    return "(Top " + (tooltipItem[0].index + 1) + ") " + tooltipItem[0].label.replace(" , "," ")
+                                },
+                                label: function (tooltipItem, data) {
+                                    return data.datasets[tooltipItem.datasetIndex].label + ': ' + new Intl.NumberFormat().format(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index])
+                                },
+                                footer: function(tooltipItem, data) {
+                                    return data.datasets[tooltipItem[0].datasetIndex].statusData[tooltipItem[0].index] == 1 ? "" : "-Đã ngưng hoạt động-"
+                                },
+                            },
+                            footerFontColor:"rgba(116, 184, 22, 1)"
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+
+    function updateLineChart () {
+        var lineData;
+        lineData = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().lineData;
+        lineChart.config.data.datasets[0].data = lineData;
+        lineChart.update();
+    }
+    function updateBarChart () {
+
+        var barData,barName,barLabel,barStatus;
+        barData = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barData;
+        barName = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barName;
+        barLabel = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barLabel;
+        barStatus = angular.element(document.querySelector('[ng-controller="DashboardCtrl as dashboardCtrl"]')).scope().barStatus;
+
+        // barChart.config.data.datasets[0].backgroundColor = barColor;
+        barChart.config.data.datasets[0].label = barLabel;
+        barChart.config.data.datasets[0].data = barData;
+        barChart.config.data.datasets[0].statusData = barStatus;
+        barChart.update();
+    }
+
+</script>

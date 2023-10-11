@@ -1,0 +1,71 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" ng-if="!editAgency.id">{{'CONFIG.AGENCY.INSERT_AGENCY' | translate}}</h5>
+        <h5 class="modal-title" ng-if="editAgency.id">{{'CONFIG.AGENCY.UPDATE_AGENCY' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onCreateUpdateAgency(0)">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'CONFIG.AGENCY.NAME' |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editAgency.agency_name" type="text" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'CONFIG.AGENCY.ADDRESS' |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editAgency.agency_address" maxlength="255" type="text">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.AGENCY.PHONE' |
+                    translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editAgency.agency_phone" minlength="8" maxlength="15"
+                        type="text">
+                </div>
+
+
+                <label class="form-label col-md-3 col-form-label text-lg-end font-weight-normal">{{'CONFIG.AGENCY.FAX' |
+                    translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editAgency.agency_fax" maxlength="255" type="text">
+                </div>
+
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'CONFIG.AGENCY.EMAIL' |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editAgency.agency_email" maxlength="255" type="text">
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="!editAgency.id">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0"></label>
+                <div class="col-md-9">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editAgency.create_acc" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.AGENCY.CREATE_ACCOUNT" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-outline-primary btn-outline-primary-customer"
+                ng-click="onCreateUpdateAgency(1)">
+                {{'COMMON.SAVE_AND_ADD' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="onCreateUpdateAgency(0)">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{"CONFIG.SEND_DOCUMENT.SETTING_SMS_CONFIG" | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="updateSmsProvider()" method="post" novalidate="novalidate">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.SMS_PROVIDER" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editSms.service_provider" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.SMS_SERVICE" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editSms.service_url" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{"CONFIG.SEND_DOCUMENT.SMS_BRANDNAME" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editSms.brandname" maxlength="255">
+                    <small class="form-hint">{{"CONFIG.SEND_DOCUMENT.EMPTY_IF_NO_BRANDNAME" | translate}}</small>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{"CONFIG.SEND_DOCUMENT.SMS_ACCOUNT" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editSms.sms_account" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="!editSms.id">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.SMS_PASSWORD" | translate}}</label>
+                <div class="col-md-9">
+                    <div class="input-group input-group-flat">
+                        <input id="passwordSms" class="form-control" ng-model="editSms.sms_password" type="password" maxlength="255">
+                        <span class="input-group-text">
+                            <a href="" id="showPassSms" onclick="togglePasswordSms()" class="link-secondary ms-2" title="" data-bs-toggle="tooltip" title="Hiển thị">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">{{"COMMON.OPTION" | translate}}</label>
+                <div class="col-md-9">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editSms.status" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.SEND_DOCUMENT.USING_CONFIG" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a ng-click="cancel()" class="btn btn-secondary" data-bs-dismiss="modal">{{"COMMON.CLOSE" | translate}}</a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-primary ms-auto" ng-click="updateSmsProvider()">{{"HEADER.CONFIG" | translate}}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePasswordSms(){
+        var a = document.getElementById("passwordSms");
+        var c = document.getElementById("showPassSms");
+        if(a.getAttribute("type") == "password"){
+                a.setAttribute("type", "text");
+                c.setAttribute("title", "Ẩn");
+        } else {
+            a.setAttribute("type", "password");
+            c.setAttribute("title", "Hiển thị");
+        }
+    }
+</script>

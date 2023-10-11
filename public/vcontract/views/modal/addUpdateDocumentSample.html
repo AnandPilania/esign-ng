@@ -1,0 +1,198 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" ng-if="!editDocumentSample.id">{{'DOCUMENT_SAMPLE.INSERT_DOCUMENT_SAMPLE' |
+            translate}}</h5>
+        <h5 class="modal-title" ng-if="editDocumentSample.id">{{'DOCUMENT_SAMPLE.UPDATE_DOCUMENT_SAMPLE' |
+            translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onCreateUpdateDocumentSample(0)">
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_SAMPLE.NAME' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editDocumentSample.name" type="text" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_SAMPLE.DOCUMENT_GROUP' | translate}}</label>
+                <div class="col-md-9">
+                    <select class="form-select" ng-model="editDocumentSample.document_type">
+                        <option ng-repeat="group in documentSampleCtrl.lstDocumentGroup" value="{{group.id}}">{{group.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_SAMPLE.DOCUMENT_TYPE' | translate}}</label>
+                <div class="col-md-9">
+                    <select class="form-select" ng-model="editDocumentSample.document_type_id">
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="type in documentSampleCtrl.lstDocumentType" ng-if="type.document_group_id == editDocumentSample.document_type" value="{{type.id}}">{{type.dc_type_name | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_SAMPLE.EXPIRED' | translate}}</label>
+                <div class="col-md-9 d-flex">
+                    <div class="col-md-6 form-label">
+                        <input type="checkbox" class="form-check-input m-0 align-middle select-row" ng-model="editDocumentSample.isExpire" ng-change="editDocumentSample.nonExpire = false"><span class="p-2">{{'DOCUMENT_SAMPLE.IS_EXPIRED' | translate}}</span>
+                    </div>
+                    <div class="col-md-6 form-label">
+                        <input type="checkbox" class="form-check-input m-0 align-middle select-row" ng-model="editDocumentSample.nonExpire" ng-change="editDocumentSample.isExpire = false"><span class="p-2">{{'DOCUMENT_SAMPLE.NON_EXPIRED' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="editDocumentSample.isExpire">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_SAMPLE.EXPIRED_DATE' | translate}}</label>
+                <div class="col-md-9 d-flex">
+                    <input type="text" class="form-control w-5" ng-model="editDocumentSample.expired_month">
+                    <label class="form-label col-form-label font-weight-normal p-2 ">{{'DOCUMENT_SAMPLE.EXPIRED_TEXT' | translate}}</label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal">{{'DOCUMENT_SAMPLE.DESCRIPTION' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editDocumentSample.description" maxlength="255" type="text">
+                </div>
+            </div>
+            <div class="form-group mb-3 row" >
+                <div class="col-md-3">
+                    <label class="form-check mb-3 ml-4">
+                        <input class="form-check-input" type="checkbox" ng-model="editDocumentSample.is_encrypt">
+                        <span class="form-check-label">{{'DOCUMENT.ENCRYPT' | translate}}</span>
+                    </label>
+                </div>
+                <div class="col-md-9 form-group row" ng-if="editDocumentSample.is_encrypt">
+                    <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.USER.USER_PASSWORD' | translate}}</label>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-flat">
+                            <input id="password" class="form-control" ng-model="editDocumentSample.encrypt_password" type="password"
+                                   maxlength="255">
+                            <span class="input-group-text">
+                        <a href="" id="showPass" onclick="togglePassword()" class="link-secondary ms-2"
+                           data-bs-toggle="tooltip" title="Hiển thị mật khẩu">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <path
+                                    d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                </path>
+                            </svg>
+                        </a>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="row row-cards" id="upload-panel">
+                        <div class="col-12">
+                            <div class="card card-md">
+                                <div class="card-body text-center file-drop file-upload">
+                                    <img class="mx-auto mb-2"
+                                        src="vcontract/assets/images/upload-icon.png" alt=""
+                                        width="66">
+                                    <p class="text-muted">{{'DOCUMENT.DRAG_HERE' | translate}} <a
+                                            href="javascript:void(0)"><label style="cursor: pointer"
+                                                for="uploadFile"><b>{{'DOCUMENT.CLICK_HERE' |
+                                                    translate}}</b></label></a>
+                                        {{'DOCUMENT.CHOOSE_FILE'
+                                        | translate}}</p>
+                                    <p class="text-muted">{{'DOCUMENT.FILE_EXTENSION' | translate}}
+                                    </p>
+                                    <input type="file" class="form-control-file hidden"
+                                        multiple="multiple" name="File" id="uploadFile" required=""
+                                        accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                </div>
+                                <div class="progress progress-sm card-progress">
+                                    <div id="progressBar" class="progress-bar" style="width: 0%"
+                                        role="progressbar" aria-valuenow="10" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="selected-file" class="">
+                        <div class="card mt-3 card-body"
+                            ng-repeat="file in selectedFile track by $index">
+                            <div class="row">
+                                <div class="col mt-auto mb-auto"><b>{{file.name}}</b></div>
+                                <div class="col-auto ms-auto file-size">
+                                    <strong>{{'DOCUMENT.FILE_SIZE' |
+                                        translate}} </strong>{{file.size}}
+                                </div>
+                                <div class="col-auto ms-auto">
+                                    <a style="opacity: 0.3; cursor:pointer;" ng-click="removeFile(file, $index)"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-outline-primary btn-outline-primary-customer"
+                ng-click="onCreateUpdateDocumentSample(1)">
+                {{'COMMON.SAVE_AND_ADD' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="onCreateUpdateDocumentSample(0)">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    var fileDrop = $(".file-drop");
+    fileDrop.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    })
+        .on('drop', function (e) {
+            var droppedFiles = e.originalEvent.dataTransfer.files;
+            $("#uploadFile")[0].files = droppedFiles;
+            $("#uploadFile").trigger("change");
+        });
+
+    $("#uploadFile").on("change", evt => {
+        var files = evt.target.files;
+        angular.element(document.getElementById('uploadFile')).scope().onUploadFile(files);
+        $("#uploadFile").val(null);
+    });
+
+    $("#text-font-size").on("change", evt => {
+        angular.element(document.getElementById('uploadFile')).scope().onChangeFontSize(evt);
+    });
+    $("#text-font-style").on("change", evt => {
+        angular.element(document.getElementById('uploadFile')).scope().onChangeFontStyle(evt);
+    });
+    function togglePassword() {
+        var a = document.getElementById("password");
+        var b = document.getElementById("password_confirm");
+        var c = document.getElementById("showPass");
+        if (a.getAttribute("type") == "password") {
+            a.setAttribute("type", "text");
+            b.setAttribute("type", "text");
+            c.setAttribute("title", "Hiển thị mật khẩu");
+        } else {
+            a.setAttribute("type", "password");
+            b.setAttribute("type", "password");
+            c.setAttribute("title", "Ẩn mật khẩu");
+        }
+    }
+</script>

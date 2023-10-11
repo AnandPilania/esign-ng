@@ -1,0 +1,104 @@
+<div class="container-xl" ng-controller="DeleteDocumentListCtrl as deleteDocumentListCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col" ng-if="deleteDocumentListCtrl.searchDocumentList.parent_id == -1">
+                <span class="h2">
+                    {{'DOCUMENT_HANDLE.DELETE_DOCUMENT_LIST.LIST' | translate}}
+                </span>
+            </div>
+            <!-- <div class="col-auto ms-auto d-print-none" ng-if="deleteDocumentListCtrl.permission.is_write == 1">
+                <a ng-click="deleteDocumentListCtrl.openRestoreMultiDocumentModal()"
+                   class="btn btn-outline-primary btn-outline-primary-documentList d-none d-sm-inline-block">
+                    {{'COMMON.RESTORE' | translate}}
+                </a>
+
+            </div> -->
+        </div>
+    </div>
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <form ng-submit="onSearchDocumentList()">
+                <input type="submit" hidden>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentList(); changeDocumentGroup()" ng-model="deleteDocumentListCtrl.searchDocumentList.document_group_id">
+                            <option ng-repeat="document_group in deleteDocumentListCtrl.lstDocumentGroup" value="{{document_group.id}}">{{document_group.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentList()" ng-model="deleteDocumentListCtrl.searchDocumentList.document_type_id">
+                            <option value="-1">{{'DOCUMENT_HANDLE.DELETE_DOCUMENT_LIST.DOCUMENT_TYPE' | translate}}</option>
+                            <option ng-repeat="document_type in deleteDocumentListCtrl.lstDocumentType" value="{{document_type.id}}">{{document_type.dc_type_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentList()" ng-model="deleteDocumentListCtrl.searchDocumentList.dc_style">
+                            <option value="-1">{{'UTILITES.DOCUMENT_TYPE.DOCUMENT_STYLE.DEFAULT' | translate}}</option>
+                            <option ng-repeat="style in lstDocumentStyle" value="{{style.id}}">{{style.description | translate}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-auto">
+                        <input type="text" class="form-control search-box" placeholder="{{'DOCUMENT_HANDLE.DELETE_DOCUMENT_LIST.SEARCH_KEYWORD' | translate}}" ng-model="deleteDocumentListCtrl.searchDocumentList.keyword">
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <div class="input-icon">
+                            <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="{{'COMMON.PH_DATEPICKER' | translate}}" ng-model="deleteDocumentListCtrl.searchDocumentList.start_date" data-enabletime="false">
+                            <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <div class="input-icon">
+                            <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="{{'COMMON.PH_DATEPICKER' | translate}}" ng-model="deleteDocumentListCtrl.searchDocumentList.end_date" data-enabletime="false">
+                            <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-auto ms-auto d-print-none">
+                        <a ng-click="onSearchDocumentList()" class="btn btn-primary btn-icon"
+                           aria-label="Button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="10" cy="10" r="7"></circle>
+                                <line x1="21" y1="21" x2="15" y2="15"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="deleteDocumentListCtrl.dtInstance" dt-options="deleteDocumentListCtrl.dtOptions"
+                       dt-columns="deleteDocumentListCtrl.dtColumns"></table>
+            </div>
+        </div>
+    </div>
+</div>

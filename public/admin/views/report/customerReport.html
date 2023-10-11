@@ -1,0 +1,280 @@
+
+<div class="container-fluid" ng-controller="CustomerReportCtrl as customerReportCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <a class="text-h2 font-weight-bold cursor-pointer" ng-click="back(0)">
+                    {{'REPORT.REPORT_CUSTOMER' | translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-xl-9">
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12">
+                            <div class="card shadow-none">
+                                <div class="card-body" style="position: relative;">
+                                    <div class="d-flex d-print-none">
+                                        <div class="d-flex d-print-none col-10">
+                                            <h3 class="card-title" >{{'REPORT.DASHBOARD_CUSTOMER' | translate}}
+                                                {{customerReportCtrl.searchReport.dashboardYear}}
+                                            </h3>
+                                            <div style="margin-left: 2px;">
+                                                <div class="up-arrow-year" ng-class="{'arrow-disable':customerReportCtrl.searchReport.dashboardYear == customerReportCtrl.currentYear}" ng-click="customerReportCtrl.clickArrow(0)">
+                                                    <!--                                &#9650;-->
+                                                </div>
+                                                <div class="down-arrow-year" ng-click="customerReportCtrl.clickArrow(1)">
+                                                    <!--                                &#9660;-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group col-2">
+                                            <div class="form-group">
+                                                <button class="btn btn-small btn-primary" ng-click="onViewReportDetail()">{{'REPORT.DETAILS' | translate}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <canvas id="lineChart" style="width: 100%;height: 360px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="renderDashboardChart" onclick="render_dashboard_Chart()" hidden></button>
+                        <button id="updateDashboardLineChart" onclick="updateLineChart()" hidden></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xl-3">
+            <style>
+                li {
+                    list-style-type: none;
+                }
+                .label {
+                    margin-left: 15px;
+                    font-family: 'Source Sans Pro', sans-serif;
+                    color: #666666;
+                    font-size: 14px;
+                }
+
+                .legendValue {
+                    float: left;
+                }
+
+                .clear {
+                    clear: both
+                }
+            </style>
+            <div class="row" ng-if="loginUser.role_id == 1">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="form-group mb-2">
+                                    <label>{{'REPORT.AGENCY' | translate}}</label>
+                                    <select class="form-control" ng-change="onSearchReport()" ng-model="customerReportCtrl.searchReport.agency_id">
+                                        <option value="-1">{{'REPORT.ALL' | translate}}</option>
+                                        <option ng-repeat="agency in lstAgency" value="{{agency.id}}">{{agency.description | translate}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(0)">
+                            <div class="card card-sm bg-info shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{customerReportCtrl.newCustomer}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.NEW_CUSTOMER' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(1)">
+                            <div class="card card-sm bg-teal shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{customerReportCtrl.activeCustomer}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.ACTIVE_CUSTOMER' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(2)">
+                            <div class="card card-sm bg-warning shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{customerReportCtrl.pausedCustomer}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.PAUSED_CUSTOMER' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(3)">
+                            <div class="card card-sm bg-danger shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{customerReportCtrl.noUsed}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.NO_USED_CUSTOMER' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="turnOverReportDetail" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="pointer-events:inherit;">
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title">{{'REPORT.DETAILS' | translate}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ng-click="closeModal()"></button>
+            </div>
+            <div class="modal-content table-responsive" style="border-radius: 0px; border-top: 1px solid; border-bottom: 1px solid">
+                <table
+                    class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer"
+                    datatable="" dt-instance="customerReportCtrl.dtInstance"
+                    dt-options="customerReportCtrl.dtOptions" style="width:100%;" dt-columns="customerReportCtrl.dtColumns">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-list ms-auto">
+                    <a class="btn btn-secondary" data-bs-dismiss="modal" >{{"COMMON.CLOSE" |
+                        translate}}</a>
+                    <button type="button" class="btn btn-primary ms-auto" ng-click="export()">{{'REPORT.EXPORT' |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var lineChart;
+        function render_dashboard_Chart() {
+            console.log(document.getElementById('lineChart'));
+            var lineCtx = document.getElementById('lineChart').getContext('2d');
+            var lineData = [], lineCtx_label = [], lineLabels = "";
+            lineChart = null;
+
+            lineData = angular.element(document.querySelector('[ng-controller="CustomerReportCtrl as customerReportCtrl"]')).scope().lineData;
+            lineLabels = angular.element(document.querySelector('[ng-controller="CustomerReportCtrl as customerReportCtrl"]')).scope().lineLabels;
+            lineCtx_label = angular.element(document.querySelector('[ng-controller="CustomerReportCtrl as customerReportCtrl"]')).scope().lineCtx_label;
+            if (lineData != undefined && lineData.length > 0) {
+                lineChart = new Chart(lineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: lineCtx_label,
+                        datasets: [
+                            {
+                                label: lineLabels,
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: "rgba(116, 184, 22, 1)",
+                                borderColor: "rgba(116, 184, 22, 1)",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "rgba(116, 184, 22, 1)",
+                                pointBackgroundColor: "#fff",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "rgba(116, 184, 22, 1)",
+                                pointHoverBorderColor: "rgba(116, 184, 22, 1)",
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                cubicInterpolationMode: 'monotone',
+                                tension: 0.4,
+                                data: lineData,
+                                spanGaps: false,
+                            }
+                        ],
+                        options: {
+                            responsive: true,
+                        }
+                    }
+                })
+
+            }
+        }
+
+        function updateLineChart () {
+            var lineData;
+            lineData = angular.element(document.querySelector('[ng-controller="CustomerReportCtrl as customerReportCtrl"]')).scope().lineData;
+            lineChart.config.data.datasets[0].data = lineData;
+            lineChart.update();
+        }
+    </script>
+</div>

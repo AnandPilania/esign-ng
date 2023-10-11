@@ -1,0 +1,204 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" ng-if="!editCustomer.id">{{'CONFIG.CUSTOMER.INSERT_CUSTOMER' | translate}}</h5>
+        <h5 class="modal-title" ng-if="editCustomer.id">{{'CONFIG.CUSTOMER.UPDATE_CUSTOMER' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onCreateUpdateCustomer(0)">
+            <!-- <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.CUSTOMER_CODE' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control font-weight-normal" ng-model="editCustomer.company_code" type="text" maxlength="255" ng-disabled="editCustomer.id">
+                </div>
+            </div> -->
+            <div class="form-group mb-3 row">
+                    <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.CUSTOMER_NAME' | translate}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control font-weight-normal" ng-model="editCustomer.name" type="text" maxlength="255">
+                    </div>
+                    <label class="form-label col-md-2 col-form-label font-weight-normal required text-lg-end">{{'CONFIG.CUSTOMER.TAX' | translate}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control font-weight-normal" ng-model="editCustomer.tax_number" type="text" maxlength="30">
+                    </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.EMAIL' | translate}}</label>
+                <div class="col-md-4">
+                    <input class="form-control font-weight-normal" ng-model="editCustomer.email" type="text" maxlength="255">
+                </div>
+                <label class="form-label col-md-2 col-form-label font-weight-normal text-lg-end">{{'CONFIG.CUSTOMER.FAX' | translate}}</label>
+                <div class="col-md-4">
+                    <input class="form-control font-weight-normal" ng-model="editCustomer.fax_number" type="text" maxlength="50">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.PHONE' | translate}}</label>
+                <div class="col-md-4">
+                    <input class="form-control font-weight-normal" ng-model="editCustomer.phone" type="text" maxlength="30">
+                </div>
+                <label class="form-label col-md-2 col-form-label font-weight-normal required text-lg-end">{{'CONFIG.CUSTOMER.REPRESENTATIVE' | translate}}</label>
+                <div class="col-md-4">
+                    <input class="form-control font-weight-normal" ng-model="editCustomer.representative" type="text" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.ADDRESS' | translate}}</label>
+                <div class="col-md-10">
+                    <input class="form-control font-weight-normal" ng-model="editCustomer.address" type="text" maxlength="30">
+                </div>
+            </div>
+
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.SERVICE' | translate}}</label>
+                <div class="col-md-4">
+                    <select class="form-select" ng-model="editCustomer.service_id">
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="service in customerCtrl.lstService" value="{{service.id}}">{{service.service_name}}</option>
+                    </select>
+                </div>
+                <label class="form-label col-md-2 col-form-label font-weight-normal text-lg-end">{{'CONFIG.CUSTOMER.AGENCY_NAME' | translate}}</label>
+                <div class="col-md-4">
+                    <select class="form-select" ng-model="editCustomer.agency_id" ng-disabled="editCustomer.id">
+                        <option value="">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="agency in customerCtrl.lstAgency" value="{{agency.id}}">{{agency.agency_name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.CUSTOMER.CHOOSE_UNIT_AUTH.DEFAULT' | translate}}</label>
+                <div class="col-md-4">
+                    <select class="form-select" ng-model="editCustomer.source_method">
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="source in customerCtrl.lstSource" value="{{source.id}}">{{source.description}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="!editCustomer.id">
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.USER.USER_PASSWORD' | translate}}</label>
+                <div class="col-md-10">
+                    <!-- <input class="form-control" ng-model="editUser.password" type="password" maxlength="255"> -->
+                    <div class="input-group input-group-flat">
+                        <input id="password" class="form-control" ng-model="editCustomer.password" type="password"
+                            maxlength="255">
+                        <span class="input-group-text">
+                            <a href="" ng-click="generateRandomUserPassword(editCustomer)" class="link-secondary" title="" data-bs-toggle="tooltip" data-bs-original-title="Tạo ngẫu nhiên">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3"></path><path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6"></path><path d="M12 11v2a14 14 0 0 0 2.5 8"></path><path d="M8 15a18 18 0 0 0 1.8 6"></path><path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95"></path></svg>
+                            </a>
+                            <a href="" id="showPass" onclick="togglePassword()" class="link-secondary ms-2"
+                                data-bs-toggle="tooltip" title="Hiển thị mật khẩu">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="12" cy="12" r="2"></circle>
+                                    <path
+                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                    </path>
+                                </svg>
+                            </a>
+                        </span>
+                    </div>
+                    <span class="form-check-description">
+                        {{'CONFIG.USER.USER_PASSWORD_ROLE' | translate}}
+                    </span>
+                </div>
+                <label class="form-label col-md-2 col-form-label font-weight-normal required">{{'CONFIG.USER.USER_PASSWORD_CONFIRM' | translate}}</label>
+                <div class="col-md-10">
+                    <input id="password_confirm" class="form-control" ng-model="editCustomer.password_confirm"
+                        type="password" maxlength="255">
+                    <span class="form-check-description">
+                        {{'CONFIG.USER.USER_PASSWORD_CONFIRM_DESCB' | translate}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="!editCustomer.id">
+                <label class="form-label col-md-2 col-form-label font-weight-normal pt-0">{{"COMMON.OPTION" | translate}}</label>
+                <div class="col-md-10">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editCustomer.option" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.CUSTOMER.SEND_PASSWORD" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-2 col-form-label font-weight-normal pt-0">{{"COMMON.STATUS" | translate}}</label>
+                <div class="col-md-10">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editCustomer.status" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.CUSTOMER.STATUS_ACTIVE" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+<!--            <div class="form-group mb-3 row">-->
+<!--                <label class="form-label col-md-2 col-form-label font-weight-normal pt-0">{{"CONFIG.CUSTOMER.VALID" | translate}}</label>-->
+<!--                <div class="col-md-10">-->
+<!--                    <label class="form-check">-->
+<!--                        <input class="form-check-input" ng-model="editCustomer.unlimited" type="checkbox">-->
+<!--                        <span class="form-check-label">{{"CONFIG.CUSTOMER.UNLIMITED" | translate}}</span>-->
+<!--                    </label>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group mb-3 row" ng-if="editCustomer.unlimited != true">-->
+<!--                <label class="form-label col-md-2 col-form-label font-weight-normal ">{{'CONFIG.SERVICE_CONFIG.NUMBER_OF_CONTRACT' | translate}}</label>-->
+<!--                <div class="col-md-10">-->
+<!--                    <input class="form-control font-weight-normal" ng-model="editCustomer.doc_num" type="number">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group mb-3 row" ng-if="editCustomer.unlimited != true">-->
+<!--                <label class="form-label col-md-2 col-form-label font-weight-normal ">{{'CONFIG.SERVICE_CONFIG.EXPIRED_MONTH' | translate}}</label>-->
+<!--                    <div class="input-icon col-md-10">-->
+<!--                        <input class="form-control" ng-flatpickr fp-opts="dateOpts"-->
+<!--                               fp-on-setup="datePostSetup(fpItem)"-->
+<!--                               placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"-->
+<!--                               ng-model="editCustomer.expired_time" data-enabletime="false">-->
+<!--                        <span class="input-icon-addon col-md-0">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"-->
+<!--                                 height="24" viewBox="0 0 24 24" stroke-width="4"-->
+<!--                                 stroke="currentColor" fill="none" stroke-linecap="round"-->
+<!--                                 stroke-linejoin="round">-->
+<!--                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>-->
+<!--                                <rect x="4" y="5" width="16" height="16" rx="2"></rect>-->
+<!--                                <line x1="16" y1="3" x2="16" y2="7"></line>-->
+<!--                                <line x1="8" y1="3" x2="8" y2="7"></line>-->
+<!--                                <line x1="4" y1="11" x2="20" y2="11"></line>-->
+<!--                                <line x1="11" y1="15" x2="12" y2="15"></line>-->
+<!--                                <line x1="12" y1="15" x2="12" y2="18"></line>-->
+<!--                            </svg>-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--            </div>-->
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-outline-primary btn-outline-primary-customer"
+                    ng-click="onCreateUpdateCustomer(1)">
+                {{'COMMON.SAVE_AND_ADD' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="onCreateUpdateCustomer(0)">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    function togglePassword() {
+        var a = document.getElementById("password");
+        var b = document.getElementById("password_confirm");
+        var c = document.getElementById("showPass");
+        if (a.getAttribute("type") == "password") {
+            a.setAttribute("type", "text");
+            b.setAttribute("type", "text");
+            c.setAttribute("title", "Hiển thị mật khẩu");
+        } else {
+            a.setAttribute("type", "password");
+            b.setAttribute("type", "password");
+            c.setAttribute("title", "Ẩn mật khẩu");
+        }
+    }
+</script>
+

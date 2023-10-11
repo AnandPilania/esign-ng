@@ -1,0 +1,49 @@
+<div class="loadingapp hidden">
+    <div class="spinner">
+        <img src="/vcontract/assets/images/loading.jpg">
+    </div>
+</div>
+<div class="authentication"  ng-controller="AuthenticationCtrl as ctrl">
+    <div class="bg-siginin-right">
+    <div id="form-signin-v" class="container-tight py-6 ">
+        <form ng-submit="ctrl.onSignin()">
+            <div>
+                <div class="card-login-v">
+                    <h1 class="text-center mb-4 font-weight-bold" style="font-size:2em ;" >Truy cập <span class="text-{{configData.logo_sign}}" >hệ thống</span></h1>
+                    <div style="border-bottom: 2px solid rgb(211, 211, 211);">
+
+                        <div class="mb-3 input-field-v">
+                            <label class="form-label">Email đăng nhập</label>
+                            <input type="text" class="form-control transparent-input shadow" autocomplete="off" placeholder="Nhập email đăng nhập"
+                                autofocus="false" ng-model="ctrl.userInfo.email">
+                        </div>
+                        <div class="mb-2 input-field-v">
+                            <label class="form-label">Mã truy cập</label>
+                            <input type="password" class="form-control shadow" autocomplete="off" placeholder="Nhập mã truy cập"
+                                ng-model="ctrl.userInfo.password">
+                        </div>
+                    </div>
+                    <div class="form-footer" align="center">
+                        <button type="submit" class="shadow btn-{{configData.logo_sign}}" >Thực hiện truy cập</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    <div class="bg-siginin-left" align="center"
+        style="
+        background-image: url('vcontract_sign/assets/images/{{configData.logo_sign}}-bgLogin.png');
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        "
+    >
+        <div id="logo-sign-v" class="container-tight text-center mb-4 col-5">
+                <a href="#"><img class="img-logo " ng-src="{{configData.logo_login}}"  alt=""></a>
+        </div>
+    </div>
+</div>

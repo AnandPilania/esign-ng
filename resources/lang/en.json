@@ -1,0 +1,39 @@
+{
+    "CHOOSE_TEMPLATE": {
+        "TEMPLATE_IS_NOT_EXISTED": "Template is not existed"
+    },
+    "CREATE_DOCUMENT":{
+        "TEMPLATE_IS_NOT_EXISTED": "Template is not existed",
+        "DOCUMENT_CODE_IS_EXISTED": "Document code is existed",
+        "FIELD_IS_REQUIRED": ":field is required",
+        "INVALID_DOCUMENT_POST_DATA": "Invalid document post data",
+        "INVALID_ASSIGNEE_POST_DATA": "Invalid assignee post data",
+        "ERROR_CONVERT_MERGE": "Error convert merge",
+        "DOCUMENT_TYPE_NOT_EXISTED": "Document type not existed"
+	},
+    "DOCUMENT": {
+        "DOCUMENT_IS_NOT_EXISTED": "Document is not existed"
+    },
+    "DOWNLOAD": {
+        "DOCUMENT_IS_NOT_EXISTED": "Document is not existed"
+    },
+    "ID_CARD_CHECK":{
+        "IDCARD_ERROR_CHECK": "ID card error check"
+    },
+    "OCR": {
+        "OCR_ERROR_CHECK": "Ocr error check"
+    },
+    "SIGNED": {
+        "DOCUMENT_IS_NOT_EXISTED": "Document is not existed",
+        "DOCUMENT_IS_SIGNED": "Document is signed",
+        "DOCUMENT_IS_REJECTED": "Document is rejected",
+        "DOCUMENT_IS_OVERDUE_OR_DROP": "Document is overdue or drop",
+        "NO_RIGHT_TO_SIGN": "No right to sign",
+        "CUSTOMER_INFO_NOT_EXISTED": "Customer info not existed",
+        "SIGNATURE_IMAGE_IS_NOT_CONFIG": "Signature image is not config",
+        "IDENTIFY_SIGN_ERROR": "Identify sign error",
+        "IDENTIFICATION_DOES_NOT_MATCH": "Identification does not match",
+        "DOCUMENT_SIGN_FAILED": "Document sign failed",
+        "DOCUMENT_SIGN_ERROR": "Document sign error"
+    }
+}

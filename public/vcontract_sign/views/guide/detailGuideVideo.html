@@ -1,0 +1,57 @@
+<header class=" page-header navbar navbar-expand-md d-print-none sticky-top navbar-primary" style="background: {{configData.theme_header_color}}; color: {{configData.text_color}}">
+    <div>
+        <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-lg-0" style="margin-left:5%;">
+            <a href="#">
+                <img ng-src="{{configData.logo_dashboard}}" alt="eContracts" class="navbar-brand-image">
+            </a>
+        </h1>
+    </div>
+</header>
+<div class="container-fluid page" style="padding: 0" ng-controller="DetailGuideVideoCtrl as detailGuideVideoCtrl">
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <div class="navbar-expand-md">
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <div class="navbar navbar-light">
+                        <div class="container-xl">
+                            <label class="form-label font-weight-bold mt-auto mb-auto">{{'Video hướng dẫn'
+                            }}: {{detailGuideVideoCtrl.guideVideo.name}}</label>
+                            <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container-xl">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <iframe ng-src="{{getIframeSrc(guideVideo)}}" width="1024" height="768" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer d-print-none shadow" style="background: {{configData.theme_footer_color}}; color: {{configData.text_color}}">
+        <div class="container-fluid">
+            <div class="row text-center align-items-center flex-row-reverse">
+                <div class="col-lg-auto ms-lg-auto col-md-auto ms-md-auto d-none d-sm-inline">
+                    <ul class="list-inline list-inline-dots mb-0">
+                        <li class="list-inline-item">Version: 1.0.0</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-lg-auto col-md-auto mt-lg-0 mt-md-0">
+                    <ul class="list-inline list-inline-dots mb-0">
+                        <li class="list-inline-item font-weight-bold">
+                            © 2022
+                            <a href="{{themeConfig.footerUrl}}" target="_blank" class="link-light"  style="color: {{configData.text_color}}">{{configData.name_app}}</a>
+                        </li>
+                        <!-- <li class="list-inline-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="11" r="3"></circle><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path></svg>Trụ sở: Tầng 6 tòa nhà Sannam, số 78 phố Duy Tân, phường Dịch Vọng Hậu, quận Cầu Giấy, thành phố Hà Nội, Việt Nam
+                        </li>
+                        <li class="list-inline-item"><svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path><path d="M15 7a2 2 0 0 1 2 2"></path><path d="M15 3a6 6 0 0 1 6 6"></path></svg>Chăm sóc khách hàng: <b>0979.376.677</b></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+</div>

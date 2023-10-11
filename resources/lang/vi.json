@@ -1,0 +1,40 @@
+{
+    "CHOOSE_TEMPLATE": {
+        "TEMPLATE_IS_NOT_EXISTED": "Mẫu hợp đồng không tồn tại"
+    },
+    "CREATE_DOCUMENT":{
+        "TEMPLATE_IS_NOT_EXISTED": "Mẫu hợp đồng không tồn tại",
+        "DOCUMENT_CODE_IS_EXISTED": "Mã hợp đồng đã tồn tại",
+        "FIELD_IS_REQUIRED": ":field bắt buộc nhập",
+        "INVALID_DOCUMENT_POST_DATA": "Dữ liệu hợp đồng không hợp lệ",
+        "INVALID_ASSIGNEE_POST_DATA": "Dữ liệu người giao kết không hợp lệ",
+        "ERROR_CONVERT_MERGE": "Có lỗi xảy ra khi tạo hợp đồng",
+        "DOCUMENT_TYPE_NOT_EXISTED": "Loại tài liệu không tồn tại"
+
+	},
+    "DOCUMENT": {
+        "DOCUMENT_IS_NOT_EXISTED": "Hợp đồng không tồn tại"
+    },
+    "DOWNLOAD": {
+        "DOCUMENT_IS_NOT_EXISTED": "Hợp đồng không tồn tại"
+    },
+    "ID_CARD_CHECK":{
+        "IDCARD_ERROR_CHECK": "Kiểm tra chất lượng ảnh GTTT không thành công"
+    },
+    "OCR": {
+        "OCR_ERROR_CHECK": "Bóc tách thông tin GTTT không thành công"
+    },
+    "SIGNED": {
+        "DOCUMENT_IS_NOT_EXISTED": "Hợp đồng không tồn tại",
+        "DOCUMENT_IS_SIGNED": "Hợp đồng đã được ký",
+        "DOCUMENT_IS_REJECTED": "Hợp đồng đã bị từ chối",
+        "DOCUMENT_IS_OVERDUE_OR_DROP": "Hợp đồng đã quá hạn hoặc bị hủy bỏ",
+        "NO_RIGHT_TO_SIGN": "Không có quyền ký tài liệu",
+        "CUSTOMER_INFO_NOT_EXISTED": "Thông tin khách hàng không tồn tại",
+        "SIGNATURE_IMAGE_IS_NOT_CONFIG": "Hình ảnh chữ ký chưa được thiết lập",
+        "IDENTIFY_SIGN_ERROR": "Nhận dạng người ký không thành công",
+        "IDENTIFICATION_DOES_NOT_MATCH": "Thông tin nhận dạng không trùng khớp",
+        "DOCUMENT_SIGN_FAILED": "Ký hợp đồng không thành công",
+        "DOCUMENT_SIGN_ERROR": "Có lỗi xảy ra khi ký hợp đồng"
+    }
+}

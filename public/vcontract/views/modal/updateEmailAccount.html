@@ -1,0 +1,101 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{"CONFIG.SEND_DOCUMENT.SETTING_EMAIL_CONFIG" | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="updateEmailAccount()" method="post" novalidate="novalidate">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.EMAIL_HOST" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editEmail.email_host" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.EMAIL_PROTOCOL" | translate}}</label>
+                <div class="col-md-9">
+                    <select class="form-select" ng-model="editEmail.email_protocol">
+                        <option ng-repeat="proto in lstEmailProtocol" value="{{proto.id}}">{{proto.description | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.EMAIL_PORT" | translate}}</label>
+                <div class="col-md-5">
+                    <!-- ^(((\d{1,3})(,\d{3})*)|(\d+))(.\d+)?$ -->
+                    <input type="text" class="form-control" ng-model="editEmail.port" maxlength="5" onkeypress="return validNumeric(event)">
+                </div>
+                <div class="col-md-4 mb-auto mt-auto">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editEmail.is_use_ssl" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.SEND_DOCUMENT.USING_SSL" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.USING_RELAY" | translate}}</label>
+                <div class="col-md-9">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editEmail.is_relay" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.SEND_DOCUMENT.USING" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.EMAIL_ADDRESS" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editEmail.email_address" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="!editEmail.id  && !editEmail.is_relay">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{"CONFIG.SEND_DOCUMENT.EMAIL_PASSWORD" | translate}}</label>
+                <div class="col-md-9">
+                    <div class="input-group input-group-flat" >
+                        <input id="password" class="form-control" ng-model="editEmail.email_password" type="password" maxlength="255" >
+                        <span class="input-group-text">
+                            <a href="" id="showPass" onclick="togglePassword()" class="link-secondary ms-2" title="" data-bs-toggle="tooltip" title="Hiển thị">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{"CONFIG.SEND_DOCUMENT.EMAIL_SENDER" | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="editEmail.email_name" maxlength="255">
+                    <small class="form-hint">{{"CONFIG.SEND_DOCUMENT.EMAIL_SENDER_EXAMPLE" | translate}}</small>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">{{"COMMON.OPTION" | translate}}</label>
+                <div class="col-md-9">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editEmail.status" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.SEND_DOCUMENT.USING_CONFIG" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a ng-click="cancel()" class="btn btn-secondary" data-bs-dismiss="modal">{{"COMMON.CLOSE" | translate}}</a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-primary ms-auto" ng-click="updateEmailAccount()">{{"HEADER.CONFIG" | translate}}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword(){
+        var a = document.getElementById("password");
+        var c = document.getElementById("showPass");
+        if(a.getAttribute("type") == "password"){
+                a.setAttribute("type", "text");
+                c.setAttribute("title", "Ẩn");
+        } else {
+            a.setAttribute("type", "password");
+            c.setAttribute("title", "Hiển thị");
+        }
+    }
+</script>

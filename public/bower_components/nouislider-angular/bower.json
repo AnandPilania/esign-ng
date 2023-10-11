@@ -1,0 +1,21 @@
+{
+  "name": "nouislider-angular",
+  "main": "nouislider.js",
+  "homepage": "https://github.com/Yankovsky/nouislider-angular#readme",
+  "authors": [
+    "Yankovsky <YankovskyAndrey@gmail.com>"
+  ],
+  "description": "Angular wrapper for nouislider",
+  "keywords": [
+    "nouislider",
+    "slider",
+    "angular",
+    "angularjs"
+  ],
+  "license": "ISC",
+  "ignore": [
+    "**/*",
+    "!nouislider.js",
+    "!nouislider.min.js"
+  ]
+}

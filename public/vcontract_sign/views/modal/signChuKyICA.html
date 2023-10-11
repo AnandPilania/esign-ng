@@ -1,0 +1,35 @@
+
+<div class="modal-content" >
+    <div class="modal-header">
+        <h5 class="modal-title">{{ 'DOCUMENT.REMOTE_SIGNING.ICA.DEFAULT' | translate }}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body" id="choose-cts-remote-signing">
+        <div ng-if="!registerICA">
+            <span>{{'DOCUMENT.REMOTE_SIGNING.ICA.REGISTER_ICA' | translate }}</span>
+        </div>
+        <div class="row choose-sign m-1" ng-if="!registerICA">
+            <form>
+                <div class="form-group mb-3 row">
+                    <div class="col-12 align-center">
+                        <button type="button" class="btn btn-primary" ng-click="confirmSignKyc(1)">{{'DOCUMENT.REMOTE_SIGNING.ICA.REGISTER' | translate }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card card-body card-noti border border-success mt-2 mb-2" ng-if="registerICA">
+            <span >{{'DOCUMENT.REMOTE_SIGNING.ICA.REGISTER_SUCCESS' | translate}}: <span class=" inline text-success text-center"> {{registerICA.agreementuuid}}</span></span>
+        </div>
+        <div ng-if="registerICA" class="text-center mb-2">
+            <span class="small">{{'DOCUMENT.REMOTE_SIGNING.ICA.REGISTER_ICA_SUCCESS_SMALL' | translate }}</span>
+        </div>
+        <div class="row mb-3" style="border-bottom: 1px solid #7f8081"></div>
+    </div>
+    <div class="modal-footer">
+        <div class="row m-1" >
+            <button type="button" class="btn btn-primary float-right" ng-click="onSignICA()" ng-disabled="!registerICA">{{'DOCUMENT.ON_SIGN' | translate }}</button>
+        </div>
+    </div>
+</div>
+
+

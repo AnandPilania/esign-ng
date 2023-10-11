@@ -1,0 +1,162 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" ng-if="!editEmployee.id">{{'UTILITES.EMPLOYEE.INSERT_EMPLOYEE' | translate}}</h5>
+        <h5 class="modal-title" ng-if="editEmployee.id">{{'UTILITES.EMPLOYEE.INSERT_EMPLOYEE' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onCreateUpdateEmployee(0)">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'UTILITES.EMPLOYEE.EMPLOYEE_CODE' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.emp_code" type="text" maxlength="25">
+                </div>
+                <label class="form-label col-md-3 col-form-label font-weight-normal text-lg-end">{{'UTILITES.EMPLOYEE.EMPLOYEE_REFERENCE_CODE' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.reference_code" type="text" maxlength="25">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'UTILITES.EMPLOYEE.EMPLOYEE_NAME' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editEmployee.emp_name" type="text" maxlength="250">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'UTILITES.EMPLOYEE.EMPLOYEE_DOB' | translate}}</label>
+                <div class="col-md-3">
+                    <div class="input-icon">
+                        <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="Ngày/Tháng/Năm" ng-model="editEmployee.dob" data-enabletime="false">
+                        <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                <line x1="16" y1="3" x2="16" y2="7"></line>
+                                <line x1="8" y1="3" x2="8" y2="7"></line>
+                                <line x1="4" y1="11" x2="20" y2="11"></line>
+                                <line x1="11" y1="15" x2="12" y2="15"></line>
+                                <line x1="12" y1="15" x2="12" y2="18"></line>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <label class="form-label col-md-3 col-form-label font-weight-normal text-lg-end required">{{'UTILITES.EMPLOYEE.EMPLOYEE_GENDER' | translate}}</label>
+                <div class="col-md-3">
+                    <select class="form-select" ng-model="editEmployee.sex">
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="gender in lstGender" value="{{gender.id}}">{{gender.description}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'UTILITES.EMPLOYEE.EMPLOYEE_ADDRESS1' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editEmployee.address1" type="text" maxlength="512">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'UTILITES.EMPLOYEE.EMPLOYEE_ADDRESS2' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editEmployee.address2" type="text" maxlength="512">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'UTILITES.EMPLOYEE.EMPLOYEE_ETHNIC' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.ethnic" type="text" maxlength="125">
+                </div>
+                <label class="form-label col-md-3 col-form-label font-weight-normal text-lg-end">{{'UTILITES.EMPLOYEE.EMPLOYEE_NATIONALITY' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.nationality" type="text" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'UTILITES.EMPLOYEE.EMPLOYEE_NATIONAL_ID' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.national_id" type="text" maxlength="50">
+                </div>
+                <label class="form-label col-md-3 col-form-label font-weight-normal text-lg-end">{{'UTILITES.EMPLOYEE.EMPLOYEE_NATIONAL_DATE' | translate}}</label>
+                <div class="col-md-3">
+                    <div class="input-icon">
+                        <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="Ngày/Tháng/Năm" ng-model="editEmployee.national_date" data-enabletime="false">
+                        <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                <line x1="16" y1="3" x2="16" y2="7"></line>
+                                <line x1="8" y1="3" x2="8" y2="7"></line>
+                                <line x1="4" y1="11" x2="20" y2="11"></line>
+                                <line x1="11" y1="15" x2="12" y2="15"></line>
+                                <line x1="12" y1="15" x2="12" y2="18"></line>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal ">{{'UTILITES.EMPLOYEE.EMPLOYEE_NATIONAL_ADDRESS_PROVIDE' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editEmployee.national_address_provide" type="text" maxlength="255">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'UTILITES.EMPLOYEE.EMPLOYEE_EMAIL' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.email" type="text" maxlength="255">
+                </div>
+                <label class="form-label col-md-3 col-form-label font-weight-normal text-lg-end required">{{'UTILITES.EMPLOYEE.EMPLOYEE_PHONE' | translate}}</label>
+                <div class="col-md-3">
+                    <input class="form-control" ng-model="editEmployee.phone" type="text" maxlength="25">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'UTILITES.EMPLOYEE.EMPLOYEE_DEPARTMENT_NAME' | translate}}</label>
+                <div class="col-md-3">
+                    <select class="form-select" ng-model="editEmployee.department_id">
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="department in employeeCtrl.lstDepartment" value="{{department.id}}">{{department.name}}</option>
+                    </select>
+                </div>
+                <label class="form-label col-md-3 col-form-label font-weight-normal text-lg-end required">{{'UTILITES.EMPLOYEE.EMPLOYEE_POSITION_NAME' | translate}}</label>
+                <div class="col-md-3">
+                    <select class="form-select" ng-model="editEmployee.position_id">
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="position in employeeCtrl.lstPosition" value="{{position.id}}">{{position.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'UTILITES.EMPLOYEE.EMPLOYEE_NOTE' | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editEmployee.note" type="text" maxlength="250">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">{{'COMMON.STATUS' | translate}}</label>
+                <div class="col-md-9">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editEmployee.status" type="checkbox">
+                        <span class="form-check-label">{{'UTILITES.EMPLOYEE.EMPLOYEE_STATUS' | translate}}</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-outline-primary btn-outline-primary-customer" ng-click="onCreateUpdateEmployee(1)">
+                {{'COMMON.SAVE_AND_ADD' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="onCreateUpdateEmployee(0)">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

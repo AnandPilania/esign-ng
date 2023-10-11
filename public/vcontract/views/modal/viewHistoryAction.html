@@ -1,0 +1,12 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'ACTION_HISTORY.ACTION.' + action | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row align-content-center col-12" ng-bind-html="viewDetailHistory" ></div>
+    </div>
+    <div class="modal-footer mt-3">
+        <div class="row align-content-center col-12" ng-bind-html="detailHistory" ></div>
+    </div>
+</div>

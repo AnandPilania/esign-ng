@@ -1,0 +1,282 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'DOCUMENT.SIGN_EKYC_DOCUMENT' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel(); webcam.turnOff();"></button>
+    </div>
+    <div class="table-responsive">
+        <div class="d-flex flex-column flex-md-row flex-fill align-items-center align-items-md-center"
+             style="padding: 20px 0">
+            <div class="steps steps-counter steps-yellow">
+                <span class="step-item" ng-class="{'active': signEkycData.currentSignStep == 1}"></span>
+                <span class="step-item" ng-class="{'active': signEkycData.currentSignStep == 2}"></span>
+                <span class="step-item" ng-class="{'active': signEkycData.currentSignStep == 3}"></span>
+                <span class="step-item" ng-class="{'active': signEkycData.currentSignStep == 4}"></span>
+            </div>
+        </div>
+        <form>
+            <div class="tab" ng-show="signEkycData.currentSignStep != 4" style="padding-bottom: 20px">
+                <div class="container-xl">
+                    <div class="page-header d-print-none" ng-if="signEkycData.currentSignStep == 1">
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <h2 class="page-title ng-binding">
+                                    Bước 1: Chụp ảnh CMND/CCCD mặt trước
+                                </h2>
+                                <div class="page-pretitle ng-binding">
+                                    Đưa mặt trước của CMND/CCCD để chụp. Sau đó chờ hệ thống nhận diện để chuyển sang
+                                    bước 2.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-header d-print-none" ng-if="signEkycData.currentSignStep == 2">
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <h2 class="page-title ng-binding">
+                                    Bước 2: Chụp ảnh CMND/CCCD mặt sau
+                                </h2>
+                                <div class="page-pretitle ng-binding">
+                                    Đưa mặt sau của CMND/CCCD để chụp. Sau đó chờ hệ thống nhận diện để chuyển sang
+                                    bước 3.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-header d-print-none" ng-if="signEkycData.currentSignStep == 3">
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <h2 class="page-title ng-binding">
+                                    Bước 3: Chụp ảnh chân dung
+                                </h2>
+                                <div class="page-pretitle ng-binding">
+                                    Chụp ảnh chân dung của bạn để so sánh với dữ liệu CMND/CCCD.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <div class="row justify-content-center" ng-if="!signEkycData.isCapture">
+                                <img data-ng-src="{{'data:' + signEkycData.fotoContentType + ';base64,' + signEkycData.dataFront}}" style="max-height: 360px;max-width: 480px;" ng-if="signEkycData.currentSignStep == 1"/>
+                                <img data-ng-src="{{'data:' + signEkycData.fotoContentType + ';base64,' + signEkycData.dataBack}}" style="max-height: 360px;max-width: 480px;" ng-if="signEkycData.currentSignStep == 2"/>
+                                <img data-ng-src="{{'data:' + signEkycData.fotoContentType + ';base64,' + signEkycData.dataFace}}" style="max-height: 360px;max-width: 480px;" ng-if="signEkycData.currentSignStep == 3"/>
+                            </div>
+                            <div class="page-pretitle ng-binding" id="notDevice" style="text-align: center; color: red; margin-top: 25%; font-size: 20px;" >
+                                Không tìm thấy camera
+                            </div>
+                            <div ng-if="signEkycData.isCapture">
+                                <webcam channel="webcam.channel"
+                                        on-streaming="webcam.onSuccess()"
+                                        on-error="webcam.onError(err)"
+                                        on-stream="webcam.getStream()"
+                                        class="row justify-content-center"></webcam>
+                                <canvas ng-hide="true" id="snapshot" width="200" height="200"></canvas>
+                            </div>
+                            <div class="input-group-append center " ng-if="signEkycData.isCapture" id="changeCamera" >
+                                <a class="center" style="background: #ffffff; color:rgb(59, 58, 58); width: 56px; font-size: 30px;  "
+                                     href=""
+                                   ng-click="webcam.onChange()"><i
+                                    class="fa fa-refresh center"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab" ng-show="signEkycData.currentSignStep == 4">
+                <div class="container-xl">
+                    <div class="page-header d-print-none">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <h2 class="page-title ng-binding">
+                                    Thông tin xác thực
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="card card-md mb-3">
+                                <div class="card-header">
+                                    <h3>Ảnh CMND/CCCD mặt trước</h3>
+                                </div>
+                                <div class="row card-body">
+                                    <div class="col-md-4">
+                                        <img data-ng-src="{{'data:' + signEkycData.fotoContentType + ';base64,' + signEkycData.dataFront}}"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Số CMND/CCCD</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.id}}" disabled/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Ngày sinh</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.birthday}}" disabled/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Quê quán</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.hometown}}" disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Họ tên</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.name}}" disabled/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Giới tính</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.sex}}" disabled/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Thường trú</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.address}}" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-md mb-3">
+                                <div class="card-header">
+                                    <h3>Ảnh CMND/CCCD mặt sau</h3>
+                                </div>
+                                <div class="row card-body">
+                                    <div class="col-md-4">
+                                        <img data-ng-src="{{'data:' + signEkycData.fotoContentType + ';base64,' + signEkycData.dataBack}}"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ngày cấp</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.issueDate}}" disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nơi cấp</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.issueBy}}" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-md mb-3">
+                                <div class="card-header">
+                                    <h3>Ảnh chân dung</h3>
+                                </div>
+                                <div class="row card-body">
+                                    <div class="col-md-4">
+                                        <img data-ng-src="{{'data:' + signEkycData.fotoContentType + ';base64,' + signEkycData.dataFace}}"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Độ trùng khớp</label>
+                                            <input type="text" class="form-control" value="{{ekycResult.sim}}" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 150px;" ng-hide="true">
+                <label  >Video source: </label><select id="videoSource"></select>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <a ng-click="cancel(); webcam.turnOff();" class="btn btn-outline-primary btn-outline-primary-customer">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <button type="button" class="btn btn-primary" ng-click="prevStep()" ng-if="signEkycData.currentSignStep > 1">
+            {{'COMMON.PREV_STEP' | translate}}
+        </button>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 1 && signEkycData.isCapture">
+            <button type="button" class="btn btn-primary" ng-click="webcam.makeSnapshot()">
+                {{'DOCUMENT.CAPTURE' | translate}}
+            </button>
+        </div>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 1 && !signEkycData.isCapture">
+            <button type="button" class="btn btn-primary" ng-click="captureAgain()">
+                {{'DOCUMENT.CAPTURE_AGAIN' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="nextStep()">
+                {{'COMMON.NEXT_STEP' | translate}}
+            </button>
+        </div>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 2 && signEkycData.isCapture">
+            <button type="button" class="btn btn-primary" ng-click="webcam.makeSnapshot()">
+                {{'DOCUMENT.CAPTURE' | translate}}
+            </button>
+        </div>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 2 && !signEkycData.isCapture">
+            <button type="button" class="btn btn-primary" ng-click="captureAgain()">
+                {{'DOCUMENT.CAPTURE_AGAIN' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="nextStep()">
+                {{'COMMON.NEXT_STEP' | translate}}
+            </button>
+        </div>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 3 && signEkycData.isCapture">
+            <button type="button" class="btn btn-primary" ng-click="webcam.makeSnapshot()">
+                {{'DOCUMENT.CAPTURE' | translate}}
+            </button>
+        </div>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 3 && !signEkycData.isCapture">
+            <button type="button" class="btn btn-primary" ng-click="captureAgain()">
+                {{'DOCUMENT.CAPTURE_AGAIN' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="nextStep()">
+                {{'COMMON.NEXT_STEP' | translate}}
+            </button>
+        </div>
+        <div class="btn-list ms-auto" ng-if="signEkycData.currentSignStep == 4">
+            <button type="button" class="btn btn-primary" ng-click="onSignEkycDocument()" ng-if="isSign == 0">{{'COMMON.FINISH_STEP' | translate}}</button>
+            <button type="button" class="btn btn-primary" ng-click="onRegisterCTS()" ng-if="isSign == 1">
+                {{'COMMON.FINISH_STEP' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    'use strict';
+
+
+getDevices().then(gotDevices);
+
+
+function getDevices() {
+  // AFAICT in Safari this only gets default devices until gUM is called :/
+  return navigator.mediaDevices.enumerateDevices();
+}
+
+function gotDevices(deviceInfos) {
+    var haveCam = false;
+    var device = [];
+    var videoSelect = document.querySelector('select#videoSource');
+    window.deviceInfos = deviceInfos; // make available to console
+    console.log('Available input and output devices:', deviceInfos);
+    for (const deviceInfo of deviceInfos) {
+        const option = document.createElement('option');
+        option.value = deviceInfo.deviceId;
+        if (deviceInfo.kind === 'videoinput') {
+            haveCam = true;
+            device.push(deviceInfo);
+            option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
+            videoSelect.appendChild(option);
+        }
+    }
+    if(haveCam){
+        const element2 = document.getElementById("notDevice");
+        element2.remove();
+    }
+    if(device.length != 2){
+        const element = document.getElementById("changeCamera");
+        element.remove();
+    }
+}
+</script>
+<style>
+    .center {
+  margin: auto;
+  width: 20%;
+  padding: 6%;
+}
+</style>

@@ -1,0 +1,264 @@
+<div class="container-fluid" ng-controller="ViewDocumentCtrl as viewDocumentCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <h2 class="page-title">
+                    {{'DOCUMENT.DETAIL_DOCUMENT' | translate}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row align-content-center d-print-none">
+            <div class="col-md-5">
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_NAME' | translate}}</label>
+                            <label
+                                class="form-label font-weight-bold text-truncate">{{viewDocumentCtrl.viewDoc.name}}</label>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_CODE' | translate}}</label>
+                            <label class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.code}}</label>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_TYPE' | translate}}</label>
+                            <label class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.document_type.dc_type_name}}</label>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_DATE' | translate}}</label>
+                            <label class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.sent_date}}</label>
+                        </div>
+                        <div>
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_EXPIRED_DATE' | translate}}</label>
+                            <label class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.expired_date}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_CREATOR' | translate}}</label>
+                            <label class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.assignee[0].full_name}}</label>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_CREATED_DATE' | translate}}</label>
+                            <label class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.created_at}}</label>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_SENT_DATE' | translate}}</label>
+                            <label
+                                class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.send_doc_date}}</label>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_STATUS' | translate}}</label>
+                            <span class="badge bg-orange me-1"></span>{{viewDocumentCtrl.viewDoc.state_name | translate}}
+                        </div>
+                        <div>
+                            <label
+                                class="form-label font-weight-normal">{{'DOCUMENT.DOCUMENT_FINISH_DATE' | translate}}</label>
+                            <label
+                                class="form-label font-weight-bold">{{viewDocumentCtrl.viewDoc.finished_date}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="py-1">
+                    <div class="btn-list">
+                        <a ng-show = "viewDocumentCtrl.viewDoc.document_state == 4 ">
+                            <label
+                                class="btn btn-outline-danger btn-outline-danger-customer d-none d-sm-inline-block "
+                                ng-click="viewDocumentCtrl.showRejectReason()">{{'DOCUMENT.REJECT_REASON' | translate}}
+                            </label>
+                        </a>
+                        <a ng-click="showDocumentHistory(viewDocumentCtrl.viewDoc.id)"
+                           class="btn btn-outline-primary btn-outline-primary-customer">
+                            {{'COMMON.HISTORY' | translate}}
+                        </a>
+                        <a ng-if="viewDocumentCtrl.viewDoc.is_verify_content == 1 && viewDocumentCtrl.viewDoc.document_state >= 7" ng-click="showTransactionDocumentHistory(viewDocumentCtrl.viewDoc.id)"
+                           class="btn btn-outline-primary btn-outline-primary-customer">
+                            {{'COMMON.HISTORY_TRANSACTION' | translate}}
+                        </a>
+                        <a ng-click="goBack()"
+                           class="btn btn-outline-primary btn-outline-primary-customer">
+                            {{'COMMON.CLOSE' | translate}}
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="form-group mb-3 row">
+                    <div class="col-md-12">
+                        <div class="py-2">
+                            <span class="modal-title">
+                                {{'DOCUMENT.PARTICIPANTS_VIEW' | translate}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table card-table table-vcenter text-nowrap datatable table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>{{'DOCUMENT.ASSIGNEE' | translate}}</th>
+                                        <th>{{'DOCUMENT.ROLE' | translate}}</th>
+                                        <th>{{'DOCUMENT.SENT_EMAIL_DATE' | translate}}</th>
+                                        <th>{{'DOCUMENT.LEASING_DATE' | translate}}</th>
+                                        <th>{{'COMMON.STATUS' | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="bg-light"
+                                        ng-repeat-start="partner in viewDocumentCtrl.viewDoc.partners track by $index">
+                                        <td class="font-weight-bold" colspan="5">
+                                            {{partner.displayName}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="assignee in partner.assignees">
+                                        <td>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium">{{assignee.full_name}}</div>
+                                                <div class="text-muted">{{assignee.email}}</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-muted">
+                                            {{assignee.assignType | translate}}
+                                        </td>
+                                        <td class="text-muted">
+                                            {{assignee.sent_email}}
+                                        </td>
+                                        <td class="text-muted">
+                                            {{assignee.assign_date}}
+                                        </td>
+                                        <td class="text-muted">
+                                            {{'DOCUMENT.PROCESSING_STATE.STATE_' + assignee.state | translate}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat-end></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="page-title text-truncate">
+                                    {{viewDocumentCtrl.viewDoc.name}}
+                                </div>
+                            </div>
+                            <div class="col-auto ms-auto" id="scale">
+                                    <select class="form-select" ng-change="onChangeScale()" ng-model="scale">
+                                    <option ng-repeat="scale in lstScale" value="{{scale.value}}">{{scale.description}}</option>
+                                    </select>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <div class="pageTool">
+                                    <div class="btn-group w-100">
+                                        <a href="javascript:void(0)" class="btn btn-white btn-icon" aria-label="Button"
+                                           id="prev">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M21 5v14l-8 -7z"></path>
+                                                <path d="M10 5v14l-8 -7z"></path>
+                                            </svg>
+                                        </a>
+                                        <div class="btn btn-white btn-icon">
+                                            <label>{{'DOCUMENT.PAGE' | translate}}:</label>
+                                            &nbsp;<span id="page-num">1</span>&nbsp;/&nbsp;<span
+                                            id="total-page">2</span>
+                                        </div>
+                                        <a href="javascript:void(0)" class="btn btn-white btn-icon" aria-label="Button"
+                                           id="next">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M3 5v14l8 -7z"></path>
+                                                <path d="M14 5v14l8 -7z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Page title actions -->
+                            <div class="col-auto ms-auto">
+                                <div class="btn-list">
+                                    <button type="button" class="btn btn-outline-primary"
+                                            ng-click="viewDocumentCtrl.downloadDocument()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4">
+                                            </path>
+                                            <line x1="12" y1="13" x2="12" y2="22"></line>
+                                            <polyline points="9 19 12 22 15 19"></polyline>
+                                        </svg>
+                                        {{'DOCUMENT.DOWNLOAD' | translate}}
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary"
+                                            ng-click="viewDocumentCtrl.printDocument()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2">
+                                            </path>
+                                            <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"></path>
+                                            <rect x="7" y="13" width="10" height="8" rx="2"></rect>
+                                        </svg>
+                                        {{'DOCUMENT.PRINT' | translate}}
+                                    </button>
+                                    <button type="button" class="btn btn-primary" ng-if="viewDocumentCtrl.hasChangeSignature"
+                                            ng-click="viewDocumentCtrl.onSaveLocation()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                             viewBox="0 0 58 58" stroke-width="2" stroke="currentColor" fill="currentColor"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M39.914,0H37.5h-28h-9v49h7h33h8V8.586L39.914,0z M35.5,2v14h-24V2H35.5z M9.5,47V28h29v19H9.5z M46.5,47h-6V26h-33v21h-5 V2h7v16h28V2h1.586L46.5,9.414V47z"/>
+                                            <path
+                                                d="M13.5,33h7c0.553,0,1-0.447,1-1s-0.447-1-1-1h-7c-0.553,0-1,0.447-1,1S12.947,33,13.5,33z"/>
+                                            <path
+                                                d="M23.5,35h-10c-0.553,0-1,0.447-1,1s0.447,1,1,1h10c0.553,0,1-0.447,1-1S24.053,35,23.5,35z"/>
+                                            <path d="M25.79,35.29c-0.181,0.189-0.29,0.45-0.29,0.71s0.109,0.52,0.29,0.71C25.979,36.89,26.229,37,26.5,37 c0.26,0,0.52-0.11,0.71-0.29c0.18-0.19,0.29-0.45,0.29-0.71s-0.11-0.521-0.29-0.71C26.84,34.92,26.16,34.92,25.79,35.29z"/>
+                                            <path d="M33.5,4h-6v10h6V4z M31.5,12h-2V6h2V12z"/>
+                                        </svg>
+                                        {{'COMMON.SAVE' | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body bg-dark-overlay">
+                        <div class="document-container">
+                            <div id="doc-viewer" class="docs-scroll page-content">
+                                <div id="viewer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

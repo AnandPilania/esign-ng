@@ -1,0 +1,28 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'DOCUMENT_HANDLE.DELETE_DOCUMENT_LIST.MODAL_RESTORE_TITLE' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_HANDLE.DELETE_DOCUMENT_LIST.MODAL_RESTORE_EMAIL_CONTENT' | translate}}</label>
+                <div class="col-md-9">
+                    <textarea class="form-control autosize-sms" cols="20" ng-model="restoreDocument.email_content" id="NoiDungGuiEmail" maxlength="250" name="NoiDungGuiEmail" rows="2"></textarea>
+                    <small class="form-hint">{{'DOCUMENT_HANDLE.DELETE_DOCUMENT_LIST.MODAL_RESTORE_EMAIL_WARNING' | translate}}</small>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()" >
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+            <button type="button" class="btn btn-primary" ng-click="onRestoreMultiDocumentList()">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="btn-list ms-auto">

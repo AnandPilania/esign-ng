@@ -1,0 +1,38 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'CONFIG.CUSTOMER.SERVICE_DETAIL_INFO' |
+            translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group mb-3 row">
+            <label class="form-label col-md-4 col-form-label font-weight-normal">{{'CONFIG.CUSTOMER.SERVICE_NAME' | translate}}: </label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold">{{editCustomer.service.service_name}}</label>
+        </div>
+        <div class="form-group mb-3 row">
+            <label class="form-label col-md-4 col-form-label font-weight-normal">{{'CONFIG.CUSTOMER.TOTAL_DOCUMENTS' | translate}}: </label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold">{{editCustomer.totalDocument}} - <a style="text-decoration: none;" href="" ng-click="openDocumentList(); customerCtrl.searchDocumentList.state = -1">{{'CONFIG.CUSTOMER.VIEW_DETAIL' | translate}}</a></label>
+        </div>
+        <div class="form-group mb-3 row">
+            <label class="form-label col-md-4 col-form-label font-weight-normal">{{'CONFIG.CUSTOMER.TOTAL_DOCUMENTS_COMPLETED' | translate}}: </label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold">{{editCustomer.totalDocumentCompleted}} - <a style="text-decoration: none;" href="" ng-click="openDocumentList(); customerCtrl.searchDocumentList.state = 1">{{'CONFIG.CUSTOMER.VIEW_DETAIL' | translate}}</a></label>
+        </div>
+        <div class="form-group mb-3 row" ng-if="editCustomer.total_doc != 0">
+            <label class="form-label col-md-4 col-form-label font-weight-normal">{{'CONFIG.CUSTOMER.TOTAL_DOC' | translate}}: </label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold" ng-if="editCustomer.total_doc != -1" >{{editCustomer.service.total_doc}}</label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold" ng-if="editCustomer.total_doc == -1" >{{'CONFIG.CUSTOMER.INFINITE' | translate}}</label>
+        </div>
+        <div class="form-group mb-3 row">
+            <label class="form-label col-md-4 col-form-label font-weight-normal">{{'CONFIG.CUSTOMER.EXPIRED_DATE' | translate}}: </label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold" ng-if="editCustomer.expired_date != null">{{editCustomer.expired_date}}</label>
+            <label class="form-label col-md-8 col-form-label font-weight-bold" ng-if="editCustomer.expired_date == null && (editCustomer.total_doc == 0 || editCustomer.total_doc == -1)" >{{'CONFIG.CUSTOMER.UNLIMITED' | translate}}</label>
+        </div>
+    </div>
+    <div class="modal-footer mt-3">
+        <div class="btn-list ms-auto">
+            <a href="" class="btn btn-secondary" ng-click="cancel()">
+                {{'COMMON.CLOSE' | translate}}
+            </a>
+        </div>
+    </div>
+</div>

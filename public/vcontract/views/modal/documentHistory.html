@@ -1,0 +1,55 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'DOCUMENT.DOCUMENT_HISTORY' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()"></button>
+    </div>
+    <form id="frmLichSu">
+        <div class="table-responsive">
+            <table class="table card-table table-vcenter text-nowrap datatable table-striped">
+                <thead class="bg-light">
+                    <tr>
+                        <th style="width:stretch">{{"DOCUMENT.ACTION_BY" | translate}}</th>
+                        <th>{{"DOCUMENT.ACTION" | translate}}</th>
+                        <th>{{"DOCUMENT.ACTION_TIME" | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody id="list-item">
+                    <tr ng-repeat="history in lstDocumentHistory">
+                        <td>
+                            <div class="flex-fill">
+                                <div class="font-weight-medium">{{history.action_by}}</div>
+                                <div class="text-muted">{{history.action_by_email}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="font-weight-medium">{{'DOCUMENT.HISTORY.ACTION_' + history.action | translate}}</div>
+                            <div class="text-muted">{{history.content}}</div>
+                        </td>
+                        <td class="text-muted">
+                            {{history.created_at}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <a ng-click="cancel()" class="btn btn-outline-primary btn-outline-primary-customer">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-primary" ng-click="printHistory()">
+                {{'DOCUMENT.PRINT_HISTORY' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+</script>

@@ -1,0 +1,112 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    body{
+    background: #0e71d4;
+    }
+    .box{
+    margin: 150px auto 100px;
+    width: 600px;
+    height: 100px;
+    }
+    .container-3{
+      border: #4f5b66;  
+      width: 600px;
+      vertical-align: middle;
+      white-space: nowrap;
+      position: relative;
+    }
+    .container-3 input#search{
+      width: 600px;
+      height: 50px;
+      background: #ffffff;
+      border: #4f5b66;
+      font-size: 15pt;
+      float: left;
+      color: 000000;
+      padding-left: 45px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      color: 000000;
+      
+    }
+    
+    .container-3 input#search::-webkit-input-placeholder {
+       color: #65737e;
+    }
+    .container-3 input#search:-moz-placeholder { /* Firefox 18- */
+       color: #65737e;  
+    }
+    .container-3 input#search::-moz-placeholder {  /* Firefox 19+ */
+       color: #65737e;  
+    }
+    .container-3 input#search:-ms-input-placeholder {  
+       color: #65737e;  
+    }
+    
+    .container-3 .icon{
+      position: absolute;
+      top: 50%;
+      margin-left: 15px;
+      margin-top: 10px;
+      z-index: 1;
+      color: #4f5b66;
+      
+        -webkit-transition: all .55s ease;
+      -moz-transition: all .55s ease;
+      -ms-transition: all .55s ease;
+      -o-transition: all .55s ease;
+      transition: all .55s ease;
+      
+    }
+    
+      /* ANIMATION EFFECTS */
+    .container-3 input#search:focus, .container-3 input#search:active{
+        outline:none; 
+        }
+    .container-3:hover .icon{
+          margin-top: 10px;
+        color: #1d1e1f;
+        
+        -webkit-transform:scale(1.5); /* Safari and Chrome */
+        -moz-transform:scale(1.5); /* Firefox */
+        -ms-transform:scale(1.5); /* IE 9 */
+        -o-transform:scale(1.5); /* Opera */
+         transform:scale(1.5);
+    }
+</style>
+<div class="container-fluid" ng-controller="DocumentListCtrl as documentListCtrl">
+    <div class="page-header d-print-none ">
+        <div class="row align-items-center">
+            <!-- <div class="text-center mb-4">
+                <h1 class="page-title" style="margin:auto; width: 300px; font-size: 20pt;">
+                    Tra cứu tài liệu điện tử
+                </h1>
+            </div> -->
+        </div>
+    </div>
+    <div class="row align-content-center d-print-none">
+        <div class="col-12" >
+            <form ng-submit="onSearchDocumentList()">
+                <input type="submit" hidden/>
+                <div class="box">
+                    <div class="text-center mb-4">
+                        <a href="./"><img ng-src="{{themeConfig.logoLogin}}" style="margin-top: 20px;" height="78" alt=""></a>
+                    </div>
+                    <div class="container-3" >
+                        <span class="icon" ng-click="onSearchDocumentList()"><i class="fa fa-search"></i></span>
+                        <input type="search" style="border-style: solid; border-width: 1px; border-color: #65737e;" id="search" maxlength="255" placeholder="Nhập mã tài liệu để tìm kiếm" ng-model="documentListCtrl.searchDocumentList.keyword">
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+        <div class="col-12">
+            <div class="table-responsive" ng-show="showTable">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="documentListCtrl.dtInstance" dt-options="documentListCtrl.dtOptions"
+                    dt-columns="documentListCtrl.dtColumns"></table>
+            </div>
+        </div>
+    </div>
+</div>

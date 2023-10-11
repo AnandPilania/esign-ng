@@ -1,0 +1,562 @@
+<div class="container-fluid">
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-lg-5">
+		<a ui-sref="index.dashboard">
+			<img ng-src="{{configData.logo_dashboard}}" alt="vContracts" class="navbar-brand-image">
+		</a>
+	</h1>
+	<div class="navbar-nav flex-row order-md-last">
+		<div class="nav-item dropdown d-md-flex me-2">
+			<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" style="color: {{configData.text_color}}">
+				<span class="nav-link-icon d-md-none d-lg-inline-block">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<circle cx="12" cy="12" r="9"></circle>
+						<line x1="12" y1="17" x2="12" y2="17.01"></line>
+						<path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4"></path>
+					</svg>
+				</span>
+				<span class="nav-link-title">
+					{{'HEADER.HELP' | translate}}
+
+				</span>
+			</a>
+			<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+				<a class="dropdown-item" ui-sref="index.guide.document_tutorial" ng-class="{'active':$state.includes('index.guide.document_tutorial')}">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+						<path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+						<line x1="3" y1="6" x2="3" y2="19"></line>
+						<line x1="12" y1="6" x2="12" y2="19"></line>
+						<line x1="21" y1="6" x2="21" y2="19"></line>
+					</svg>
+					{{'HEADER.GUIDE_DOCUMENTS' | translate}}
+				</a>
+				<a class="dropdown-item" ui-sref="index.guide.guide_video" ng-class="{'active':$state.includes('index.guide.guide_video')}">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<rect x="3" y="5" width="18" height="14" rx="4"></rect>
+						<path d="M10 9l5 3l-5 3z"></path>
+					</svg>
+					{{'HEADER.GUIDE_VIDEO' | translate}}
+				</a>
+				<a href="vcontract/assets/files/Plugin-1.1.1.zip" download class="dropdown-item">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"></path>
+						<line x1="12" y1="13" x2="12" y2="22"></line>
+						<polyline points="9 19 12 22 15 19"></polyline>
+					</svg>
+					{{'HEADER.DOWNLOAD_ESIGNING_PLUGIN' | translate}}
+				</a>
+			</div>
+		</div>
+		<div class="nav-item dropdown" >
+			<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
+				aria-label="active user menu">
+				<img class="avatar avatar-sm" src="vcontract/assets/images/user-icon.png">
+				<div class="d-none d-xl-block ps-2" >
+					<div>{{loginUser.name}}</div>
+					<div class="mt-1 small" style="color: {{configData.text_color}}">{{loginUser.role_name}}</div>
+				</div>
+			</a>
+			<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+				<a ng-click="mainCtrl.openChangeUserInfoModal()" class="dropdown-item">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<circle cx="12" cy="7" r="4"></circle>
+						<path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+					</svg>
+					{{'HEADER.USER_INFO' | translate}}
+				</a>
+				<a class="dropdown-item" ng-click="mainCtrl.openChangePwdModal()">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<rect x="5" y="11" width="14" height="10" rx="2"></rect>
+						<circle cx="12" cy="16" r="1"></circle>
+						<path d="M8 11v-4a4 4 0 0 1 8 0v4"></path>
+					</svg>
+					{{'HEADER.CHANGE_PASSWORD' | translate}}
+				</a>
+				<a href="javascript:void(0);" class="dropdown-item hidden">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3"></path>
+						<path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6"></path>
+						<path d="M12 11v2a14 14 0 0 0 2.5 8"></path>
+						<path d="M8 15a18 18 0 0 0 1.8 6"></path>
+						<path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95"></path>
+					</svg>
+					{{'HEADER.SETTING_SECURITY' | translate}}
+				</a>
+				<a class="dropdown-item" ng-click="mainCtrl.openChangePersonalSignature()">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path
+							d="M3 17c3.333 -3.333 5 -6 5 -8c0 -3 -1 -3 -2 -3s-2.032 1.085 -2 3c.034 2.048 1.658 4.877 2.5 6c1.5 2 2.5 2.5 3.5 1l2 -3c.333 2.667 1.333 4 3 4c.53 0 2.639 -2 3 -2c.517 0 1.517 .667 3 2">
+						</path>
+					</svg>
+					{{'HEADER.PERSONAL_SIGNATURE' | translate}}
+				</a>
+				<a ng-controller="AuthenticationCtrl as authenCtrl" ng-click="authenCtrl.logout()" class="dropdown-item">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24"
+						stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2">
+						</path>
+						<path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+					</svg>
+					{{'HEADER.LOGOUT' | translate}}
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="collapse navbar-collapse" id="navbar-menu">
+		<div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown" ng-class="{'active':$state.includes('index.config')}">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">
+						<span class="nav-link-title">
+							{{'HEADER.CONFIG' | translate}}
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow">
+						<a class="dropdown-item dropdown-item-customize" ui-sref="index.config.account" ng-class="{'active':$state.includes('index.config.account')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CONFIG_ACCOUNT' | translate}}
+						</a>
+						<a class="dropdown-item dropdown-item-customize" ui-sref="index.config.sendDoc" ng-class="{'active':$state.includes('index.config.sendDoc')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CONFIG_SEND_DOC' | translate}}
+						</a>
+						<a class="dropdown-item dropdown-item-customize" ui-sref="index.config.template" ng-class="{'active':$state.includes('index.config.template')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CONFIG_TEMPLATE' | translate}}
+						</a>
+						<a class="dropdown-item dropdown-item-customize" ui-sref="index.config.permission" ng-class="{'active':$state.includes('index.config.permission')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CONFIG_PERMISSION' | translate}}
+						</a>
+						<a class="dropdown-item dropdown-item-customize" ui-sref="index.config.user" ng-class="{'active':$state.includes('index.config.user')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CONFIG_USERS' | translate}}
+						</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" ng-class="{'active':$state.includes('index.internal')}"
+						aria-expanded="false">
+						<span class="nav-link-title">
+							{{'HEADER.INTERNAL' | translate}}
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow">
+						<a class="dropdown-item" ui-sref="createInternal">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CREATE_NEW_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.internal.documentList" ng-class="{'active':$state.includes('index.internal.documentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.LIST_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.internal.approvalManage" ng-class="{'active':$state.includes('index.internal.   ')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.AGREE_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.internal.signManage" ng-class="{'active':$state.includes('index.internal.signManage')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.DIGITAL_SIGNATURE' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.internal.sendEmail" ng-class="{'active':$state.includes('index.internal.sendEmail')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.EMAIL_HISTORY' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.internal.sendSms" ng-class="{'active':$state.includes('index.internal.sendSms')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.SMS_HISTORY' | translate}}
+						</a>
+						<!-- <a class="dropdown-item" ui-sref="index.internal.authenticateHistory" ng-class="{'active':$state.includes('index.internal.authenticateHistory')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.AUTHENTICATE_HISTORY' | translate}}
+						</a> -->
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false" ng-class="{'active':$state.includes('index.commerce')}">
+						<span class="nav-link-title">
+							{{'HEADER.COMMERCE' | translate}}
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow">
+						<a class="dropdown-item" ui-sref="createCommerce">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.CREATE_NEW_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.commerce.documentList" ng-class="{'active':$state.includes('index.commerce.documentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.LIST_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.commerce.approvalManage" ng-class="{'active':$state.includes('index.commerce.approvalManage')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.AGREE_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.commerce.signManage" ng-class="{'active':$state.includes('index.commerce.signManage')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.DIGITAL_SIGNATURE' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.commerce.sendEmail" ng-class="{'active':$state.includes('index.commerce.sendEmail')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.EMAIL_HISTORY' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.commerce.sendSms" ng-class="{'active':$state.includes('index.commerce.sendSms')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.SMS_HISTORY' | translate}}
+						</a>
+						<!-- <a class="dropdown-item" ui-sref="index.commerce.authenticateHistory" ng-class="{'active':$state.includes('index.commerce.authenticateHistory')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.AUTHENTICATE_HISTORY' | translate}}
+						</a> -->
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">
+						<span class="nav-link-title">
+							{{'HEADER.DOCUMENT_HANDLE' | translate}}
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow">
+                        <a class="dropdown-item" ui-sref="index.document.nearExpireDocumentList" ng-class="{'active':$state.includes('index.document.nearExpireDocumentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.ABOUT_EXPIRE_DOCUMENT' | translate}}
+						</a>
+                        <a class="dropdown-item" ui-sref="index.document.expiredDocumentList" ng-class="{'active':$state.includes('index.document.expiredDocumentList')}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="4"></circle>
+                            </svg>
+                            {{'HEADER.OUT_OF_DATE_DOCUMENT' | translate}}
+                        </a>
+                        <a class="dropdown-item" ui-sref="index.document.denyDocumentList" ng-class="{'active':$state.includes('index.document.denyDocumentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.DENIED_DOCUMENT' | translate}}
+						</a>
+                        <a class="dropdown-item" ui-sref="index.document.deleteDocumentList" ng-class="{'active':$state.includes('index.document.deleteDocumentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.DELETE_DOCUMENT' | translate}}
+						</a>
+                        <a class="dropdown-item" ui-sref="index.document.nearDocExpireDocumentList" ng-class="{'active':$state.includes('index.document.nearDocExpireDocumentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.NEAR_DOC_EXPIRE_DOCUMENT' | translate}}
+						</a>
+                        <a class="dropdown-item" ui-sref="index.document.docExpireDocumentList" ng-class="{'active':$state.includes('index.document.docExpireDocumentList')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.DOC_EXPIRE_DOCUMENT' | translate}}
+						</a>
+
+					</div>
+				</li>
+				<li class="nav-item dropdown" ng-class="{'active':$state.includes('index.report')}">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">
+						<span class="nav-link-title">
+							{{'HEADER.REPORT' | translate}}
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow">
+						<a class="dropdown-item" ui-sref="index.report.internalDocument" ng-class="{'active':$state.includes('index.report.internalDocument')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.REPORT_INTERNAL_DOCUMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.report.commerceDocument" ng-class="{'active':$state.includes('index.report.commerceDocument')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.REPORT_COMMERCE_DOCUMENT' | translate}}
+						</a>
+
+						<a class="dropdown-item" ui-sref="index.report.sendMessage" ng-class="{'active':$state.includes('index.report.sendMessage')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.REPORT_SEND_MESSAGE' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.report.signEkyc" ng-class="{'active':$state.includes('index.report.signEkyc')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.SIGN_EKYC' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.report.signAssignee" ng-class="{'active':$state.includes('index.report.signAssignee')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.SIGN_ASSIGNEE' | translate}}
+						</a>
+						<!-- <a class="dropdown-item hidden" href="javascript:void(0)">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.REPORT_INPUT_DOCUMENT' | translate}}
+						</a> -->
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" ng-class="{'active':$state.includes('index.utilities')}" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">
+						<span class="nav-link-title">
+							{{'HEADER.UTILITIES' | translate}}
+
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow">
+						<a class="dropdown-item" ui-sref="index.utilities.branch" ng-class="{'active':$state.includes('index.utilities.branch')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.UTILITIES_BRANCH' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.utilities.position" ng-class="{'active':$state.includes('index.utilities.position')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.UTILITIES_POSITION' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.utilities.department" ng-class="{'active':$state.includes('index.utilities.department')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.UTILITIES_DEPARTMENT' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.utilities.employees" ng-class="{'active':$state.includes('index.utilities.employees')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.UTILITIES_EMPLOYEE' | translate}}
+						</a>
+						<a class="dropdown-item" ui-sref="index.utilities.customer" ng-class="{'active':$state.includes('index.utilities.customer')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.UTILITIES_CUSTOMER' | translate}}
+
+						</a>
+						<a class="dropdown-item" ui-sref="index.utilities.document_type" ng-class="{'active':$state.includes('index.utilities.document_type')}">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+								viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<circle cx="12" cy="12" r="4"></circle>
+							</svg>
+							{{'HEADER.UTILITIES_DOCUMENT_TYPE' | translate}}
+						</a>
+                        <a class="dropdown-item" ui-sref="index.utilities.document_sample" ng-class="{'active':$state.includes('index.utilities.document_sample')}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="4"></circle>
+                            </svg>
+                            {{'HEADER.UTILITIES_DOCUMENT_SAMPLE' | translate}}
+                        </a>
+                        <a class="dropdown-item" ui-sref="index.actionHistory" ng-class="{'active':$state.includes('index.actionHistory')}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="4"></circle>
+                            </svg>
+                            {{'HEADER.ACTION_HISTORY' | translate}}
+                        </a>
+
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" >
+    var color = angular.element(document.getElementById('mainContentHome')).scope().configData.text_color;
+    (function (){
+        $('.dropdown-toggle').css('color', color);
+    })()
+</script>

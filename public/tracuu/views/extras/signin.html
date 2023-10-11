@@ -1,0 +1,86 @@
+<div class="authentication" ng-controller="AuthenticationCtrl as ctrl">
+    <div class="container-tight py-6">
+        <div class="text-center mb-4">
+            <a href="./"><img ng-src="{{themeConfig.logoLogin}}" height="68" alt=""></a>
+        </div>
+        <form ng-submit="ctrl.getPassword()" ng-if="!showPass">
+            <div class="card card-md shadow border-0">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4 font-weight-bold text-uppercase">Đăng nhập hệ
+                        thống</h2>
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label">Mã doanh nghiệp</label>-->
+<!--                        <input type="text" class="form-control" autocomplete="off" placeholder="Nhập tên đăng nhập"-->
+<!--                            autofocus="True" ng-model="ctrl.userInfo.code">-->
+<!--                    </div>-->
+                    <div class="mb-3">
+                        <label class="form-label">Email đăng nhập</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Nhập email đăng nhập"
+                            autofocus="false" ng-model="ctrl.userInfo.email">
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-{{themeConfig.color}} w-100">Tiếp tục</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form ng-submit="ctrl.login()" ng-if="showPass">
+            <div class="card card-md shadow border-0">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4 font-weight-bold " ng-model="ctrl.userInfo.email">{{ctrl.userInfo.email}}</h2>
+<!--                    <div class="mb-3">-->
+<!--                        <label class="form-label">Mã doanh nghiệp</label>-->
+<!--                        <input type="text" class="form-control" autocomplete="off" placeholder="Nhập tên đăng nhập"-->
+<!--                            autofocus="True" ng-model="ctrl.userInfo.code">-->
+<!--                    </div>-->
+                    <!-- <div class="mb-3">
+                        <label class="form-label">Email đăng nhập</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Nhập email đăng nhập"
+                            autofocus="false" ng-model="ctrl.userInfo.email">
+                    </div> -->
+                    <div class="mb-2">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="input-group input-group-flat">
+                            <input id="password" type="password" class="form-control" autocomplete="off" placeholder="Nhập mật khẩu"
+                            ng-model="ctrl.userInfo.password">
+                            <span class="input-group-text">
+                                <a href="" id="showPass" onclick="togglePassword()" class="link-secondary ms-2" title="" data-bs-toggle="tooltip" title="Hiển thị">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class = "mb-2" style = " padding-top: 3%;">
+                        <a href="#" type="submit" ng-click="ctrl.forgetPassword()" style=" color: rgb(53, 49, 49);">Quên mật khẩu?</a>
+                    </div>
+                    <div class="form-footer btn-list ">
+                        <div>
+                            <button type="button" style="margin-right: 203px;" title="Quay lại" class="btn btn-outline-secondary" ng-click="ctrl.goBack()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"></path>
+                                  </svg>
+                            </button>
+                            <!-- <button ng-click="ctrl.goBack()" style="margin-right: 166px;" class="btn btn-primary ">Quay lại</button> -->
+                        </div>
+                        <div>
+                            <button type="submit" style="margin-left: 0px " class="btn btn-primary ">Đăng nhập</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function togglePassword(){
+        var a = document.getElementById("password");
+        var c = document.getElementById("showPass");
+        if(a.getAttribute("type") == "password"){
+                a.setAttribute("type", "text");
+                c.setAttribute("title", "Ẩn");
+        } else {
+            a.setAttribute("type", "password");
+            c.setAttribute("title", "Hiển thị");
+        }
+    }
+</script>

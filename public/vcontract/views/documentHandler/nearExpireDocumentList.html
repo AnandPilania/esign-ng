@@ -1,0 +1,88 @@
+<div class="container-xl" ng-controller="NearExpireDocumentListCtrl as nearExpireDocumentListCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col" ng-if="nearExpireDocumentListCtrl.searchDocumentList.parent_id == -1">
+                <span class="h2">
+                    {{'DOCUMENT_HANDLE.NEAR_EXPIRED_DOCUMENT_LIST.LIST' | translate}}
+                </span>
+                <span> | </span>
+                <a
+                ng-click="onSearchDocumentList(); nearExpireDocumentListCtrl.searchDocumentList.parent_id = 0"
+                class="btn btn-outline-primary btn-outline-primary-customer d-none d-sm-inline-block">
+                 {{'DOCUMENT_HANDLE.NEAR_EXPIRED_DOCUMENT_LIST.ADDENDUM' | translate}}
+                </a>
+            </div>
+            <div class="col" ng-if="nearExpireDocumentListCtrl.searchDocumentList.parent_id != -1">
+                <a
+                ng-click="onSearchDocumentList(); nearExpireDocumentListCtrl.searchDocumentList.parent_id = -1"
+                class="btn btn-outline-primary btn-outline-primary-customer d-none d-sm-inline-block">
+                 {{'DOCUMENT_HANDLE.NEAR_EXPIRED_DOCUMENT_LIST.LIST' | translate}}
+                </a>
+                <span> | </span>
+                <span class="h2">
+                    {{'DOCUMENT_HANDLE.NEAR_EXPIRED_DOCUMENT_LIST.ADDENDUM' | translate}}
+                </span>
+            </div>
+            <div class="col-auto ms-auto d-print-none" ng-if="nearExpireDocumentListCtrl.permission.is_write == 1">
+                <a ng-click="nearExpireDocumentListCtrl.openRenewMultiDocumentModal()"
+                   class="btn btn-outline-primary btn-outline-primary-documentList d-none d-sm-inline-block">
+                    {{'COMMON.RENEW' | translate}}
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <form ng-submit="onSearchDocumentList()">
+                <input type="submit" hidden>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg-2 col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentList(); changeDocumentGroup()" ng-model="nearExpireDocumentListCtrl.searchDocumentList.document_group_id">
+                            <option ng-repeat="document_group in nearExpireDocumentListCtrl.lstDocumentGroup" value="{{document_group.id}}">{{document_group.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentList()" ng-model="nearExpireDocumentListCtrl.searchDocumentList.document_type_id">
+                            <option value="-1">{{'DOCUMENT_HANDLE.NEAR_EXPIRED_DOCUMENT_LIST.DOCUMENT_TYPE' | translate}}</option>
+                            <option ng-repeat="document_type in nearExpireDocumentListCtrl.lstDocumentType" value="{{document_type.id}}">{{document_type.dc_type_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentList()" ng-model="nearExpireDocumentListCtrl.searchDocumentList.dc_style">
+                            <option value="-1">{{'UTILITES.DOCUMENT_TYPE.DOCUMENT_STYLE.DEFAULT' | translate}}</option>
+                            <option ng-repeat="style in lstDocumentStyle" value="{{style.id}}">{{style.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-auto">
+                        <input type="text" class="form-control search-box" placeholder="{{'DOCUMENT_HANDLE.NEAR_EXPIRED_DOCUMENT_LIST.SEARCH_KEYWORD' | translate}}" ng-model="nearExpireDocumentListCtrl.searchDocumentList.keyword">
+                    </div>
+
+                    <div class="col-auto ms-auto d-print-none">
+                        <a ng-click="onSearchDocumentList()" class="btn btn-primary btn-icon"
+                           aria-label="Button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="10" cy="10" r="7"></circle>
+                                <line x1="21" y1="21" x2="15" y2="15"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-12">
+            <div class="table-responsive" ng-if="nearExpireDocumentListCtrl.searchDocumentList.parent_id == -1">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="nearExpireDocumentListCtrl.dtInstance" dt-options="nearExpireDocumentListCtrl.dtOptions"
+                    dt-columns="nearExpireDocumentListCtrl.dtColumns"></table>
+            </div>
+            <div class="table-responsive" ng-if="nearExpireDocumentListCtrl.searchDocumentList.parent_id != -1">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="nearExpireDocumentListCtrl.dtInstance" dt-options="nearExpireDocumentListCtrl.dtOptions"
+                    dt-columns="nearExpireDocumentListCtrl.dtColumnsAddendum"></table>
+            </div>
+        </div>
+    </div>
+</div>

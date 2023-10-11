@@ -1,0 +1,11 @@
+{
+    "name": "its/report",
+    "description": "Import/Export CSV",
+    "authors": [
+        {
+            "name": "ITs Developer",
+            "email": "admin@its.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}

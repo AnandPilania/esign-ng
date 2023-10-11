@@ -1,0 +1,49 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Gia hạn tài liệu</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_HANDLE.EXPIRED_DOCUMENT_LIST.MODAL_SEND_AGAIN_EMAIL_CONTENT' | translate}}</label>
+                <div class="col-md-9">
+                    <textarea class="form-control autosize-sms" cols="20" ng-model="sendAgainDocument.email_content" data-val="true" id="NoiDungGuiEmail" maxlength="250" name="NoiDungGuiEmail"  rows="2"></textarea>
+                    <small class="form-hint">{{'DOCUMENT_HANDLE.EXPIRED_DOCUMENT_LIST.MODAL_SEND_AGAIN_EMAIL_WARNING' | translate}}</small>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT_HANDLE.EXPIRED_DOCUMENT_LIST.MODAL_SEND_AGAIN_EXPIRED_DATA' | translate}}</label>
+                <div class="col-md-9">
+                    <div class="input-icon">
+                        <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="{{'COMMON.PH_DATEPICKER' | translate}}" ng-model="sendAgainDocument.expired_date" data-enabletime="false">
+                        <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                <line x1="16" y1="3" x2="16" y2="7"></line>
+                                <line x1="8" y1="3" x2="8" y2="7"></line>
+                                <line x1="4" y1="11" x2="20" y2="11"></line>
+                                <line x1="11" y1="15" x2="12" y2="15"></line>
+                                <line x1="12" y1="15" x2="12" y2="18"></line>
+                            </svg>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()" >
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-primary" ng-click="onSendAgainMultiDocumentList()">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

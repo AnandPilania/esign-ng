@@ -1,0 +1,92 @@
+<div class="modal-content">
+    <div class="card border-0">
+        <ul class="nav nav-tabs flex-row-reverse">
+            <li class="nav-item">
+                <a href="#tabs-uploadImg" class="nav-link" data-bs-toggle="tab">{{'CONFIG.ACCOUNT.CONSIGNEE_UPLOAD' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a href="#personal-tabs-signature" class="nav-link active" data-bs-toggle="tab">{{'CONFIG.ACCOUNT.CONSIGNEE_DRAW' | translate}}</a>
+            </li>
+            <li class="nav-item mb-auto mt-auto me-auto">
+                <a href="" class="nav-link">{{'CONFIG.ACCOUNT.CONSIGNEE_SETUP' | translate}}</a>
+            </li>
+        </ul>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane" id="tabs-uploadImg">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <div class="card-body text-center" style="border: 1px dashed; width:100%;">
+                                <label for="image">
+                                    <input type="file" name="image" id="image" style="display:none;" accept="image/*" onchange="document.getElementById('personal_signature_upload').src = window.URL.createObjectURL(this.files[0])"/>
+                                    <img id="personal_signature_upload" height="228" title="Click để chọn ảnh" class="mx-auto mb-2 cursor-pointer" ng-src="{{userSignature.image_signature}}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto ms-auto">
+                            <a href="" class="btn btn-secondary" ng-click="cancel()">
+                                {{'COMMON.CLOSE' | translate}}
+                            </a>
+                        </div>
+                        <div class="col text-end">
+                            <button type="button" class="btn btn-primary" ng-click="updatePersonalSignatureUpload(document.getElementById('personal_signature_upload').src)">
+                                {{'CONFIG.ACCOUNT.CONSIGNEE_SIGN_SAVE' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane active show" id="personal-tabs-signature">
+                    <div class="row row-card mb-2">
+                        <div class="col-12">
+                            <canvas id="personal_signature-canvas" class="content-upload-img cursor-pointer" style="border: 1px dashed; width: 100%; touch-action: none;"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto ms-auto">
+                            <a href="" class="btn btn-secondary" ng-click="cancel()">
+                                {{'COMMON.CLOSE' | translate}}
+                            </a>
+                        </div>
+                        <div class="col text-end">
+                            <button type="button" id="btnPersonalClear" class="btn btn-outline-primary btn-outline-primary-customer">
+                                {{'COMMON.DELETE' | translate}}
+                            </button>
+                            <button type="button" id="btnPersonalSave" class="btn btn-primary">
+                                {{'CONFIG.ACCOUNT.CONSIGNEE_SIGN_SAVE' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var clearPersonalButton = document.getElementById("btnPersonalClear");
+    var savePersonalSignPad = document.getElementById("btnPersonalSave");
+    var personalCanvas = document.getElementsByTagName('canvas')[0];
+    Utils.resizeCanvas(personalCanvas);
+
+    var signaturePersonalPad = new SignaturePad(personalCanvas, {
+        backgroundColor: 'rgb(255, 255, 255)'
+    });
+    if (userSignature) {
+        signaturePersonalPad.fromDataURL(userSignature);
+    }
+
+    clearPersonalButton.addEventListener("click", function (event) {
+        signaturePersonalPad.clear();
+
+    });
+
+    function callAngularjsFromJS(data){
+        angular.element(document.getElementById('personal-tabs-signature')).scope().updatePersonalSignatureManual(data);
+    }
+
+    savePersonalSignPad.addEventListener("click", function (event) {
+        callAngularjsFromJS(signaturePersonalPad);
+    });
+
+</script>

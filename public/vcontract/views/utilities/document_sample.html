@@ -1,0 +1,66 @@
+<div class="container-fluid" ng-controller="DocumentSampleCtrl as documentSampleCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{'DOCUMENT_SAMPLE.LIST' | translate}}
+                </h2>
+            </div>
+            <div class="col-auto ms-auto d-print-none" ng-if="documentSampleCtrl.permission.is_write == 1">
+                <div class="btn-list">
+                    <a ng-click="documentSampleCtrl.openAddDocumentSampleModal()"
+                        class="btn btn-outline-primary btn-outline-primary-customer d-none d-sm-inline-block">
+                        {{'COMMON.CREATE' | translate}}
+                    </a>
+                    <a ng-click="documentSampleCtrl.onDeleteMultiDocumentSamples()"
+                        class="btn btn-outline-danger btn-outline-danger-customer d-none d-sm-inline-block">
+                        {{'COMMON.DELETE' | translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <form ng-submit="onSearchDocumentSample()">
+                <input type="submit" hidden>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg-auto col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentGroupChange()" ng-model="documentSampleCtrl.searchDocumentSample.document_type">
+                            <option value="-1">{{'UTILITES.DOCUMENT_TYPE.DOCUMENT_TYPE_DOCUMENT_GROUP' | translate}}</option>
+                            <option ng-repeat="group in documentSampleCtrl.lstDocumentGroup" value="{{group.id}}">{{group.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-auto col-md-2">
+                        <select class="form-select" ng-change="onSearchDocumentSample()" ng-model="documentSampleCtrl.searchDocumentSample.document_type_id">
+                            <option value="-1">{{'DOCUMENT_SAMPLE.DOCUMENT_TYPE' | translate}}</option>
+                            <option ng-repeat="document_type in documentSampleCtrl.lstDocumentType" ng-if="document_type.document_group_id == documentSampleCtrl.searchDocumentSample.document_type" value="{{document_type.id}}">{{document_type.dc_type_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-auto">
+                        <input type="text" class="form-control search-box" placeholder="{{'COMMON.SEARCH_KEYWORD' | translate}}" ng-model="documentSampleCtrl.searchDocumentSample.keyword">
+                    </div>
+                    <div class="col-auto ms-auto d-print-none">
+                        <a ng-click="onSearchDocumentSample()" class="btn btn-primary btn-icon"
+                            aria-label="Button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="10" cy="10" r="7"></circle>
+                                <line x1="21" y1="21" x2="15" y2="15"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="documentSampleCtrl.dtInstance" dt-options="documentSampleCtrl.dtOptions"
+                    dt-columns="documentSampleCtrl.dtColumns"></table>
+            </div>
+        </div>
+    </div>
+</div>

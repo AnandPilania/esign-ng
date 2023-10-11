@@ -1,0 +1,25 @@
+<div class="container-fluid" style="padding: 0" ng-controller="DetailGuideVideoCtrl as detailGuideVideoCtrl">
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <div class="navbar-expand-md">
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <div class="navbar navbar-light">
+                        <div class="container-xl">
+                            <label class="form-label font-weight-bold mt-auto mb-auto">{{'Video hướng dẫn'
+                            }}: {{detailGuideVideoCtrl.guideVideo.name}}</label>
+                            <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container-xl">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <iframe ng-src="{{getIframeSrc(guideVideo)}}" width="1024" height="768" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

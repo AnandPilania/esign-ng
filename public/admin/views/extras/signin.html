@@ -1,0 +1,28 @@
+<div class="authentication" ng-controller="AuthenticationCtrl as ctrl">
+    <div class="container-tight py-6">
+        <div class="text-center mb-4">
+            <a href="./"><img src="admin/assets/images/fcontract-logo.png" height="68" alt=""></a>
+        </div>
+        <form ng-submit="ctrl.login()">
+            <div class="card card-md shadow border-0">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4 font-weight-bold text-uppercase">Đăng nhập hệ
+                        thống</h2>
+                    <div class="mb-3">
+                        <label class="form-label">Email đăng nhập</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Nhập email đăng nhập"
+                            autofocus="false" ng-model="ctrl.userInfo.email">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" autocomplete="off" placeholder="Nhập mật khẩu"
+                            ng-model="ctrl.userInfo.password">
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary w-100">Thực hiện đăng nhập</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

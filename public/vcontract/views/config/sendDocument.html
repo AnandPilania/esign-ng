@@ -1,0 +1,133 @@
+<div class="container-xl" ng-controller="SendDocumentCtrl as sendDocumentCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{'CONFIG.SEND_DOCUMENT.LIST' | translate}}
+                </h2>
+            </div>
+            <div class="col-auto ms-auto d-print-none">
+            </div>
+        </div>
+    </div>
+    <div class="row row-cards align-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{'CONFIG.SEND_DOCUMENT.TIME_SETTING' | translate}}</div>
+                    <button type="button" class="btn btn-sm btn-primary ms-auto" ng-click="sendDocumentCtrl.updateSendTimeParams()">{{'COMMON.UPDATE' | translate}}</button>
+                </div>
+                <div class="card-body">
+                    <p></p>
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <span class="form-check-label font-weight-bold">{{'CONFIG.SEND_DOCUMENT.EXPIRE_TIME_START' | translate}}<input type="text"
+                                    class="form-control-sm text-center font-weight-bold text-blue" style="width:45px"
+                                    maxlength="2" ng-model="sendDocumentCtrl.params.document_expire_day" onkeypress="return validNumeric(event)" required="">{{'CONFIG.SEND_DOCUMENT.EXPIRE_TIME_END' | translate}}</span>
+                            <small class="form-hint mb-1">{{'CONFIG.SEND_DOCUMENT.EXPIRE_AFTER_TIME_START' | translate}}<strong class="text-blue font-weight-bold">{{'CONFIG.SEND_DOCUMENT.EXPIRE_AFTER_TIME_MID' | translate}}</strong>{{'CONFIG.SEND_DOCUMENT.EXPIRE_AFTER_TIME_END' | translate}}</small>
+                            <small class="form-hint">{{'CONFIG.SEND_DOCUMENT.EXPIRE_CHECK_TIME_START' | translate}}<strong class="text-blue font-weight-bold">{{'CONFIG.SEND_DOCUMENT.EXPIRE_CHECK_TIME_MID' | translate}}</strong>{{'CONFIG.SEND_DOCUMENT.EXPIRE_CHECK_TIME_END' | translate}}</small>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <span class="form-check-label font-weight-bold">{{'CONFIG.SEND_DOCUMENT.NEAR_EXPIRE_TIME_START' | translate}}<input type="text"
+                                    class="form-control-sm text-center font-weight-bold text-blue" style="width:45px"
+                                    maxlength="2" ng-model="sendDocumentCtrl.params.near_expired_date" onkeypress="return validNumeric(event)" required="">{{'CONFIG.SEND_DOCUMENT.NEAR_EXPIRE_TIME_END' | translate}}</span>
+                            <small class="form-hint">{{'CONFIG.SEND_DOCUMENT.NEAR_EXPIRE_SEND_MAIL_START' | translate}}<strong class="text-blue font-weight-bold">{{'CONFIG.SEND_DOCUMENT.EXPIRE_AFTER_TIME_MID' | translate}}</strong>{{'CONFIG.SEND_DOCUMENT.NEAR_EXPIRE_SEND_MAIL_END' | translate}}</small>
+                            <small class="form-hint">{{'CONFIG.SEND_DOCUMENT.NEAR_EXPIRE_DOCUMENT' | translate}}</small>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <span class="form-check-label font-weight-bold">{{'CONFIG.SEND_DOCUMENT.NEAR_DOC_EXPIRE_TIME_START' | translate}}<input type="text"
+                                    class="form-control-sm text-center font-weight-bold text-blue" style="width:45px"
+                                    maxlength="2" ng-model="sendDocumentCtrl.params.near_doc_expired_date" onkeypress="return validNumeric(event)" required="">{{'CONFIG.SEND_DOCUMENT.NEAR_DOC_EXPIRE_TIME_END' | translate}}</span>
+                            <small class="form-hint mb-1">{{'CONFIG.SEND_DOCUMENT.NEAR_DOC_EXPIRE_SEND_MAIL_START' | translate}}<strong class="text-blue font-weight-bold">{{'CONFIG.SEND_DOCUMENT.EXPIRE_AFTER_TIME_MID' | translate}}</strong>{{'CONFIG.SEND_DOCUMENT.NEAR_DOC_EXPIRE_SEND_MAIL_END' | translate}}</small>
+                            <small class="form-hint">{{'CONFIG.SEND_DOCUMENT.NEAR_DOC_EXPIRE_DOCUMENT' | translate}}</small>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{'CONFIG.SEND_DOCUMENT.EMAIL_SETTING' | translate}}</div>
+                    <button type="button" class="btn btn-sm btn-primary ms-auto" ng-click="sendDocumentCtrl.openChangePassEmail()" ng-show="sendDocumentCtrl.email.id && !sendDocumentCtrl.email.is_relay">
+                        {{'CONFIG.SEND_DOCUMENT.CHANGE_PASSWORD_FOR_EMAIL' | translate}}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" ng-class="{'ms-2' : !sendDocumentCtrl.email.is_relay, 'ms-auto' : sendDocumentCtrl.email.is_relay}" ng-click="sendDocumentCtrl.openUpdateEmailModal()" ng-if="sendDocumentCtrl.email.id">
+                        {{'HEADER.CONFIG' | translate}}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary ms-auto" ng-click="sendDocumentCtrl.openUpdateEmailModal()" ng-if="!sendDocumentCtrl.email.id ">
+                        {{'HEADER.CONFIG' | translate}}
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SEND_DOCUMENT.EMAIL_HOST' | translate}}</label>
+                        <label class="form-label col-md-9 col-form-label font-weight-bold">:
+                            {{configEmail.email_host}}</label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SEND_DOCUMENT.UPDATE_DAY' | translate}}</label>
+                        <label class="form-label col-md-9 col-form-label font-weight-normal">:
+                            {{configEmail.updated_at}}</label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3 col-form-label font-weight-normal">{{'COMMON.STATUS' | translate}}</label>
+                        <label class="form-label col-md-9 col-form-label font-weight-normal">:
+                            {{configEmail.status}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{'CONFIG.SEND_DOCUMENT.SMS_SETTING' | translate}}</div>
+                    <button type="button" class="btn btn-sm btn-primary ms-auto" ng-click="sendDocumentCtrl.openChangePassSms()" ng-show="sendDocumentCtrl.sms.id">
+                        {{'CONFIG.SEND_DOCUMENT.CHANGE_PASSWORD_FOR_SMS' | translate}}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary ms-2" ng-click="sendDocumentCtrl.openUpdateSmsModal()" ng-if="sendDocumentCtrl.sms.id">
+                        {{'HEADER.CONFIG' | translate}}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary ms-auto" ng-click="sendDocumentCtrl.openUpdateSmsModal()" ng-if="!sendDocumentCtrl.sms.id">
+                        {{'HEADER.CONFIG' | translate}}
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SEND_DOCUMENT.SMS_PROVIDER' | translate}}</label>
+                        <label class="form-label col-md-9 col-form-label font-weight-bold">:
+                            {{configSms.service_provider}}</label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SEND_DOCUMENT.SMS_BRANDNAME' | translate}}</label>
+                        <label class="form-label col-md-9 col-form-label font-weight-normal" id="lblTinNhan_BrandName">:
+                            {{configSms.brandname}}</label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3 col-form-label font-weight-normal">{{'COMMON.STATUS' | translate}}</label>
+                        <label class="form-label col-md-9 col-form-label font-weight-normal" id="lblSms_TrangThai">:
+                            {{configSms.status}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function validNumeric(field) {
+        var charCode = (field.which) ? field.which : field.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+</script>

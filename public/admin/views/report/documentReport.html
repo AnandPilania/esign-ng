@@ -1,0 +1,675 @@
+
+<div class="container-fluid" ng-controller="DocumentReportCtrl as documentReportCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <a class="text-h2 font-weight-bold cursor-pointer" ng-click="back(0)">
+                    {{'REPORT.REPORT_DOCUMENT' | translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-xl-9">
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12">
+                            <div class="card shadow-none">
+                                <div class="card-body" style="position: relative;">
+                                    <div class="d-flex d-print-none">
+                                        <div class="d-flex d-print-none col-10">
+                                            <h3 class="card-title" >{{'REPORT.DASHBOARD_DOCUMENT' | translate}}
+                                                {{documentReportCtrl.searchReport.dashboardYear}}
+                                            </h3>
+<!--                                            <div style="margin-left: 2px;">-->
+<!--                                                <div class="up-arrow-year" ng-class="{'arrow-disable':documentReportCtrl.searchReport.dashboardYear == documentReportCtrl.currentYear}" ng-click="documentReportCtrl.clickArrow(0)">-->
+<!--                                                    &lt;!&ndash;                                &#9650;&ndash;&gt;-->
+<!--                                                </div>-->
+<!--                                                <div class="down-arrow-year" ng-click="documentReportCtrl.clickArrow(1)">-->
+<!--                                                    &lt;!&ndash;                                &#9660;&ndash;&gt;-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                        </div>
+                                        <div class="btn-group col-2">
+                                            <div class="form-group">
+                                                <button class="btn btn-small btn-primary" ng-click="onViewReportDetail()" ng-if="documentReportCtrl.lstData.length > 0">{{'REPORT.DETAILS' | translate}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <canvas id="lineChart" style="width: 100%;height: 360px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-none mt-3">
+                                <div class="card-body" style="position: relative;">
+                                    <div class="d-flex d-print-none col-10">
+                                        <h3 class="card-title" >{{'REPORT.DASHBOARD_STATUS_DOCUMENT' | translate}}
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <canvas id="pieChart" style="width: 100%;height: 360px;"></canvas>
+                                        <div id="pieChart_report_legend"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button id="renderDashboardChart" onclick="render_dashboard_Chart()" hidden></button>
+                        <button id="updateDashboardLineChart" onclick="updateLineChart()" hidden></button>
+                        <button id="updateDashboardPieChart" onclick="updatePieChart()" hidden></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xl-3">
+            <style>
+                li {
+                    list-style-type: none;
+                }
+                .label {
+                    margin-left: 15px;
+                    font-family: 'Source Sans Pro', sans-serif;
+                    color: #666666;
+                    font-size: 14px;
+                }
+
+                .legendValue {
+                    float: left;
+                }
+
+                .clear {
+                    clear: both
+                }
+            </style>
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <h3 class="card-title" >{{'REPORT.SEARCH_DOCUMENT' | translate}}</h3>
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="form-group mb-2" ng-if="loginUser.role_id == 1">
+                                    <label>{{'REPORT.SEARCH_AGENCY' | translate}}</label>
+                                    <select class="form-control" ng-change="onSearchReport()" ng-model="documentReportCtrl.searchReport.agency_id">
+                                        <option value="-1">{{'REPORT.ALL' | translate}}</option>
+                                        <option ng-repeat="agency in lstAgency" value="{{agency.id}}">{{agency.description | translate}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>{{'REPORT.SEARCH_COMPANY' | translate}}</label>
+                                    <select class="form-control" ng-change="searchReport" ng-model="documentReportCtrl.searchReport.company_id"  ng-disabled="documentReportCtrl.searchReport.agency_id == -1 || !documentReportCtrl.searchReport.agency_id">
+                                        <option value="-1">{{'REPORT.ALL' | translate}}</option>
+                                        <option ng-repeat="company in lstCompany[documentReportCtrl.searchReport.agency_id]" value="{{company.id}}">{{company.description | translate}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>{{'COMMON.FROM_DATE' | translate}}</label>
+                                    <div class="input-icon">
+                                        <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                               fp-on-setup="datePostSetup(fpItem)"
+                                               placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                               ng-model="documentReportCtrl.searchReport.start_date"
+                                               data-enabletime="false">
+                                        <span class="input-icon-addon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                     stroke="currentColor" fill="none" stroke-linecap="round"
+                                                     stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>{{'COMMON.TO_DATE' | translate}}</label>
+                                    <div class="input-icon">
+                                        <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                               fp-on-setup="datePostSetup(fpItem)"
+                                               placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                               ng-model="documentReportCtrl.searchReport.end_date"
+                                               data-enabletime="false">
+                                        <span class="input-icon-addon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                     stroke="currentColor" fill="none" stroke-linecap="round"
+                                                     stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="form-group">
+                                        <button class="btn btn-small btn-primary"
+                                                ng-click="onSearchDocument()" ng-model="documentReportCtrl.searchReport.company_id" \>{{'COMMON.SEARCH' | translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <h3 class="card-title m-1" >{{'REPORT.DOCUMENT_CLASSIFICATION' | translate}}</h3>
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(0)">
+                            <div class="card card-sm bg-info shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.totalDocument}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.TOTAL_DOC' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(1)" ng-if="documentReportCtrl.completeDocument">
+                            <div class="card card-sm bg-teal shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.completeDocument}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.COMPLETED' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(2)" ng-if="documentReportCtrl.inProcessDocument">
+                            <div class="card card-sm bg-warning shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.inProcessDocument}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.IN_PROCESS' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(3)" ng-if="documentReportCtrl.abortDocument">
+                            <div class="card card-sm bg-yellow shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.abortDocument}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.ABORT' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(4)" ng-if="documentReportCtrl.cancelDocument">
+                            <div class="card card-sm bg-secondary shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.cancelDocument}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.CANCEL' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(5)" ng-if="documentReportCtrl.overdueDocument">
+                            <div class="card card-sm bg-danger shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.overdueDocument}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.OVERDUE' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(6)" ng-if="documentReportCtrl.not_authorize">
+                            <div class="card card-sm bg-danger shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.not_authorize}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.NOT_AUTHORIZE' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-3 cursor-pointer" ng-click="searchByType(7)" ng-if="documentReportCtrl.verify_fail">
+                            <div class="card card-sm bg-danger shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                        <span class="text-white-50">
+                                            <?xml version="1.0" ?>
+                                            <svg class="icon icon-lg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="rgba(228, 228, 228,0.4)">
+                                            <g data-name="18. Bill" id="_18._Bill"><path d="M16,7h2a1,1,0,0,0,0-2H17a1,1,0,0,0-2,0v.18A3,3,0,0,0,16,11a1,1,0,0,1,0,2H14a1,1,0,0,0,0,2h1a1,1,0,0,0,2,0v-.18A3,3,0,0,0,16,9a1,1,0,0,1,0-2Z"/>
+                                            <path d="M31,24H28V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9a1,1,0,0,0,1,1H4V29a3,3,0,0,0,3,3H29a3,3,0,0,0,3-3V25A1,1,0,0,0,31,24ZM2,3A1,1,0,0,1,4,3V8H2ZM8,25v4a1,1,0,0,1-.31.71A.93.93,0,0,1,7,30a1,1,0,0,1-1-1V3a3,3,0,0,0-.18-1H25a1,1,0,0,1,1,1V24H9A1,1,0,0,0,8,25Zm22,4a1,1,0,0,1-.31.71A.93.93,0,0,1,29,30H9.83A3,3,0,0,0,10,29V26H30Z"/>
+                                            <path d="M17,19H9a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"/><path d="M23,19H21a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"/></g></svg>
+                                        </span>
+                                        </div>
+                                        <div class="col text-white">
+                                            <div class="text-h1 font-weight-bold value">
+                                                {{documentReportCtrl.verify_fail}}
+                                            </div>
+                                            <div>
+                                                {{'REPORT.VERIFY_FAIL' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="turnOverReportDetail" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="pointer-events:inherit;">
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title">{{'REPORT.DETAILS' | translate}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-content table-responsive" style="border-radius: 0px; border-top: 1px solid; border-bottom: 1px solid">
+                <table
+                    class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer"
+                    datatable="" dt-instance="documentReportCtrl.dtInstance"
+                    dt-options="documentReportCtrl.dtOptions" style="width:100%;" dt-columns="documentReportCtrl.dtColumns">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-list ms-auto">
+                    <a class="btn btn-secondary" data-bs-dismiss="modal" >{{"COMMON.CLOSE" |
+                        translate}}</a>
+                    <button type="button" class="btn btn-primary ms-auto" ng-click="export()">{{'REPORT.EXPORT' |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var getSuitableYReport = (y, yArray = [], direction) => {
+            let result = y;
+            yArray.forEach((existedY) => {
+                if (existedY - 16 < result && existedY + 16 > result) {
+                    if (direction === "right") {
+                        result = existedY + 16;
+                    } else {
+                        result = existedY - 16;
+                    }
+                }
+            });
+
+            return result;
+        };
+        var pieLabelsLine = {
+            id: "pieLabelsLine",
+            afterDraw: function(chart){
+                const ctx = chart.chart.ctx;
+                ctx.save();
+                ctx.font = "12px 'Averta Std CY'";
+                const leftLabelCoordinates = [];
+                const rightLabelCoordinates = [];
+                const chartCenterPoint = {
+                    x: (chart.chartArea.right - chart.chartArea.left) / 2 + chart.chartArea.left,
+                    y: (chart.chartArea.bottom - chart.chartArea.top) / 2 + chart.chartArea.top
+                };
+
+                chart.config.data.labels.forEach((label, i) => {
+                    const meta = chart.getDatasetMeta(0);
+                    const arc = meta.data[i];
+                    const dataset = chart.config.data.datasets[0];
+                    const sum = dataset.data.reduce((a, b) => a + b, 0);
+                    // Prepare data to draw
+                    // important point 1
+                    const centerPoint = arc.getCenterPoint();
+                    const model = arc._model;
+                    let color = model.backgroundColor;
+                    let labelColor = model.backgroundColor;
+
+                    const angle = Math.atan2(
+                        centerPoint.y - chartCenterPoint.y,
+                        centerPoint.x - chartCenterPoint.x
+                    );
+                    // important point 2, this point overlapsed with existed points
+                    // so we will reduce y by 14 if it's on the right
+                    // or add by 14 if it's on the left
+                    const point2X = chartCenterPoint.x + Math.cos(angle) * (model.outerRadius + 10);
+                    let point2Y = chartCenterPoint.y + Math.sin(angle) * (model.outerRadius + 10);
+
+                    let suitableY;
+                    if (point2X < chartCenterPoint.x) {
+                        // on the left
+                        suitableY = getSuitableYReport(point2Y, leftLabelCoordinates, "left");
+                    } else {
+                        // on the right
+
+                        suitableY = getSuitableYReport(point2Y, rightLabelCoordinates, "right");
+                    }
+
+                    point2Y = suitableY;
+
+                    let value = ((dataset.data[i] * 100) / sum).toFixed(2) + '%';
+                    if (dataset.polyline && dataset.polyline.formatter) {
+                        value = dataset.polyline.formatter(value);
+                    }
+                    let edgePointX = point2X < chartCenterPoint.x ? chart.width/5.5 : chart.width - (chart.width/5.5);
+
+                    if (point2X < chartCenterPoint.x) {
+                        leftLabelCoordinates.push(point2Y);
+                    } else {
+                        rightLabelCoordinates.push(point2Y);
+                    }
+                    //DRAW CODE
+                    // first line: connect between arc's center point and outside point
+                    if(dataset.data[i] > 0){
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(centerPoint.x, centerPoint.y);
+                        ctx.lineTo(point2X, point2Y);
+                        ctx.stroke();
+                        // second line: connect between outside point and chart's edge
+                        ctx.beginPath();
+                        ctx.moveTo(point2X, point2Y);
+                        ctx.lineTo(edgePointX, point2Y);
+                        ctx.stroke();
+                        //fill custom label
+                        const labelAlignStyle =
+                            edgePointX < chartCenterPoint.x ? "left" : "right";
+                        const labelX = edgePointX;
+                        const labelY = point2Y;
+                        ctx.textAlign = labelAlignStyle;
+                        ctx.textBaseline = "bottom";
+
+                        ctx.fillStyle = labelColor;
+                        ctx.fillText(value, labelX, labelY);
+                    }
+                });
+                ctx.restore();
+            }
+        }
+        var noDataLabels = {
+            id: "noDataLabels",
+            afterDraw: function (chart) {
+                if (chart.data.datasets[0].data.every(item => item === 0)) {
+                    let ctx = chart.chart.ctx;
+                    let width = chart.chart.width;
+                    let height = chart.chart.height;
+
+                    chart.clear();
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = "20px Arial";
+                    ctx.fillText('Không có dữ liệu để hiển thị', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }
+        }
+        var pieChart;
+        var lineChart;
+        function render_dashboard_Chart() {
+            var pieCtrl = document.getElementById('pieChart').getContext('2d');
+            var pieData=[], document_type_lable =[];
+            var pieData= angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().pieData;
+            var document_type_lable = angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().document_type_label;
+            if (pieData != undefined && pieData.length > 0) {
+               pieChart = new Chart(pieCtrl, {
+                   type: 'pie',
+                   plugins: [pieLabelsLine, noDataLabels],
+                   data: {
+                       labels: document_type_lable,
+                       datasets: [
+                           {
+                               backgroundColor: [
+                                   "rgba(116, 184, 22, 1)",
+                                   "rgba(242, 101, 62, 1)",
+                                   "rgba(66, 41, 19, 1)",
+                                   "rgba(241, 242, 62, 1)",
+                                   "rgba(183, 17, 5, 1)",
+                               ],
+                               hoverBackgroundColor: ["rgba(116, 184, 22, 0.6)", "rgba(242, 101, 62, 0.6)", "rgba(66, 41, 19, 1)", "rgba(241, 242, 62, 0.6)", "rgba(183, 17, 5, 0.6)"],
+                               borderColor: "#fff",
+                               borderCapStyle: 'butt',
+                               borderDashOffset: 0.0,
+                               borderJoinStyle: 'miter',
+                               data: pieData,
+                               polyline: {
+                                   formatter: (value) => `${value}`
+                               }
+                           }
+                       ]
+                   },
+                   options: {
+                       cutoutPercentage: 60,
+                       legend: false,
+                       legendCallback: function (chart) {
+                           var text = [];
+                           text.push('<ul class="' + chart.id + '-legend_url">');
+                           for (var i = 0; i < chart.data.labels.length; i++) {
+                               if (chart.data.labels[i] && chart.data.datasets[0].data[i] > 0) {
+                                   var bgColor = chart.data.datasets[0].backgroundColor[i] ? chart.data.datasets[0].backgroundColor[i] : '#6c757d';
+                                   text.push('<li><div class="legendValue"><span style="background-color:' + bgColor + '">&nbsp;&nbsp;&nbsp;</span>');
+                                   text.push('<span class="label">' + chart.data.labels[i] + '</span>');
+                                   text.push('</div></li><div class="clear"></div>');
+                               }
+                           }
+
+                           text.push('</ul>');
+                           return text.join('');
+                       },
+                       layout: {
+                           padding: 50
+                       },
+                       plugins: {
+                           datalabels: {
+                               display: false,
+                           }
+                       }
+                   }
+                   }
+
+               )
+            }
+
+
+            // console.log(document.getElementById('lineChart'));
+            var lineCtx = document.getElementById('lineChart').getContext('2d');
+            var lineData = [], lineCtx_label = [], lineLabels = "";
+            lineChart = null;
+
+            lineData = angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().lineData;
+            lineLabels = angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().lineLabels;
+            lineCtx_label = angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().lineCtx_label;
+            if (lineData != undefined && lineData.length > 0) {
+                lineChart = new Chart(lineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: lineCtx_label,
+                        datasets: [
+                            {
+                                label: lineLabels,
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: "rgba(116, 184, 22, 1)",
+                                borderColor: "rgba(116, 184, 22, 1)",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "rgba(116, 184, 22, 1)",
+                                pointBackgroundColor: "#fff",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "rgba(116, 184, 22, 1)",
+                                pointHoverBorderColor: "rgba(116, 184, 22, 1)",
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                cubicInterpolationMode: 'monotone',
+                                tension: 0.4,
+                                data: lineData,
+                                spanGaps: false,
+                            }
+                        ],
+                        options: {
+                            cutoutPercentage: 60,
+                            legend: false,
+                            legendCallback: function (chart) {
+                                var text = [];
+                                text.push('<ul class="' + chart.id + '-legend_url">');
+                                for (var i = 0; i < chart.data.labels.length; i++) {
+                                    if (chart.data.labels[i] && chart.data.datasets[0].data[i] > 0) {
+                                        var bgColor = chart.data.datasets[0].backgroundColor[i] ? chart.data.datasets[0].backgroundColor[i] : '#6c757d';
+                                        text.push('<li><div class="legendValue"><span style="background-color:' + bgColor + '">&nbsp;&nbsp;&nbsp;</span>');
+                                        text.push('<span class="label">' + chart.data.labels[i] + '</span>');
+                                        text.push('</div></li><div class="clear"></div>');
+                                    }
+                                }
+
+                                text.push('</ul>');
+                                return text.join('');
+                            },
+                            layout: {
+                                padding: 50
+                            },
+                            plugins: {
+                                datalabels: {
+                                    display: false,
+                                }
+                            }
+                        }
+                    }
+                })
+
+            }
+            $('#pieChart_report_legend').html(pieChart.generateLegend());
+        }
+
+        function updateLineChart () {
+            var lineData;
+            lineData = angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().lineData;
+            lineChart.config.data.datasets[0].data = lineData;
+            lineChart.update();
+        }
+        function updatePieChart()
+        {
+            var pieData;
+            pieData = angular.element(document.querySelector('[ng-controller="DocumentReportCtrl as documentReportCtrl"]')).scope().pieData;
+            pieChart.config.data.datasets[0].data = pieData;
+            console.log(pieChart, pieData)
+            pieChart.update();
+        }
+    </script>
+</div>
