@@ -1,0 +1,121 @@
+<div class="container-xl" ng-controller="DetailPermissionCtrl as detailPermissionCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{'CONFIG.PERMISSION.UPDATE_PERMISSION' | translate}}
+                </h2>
+            </div>
+            <div class="col-auto ms-auto d-print-none">
+            </div>
+        </div>
+    </div>
+    <form ng-submit="detailPermissionCtrl.onSavePermission(0)" role="form">
+        <div class="row align-content-center">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label required">{{'CONFIG.PERMISSION.PERMISSION_NAME' | translate}}</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" ng-model="detailPermissionCtrl.editPermission.role_name" type="text" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label">{{'COMMON.NOTE' | translate}}</label>
+                            <div class="col-lg-10">
+                                <textarea class="form-control autosize" cols="20" ng-model="detailPermissionCtrl.editPermission.note" maxlength="255"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label pt-0">{{'CONFIG.PERMISSION.PERMISSION_DETAIL' | translate}}</label>
+                            <div class="col-lg-10">
+                                <div class="card">
+                                    <div id="tableRoleGroupContainer" class="table-responsive">
+                                        <table id="tableRoleGroup"
+                                            class="table card-table table-striped table-vcenter text-nowrap datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center w-5">
+                                                        <input type="checkbox" id="checkAllRole" class="form-check-input m-0 align-middle" ng-model="detailPermissionCtrl.selectAll" ng-change="detailPermissionCtrl.toggleAll(detailPermissionCtrl.selectAll, detailPermissionCtrl.selected)">
+                                                    </th>
+                                                    <th class="text-left" style="width:216px;">{{'CONFIG.PERMISSION.PERMISSION_FUNCTION' | translate}}</th>
+                                                    <th class="text-center w-5">{{'CONFIG.PERMISSION.PERMISSION_ONLY_VIEW' | translate}}</th>
+                                                    <th class="text-center w-5">{{'CONFIG.PERMISSION.PERMISSION_INTERACT' | translate}}</th>
+                                                    <th class="text-center w-5">{{'CONFIG.PERMISSION.PERMISSION_APPROVE' | translate}}</th>
+                                                    <th class="text-center w-5">{{'CONFIG.PERMISSION.PERMISSION_SIGN' | translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                <tr></tr>
+                                                <tr ng-repeat-start="groupPermission in detailPermissionCtrl.lstPermission">
+                                                    <td class="text-center">
+                                                        <input type="checkbox"
+                                                            class="form-check-input m-0 align-middle tdChkParent" ng-model="detailPermissionCtrl.selected[groupPermission.permission]" ng-change="detailPermissionCtrl.toggleOne(detailPermissionCtrl.selected, groupPermission.permission)">
+                                                    </td>
+                                                    <td><b class="text-primary">{{groupPermission.note}}</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr ng-repeat="permission in groupPermission.lstChildPermission track by $index">
+                                                    <td class="colstt text-center">{{$index + 1}}</td>
+                                                    <td>
+                                                        {{permission.note}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input m-0 align-middle" type="checkbox" ng-model="detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_view" ng-if="permission.is_view == 1" ng-disabled="detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_write == 1">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input m-0 align-middle" type="checkbox" ng-model="detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_write" ng-if="permission.is_write == 1" ng-change="detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_write == 1 ? detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_view = true : false">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input m-0 align-middle" type="checkbox" ng-model="detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_approval" ng-if="permission.is_approval == 1">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input m-0 align-middle" type="checkbox" ng-model="detailPermissionCtrl.editPermission.lstPermission[permission.permission].is_decision" ng-if="permission.is_decision == 1">
+                                                    </td>
+                                                </tr>
+                                                <tr></tr>
+                                                <tr ng-repeat-end></tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <label class="form-label col-md-2 col-form-label font-weight-normal"></label>
+                            <div class="col-md-10">
+                                <label class="form-check">
+                                    <input class="form-check-input" ng-model="detailPermissionCtrl.editPermission.status" type="checkbox">
+                                    <span class="form-check-label">{{'CONFIG.PERMISSION.PERMISSION_USING' | translate}}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col">
+                                <a class="btn btn-secondary" ng-click="detailPermissionCtrl.goBackPermission()">
+                                    {{'COMMON.CLOSE' | translate}}
+                                </a>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <div class="btn-list">
+                                    <button type="button" class="btn btn-outline-primary btn-outline-primary-customer" ng-click="detailPermissionCtrl.onSavePermission(1)">
+                                        {{'COMMON.SAVE_AND_ADD' | translate}}
+                                    </button>
+                                    <button type="button" class="btn btn-primary" ng-click="detailPermissionCtrl.onSavePermission(0)">
+                                        {{'COMMON.SAVE' | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

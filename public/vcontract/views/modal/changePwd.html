@@ -1,0 +1,67 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Thay đổi mật khẩu</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onChangePwd()">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">Mật khẩu cũ</label>
+                <div class="col-md-9">
+                    <input type="password" class="form-control" ng-model="changePwd.old" maxlength="50">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">Mật khẩu mới</label>
+                <div class="col-md-9">
+                    <div class="input-group input-group-flat">
+                        <input id="password" type="password" class="form-control" ng-model="changePwd.new" maxlength="50">
+                        <span class="input-group-text">
+                            <a href="" ng-click="generateRandomPassword(editUser)" class="link-secondary" title="" data-bs-toggle="tooltip" data-bs-original-title="Tạo ngẫu nhiên">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3"></path><path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6"></path><path d="M12 11v2a14 14 0 0 0 2.5 8"></path><path d="M8 15a18 18 0 0 0 1.8 6"></path><path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95"></path></svg>
+                            </a>
+                            <a href="" id="showPass" onclick="togglePassword()" class="link-secondary ms-2" title="" data-bs-toggle="tooltip" title="Hiển thị">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
+                            </a>
+                        </span>
+                    </div>
+                    <small class="form-hint">Tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt</small>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">Nhắc lại mật khẩu</label>
+                <div class="col-md-9">
+                    <input id="password_confirm" type="password" class="form-control" ng-model="changePwd.confirm" maxlength="50">
+                    <small class="form-hint">Nhập giá trị giống ô mật khẩu mới</small>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a class="btn btn-white" ng-click="cancel()">
+            Đóng
+        </a>
+        <button type="button" class="btn btn-primary ms-auto" ng-click="onChangePwd()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"></path><circle cx="12" cy="14" r="2"></circle><polyline points="14 4 14 8 8 8 8 4"></polyline></svg>
+            Ghi
+        </button>
+    </div>
+</div>
+
+<script>
+    function togglePassword(){
+        var a = document.getElementById("password");
+        var b = document.getElementById("password_confirm");
+        var c = document.getElementById("showPass");
+        if(a.getAttribute("type") == "password"){
+            a.setAttribute("type", "text");
+            b.setAttribute("type", "text");
+            c.setAttribute("title", "Ẩn");
+        } else {
+            a.setAttribute("type", "password");
+            b.setAttribute("type", "password");
+            c.setAttribute("title", "Hiển thị");
+        }
+    }
+</script>
+

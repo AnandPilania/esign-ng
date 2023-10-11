@@ -1,0 +1,921 @@
+<style>
+    @-webkit-keyframes movingTab {
+        0% {
+            transform: translateX(0%);
+        }
+
+        50% {
+            transform: translateX(-10%);
+        }
+
+        100% {
+            transform: translateX(0%);
+        }
+    }
+
+    @keyframes movingTab {
+        0% {
+            transform: translateX(0%);
+        }
+
+        50% {
+            transform: translateX(-10%);
+        }
+
+        100% {
+            transform: translateX(0%);
+        }
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tabs {
+        width: 95%;
+        margin: auto;
+    }
+
+    .tabs .tabs--list {
+        display: block;
+        margin: auto;
+        position: relative;
+        background-color: #e9e9e9;
+        border-radius: 8px;
+    }
+
+    .tabs .tabs--list li {
+        display: inline-block;
+        vertical-align: middle;
+        width: 32%;
+        position: relative;
+        z-index: 2;
+    }
+
+    .tabs .tabs--list li a {
+        text-decoration: none;
+        display: block;
+        padding: 15px 0 19px;
+        font-size: 18px;
+        line-height: 26px;
+        color: #636363;
+        transition: color ease 0.7s, box-shadow 0.5s;
+        text-align: center;
+    }
+
+    .tabs .tabs--list li a.actived {
+        color: #fff;
+    }
+
+    .tabs .tabs--list li a.actived:hover {
+        box-shadow: none;
+    }
+
+    .tabs .tabs--list li a:hover {
+        box-shadow: 0 24px 18px -15px rgba(0, 0, 0, 0.09);
+    }
+
+    .tabs .tabs--list li.moving-tab {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 110%;
+        top: -5%;
+        background-color: #3c5394;
+        box-shadow: 0 24px 18px -15px rgba(8, 105, 240, 0.45);
+        transition: left 0.7s, box-shadow 0.5s;
+        z-index: 1;
+        border-radius: 8px;
+    }
+
+    .tabs .tabs--list li.moving-tab:hover {
+        box-shadow: 0 24px 18px -15px rgba(117, 60, 148, 0.65);
+    }
+
+    .tabs .tabs--list li.moving-tab--interaction {
+        animation: movingTab 0.4s forwards;
+        transition: left 0.4s cubic-bezier(0.29, 1.42, 0.79, 1);
+    }
+
+    .tabs .tabs--content {
+        text-align: left;
+        padding: 15px 10px;
+    }
+
+    .tabs .tabs--content li {
+        display: none;
+    }
+
+    .tabs .tabs--content li.actived {
+        display: block;
+    }
+
+    .preview {
+        display: flex;
+        width: 250px;
+        height: 150px;
+        margin: 20px auto;
+        border: 2px solid #3c5394;
+        overflow: hidden;
+        justify-content: center;
+    }
+
+    .preview img {
+        /*width: 100%;*/
+        height: 100%;
+    }
+
+
+    .file-upload-wrapper {
+        position: relative;
+        text-align: center;
+        z-index: 5;
+        display: block;
+        width: 250px;
+        height: 30px;
+        margin: 5px auto;
+        border-right: 2px dotted #3c5394;
+        border-bottom: 2px dotted #3c5394;
+        border-left: 2px dotted #3c5394;
+    }
+
+    .input-text-wrapper {
+        position: relative;
+        text-align: center;
+        z-index: 5;
+        display: block;
+        width: 80%;
+        height: 150px;
+        margin: 30px auto;
+        padding-top: 40px;
+        border: 2px solid #3c5394;
+        border-radius: 6px;
+    }
+
+    .file-upload-native,
+    .file-upload-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        cursor: pointer;
+    }
+
+    .file-upload-native:focus,
+    .file-upload-text:focus {
+        outline: none;
+    }
+
+    .file-upload-native {
+        z-index: 15;
+        opacity: 0;
+    }
+
+    .label-log-null {
+        width: 150px;
+        height: 35px;
+        text-align: center;
+        border: 2px dotted rgb(255, 255, 255);
+        padding: 2px;
+    }
+
+    input {
+        width: 250px;
+        height: 32px;
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        box-sizing: border-box;
+    }
+
+    .examples {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .example {
+        flex-shrink: 0;
+        border: 2px solid #3c5394;
+        border-radius: 6px;
+        height: 150px;
+        width: 48%;
+        margin: 1%;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    .square .clr-field button,
+    .circle .clr-field button {
+        width: 22px;
+        height: 22px;
+        left: 5px;
+        right: auto;
+        border-radius: 5px;
+    }
+
+    .square .clr-field input,
+    .circle .clr-field input {
+        padding-left: 36px;
+    }
+
+    .circle .clr-field button {
+        border-radius: 50%;
+    }
+
+    .full .clr-field button {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }
+
+    .table-color {
+        border:2px solid #3c5394;
+        border-radius: 8px;
+        top: 100px;
+        width: 70%;
+        min-height: 200px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .table-color label {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin: 12px 12px 12px 12px;
+        border: 2px solid #2b2828;
+        border-radius: 50%;
+        color: inherit;
+        text-indent: -1000px;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .table-color input:checked+label{
+        border: 5px solid #000000;
+        width: 54px;
+        height: 54px;
+        margin: 10px 10px 10px 10px;
+    }
+
+    .table-color input:checked+label path{
+        fill: rgb(255, 255, 255);
+    }
+
+    .fa-web-icon {
+        border-right: 2px solid #686b76;
+        border-left: 2px solid #686b76;
+        border-top: 2px solid #686b76;
+        margin-bottom: 0;
+        border-radius: 6px;
+        height: 40px;
+        width: 250px;
+    }
+
+
+    @media (min-width: 992px) {
+        .img-logo {
+            height: 48px;
+        }
+
+        .bg-siginin-right {
+            width: 50%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: 0;
+        }
+
+        .bg-siginin-left {
+            width: 50%;
+            position: absolute;
+            background-color: rgb(249, 245, 244);
+            top: 0;
+            left: 0;
+            bottom: 0;
+            margin: 0;
+        }
+
+        .card-login-v {
+            position: absolute;
+            width: 70%;
+            top: 15%;
+            right: 12%;
+        }
+
+        .input-field-v {
+            margin-top: 0.3em;
+            width: 65%;
+            margin: auto;
+        }
+
+        .input-field-v label {
+            margin-left: 0.3em;
+        }
+
+        .card-login-v input {
+            height: 1.8em;
+            margin-bottom: 0.6em;
+            border-radius: 0.3em;
+        }
+
+        .card-login-v button {
+            height: 1.5em;
+            width: 70%;
+            color: rgb(255, 255, 255);
+            margin-bottom: 0.3em;
+            border-radius: 0.2em;
+            font-size: 1em;
+            border: 0;
+        }
+
+        #logo-sign-v {
+            margin-top: 7%;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .img-logo {
+            height: 34px;
+        }
+
+        #logo-sign-v {
+            width: 30%;
+            height: 50%;
+            position: fixed;
+            top: 1%;
+        }
+
+        .bg-siginin-right {
+            width: 100%;
+            position: absolute;
+            top: 40%;
+            right: 0;
+            margin: 0;
+            z-index: 10;
+        }
+
+        .input-field-v {
+            margin-top: 1em;
+            width: 100%;
+            margin: auto;
+        }
+
+        .input-field-v label {
+            margin-left: 1em;
+        }
+
+        .card-login-v input {
+            height: 3.5em;
+            margin-bottom: 1em;
+            border-radius: 0.7em;
+        }
+
+        .card-login-v button {
+            height: 2.5em;
+            width: 90%;
+            color: rgb(255, 255, 255);
+            margin-bottom: 3em;
+            border-radius: 2em;
+            font-size: 1.2em;
+            border: 0;
+        }
+
+        .bg-siginin-left {
+            width: 100%;
+            position: absolute;
+            background-color: rgb(249, 245, 244);
+            height: 50vh;
+            top: -8vh;
+            left: 0;
+            margin: 0;
+            z-index: 1;
+        }
+
+    }
+
+    @media (max-width: 991.98px) {
+        .img-logo {
+            height: 34px;
+        }
+
+        #logo-sign-v {
+            width: 30%;
+            height: 50%;
+            position: fixed;
+            top: 1%;
+            left: 2%;
+        }
+
+        .bg-siginin-right {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin: 0;
+            z-index: 10;
+        }
+
+        .input-field-v {
+            margin-top: 1em;
+            width: 100%;
+            margin: auto;
+        }
+
+        .input-field-v label {
+            margin-left: 1em;
+        }
+
+        .card-login-v input {
+            height: 3.5em;
+            margin-bottom: 1em;
+            border-radius: 0.7em;
+        }
+
+        .card-login-v button {
+            height: 2.5em;
+            width: 90%;
+            color: rgb(255, 255, 255);
+            margin-bottom: 3em;
+            border-radius: 2em;
+            font-size: 1.2em;
+            border: 0;
+        }
+
+        .bg-siginin-left {
+            width: 100%;
+            position: absolute;
+            background-color: rgb(249, 245, 244);
+            height: 50vh;
+            top: 0;
+            left: 0;
+            margin: 0;
+            z-index: 1;
+        }
+
+    }
+</style>
+<div class="modal-content" id="updateConfigCompany">
+    <div class="modal-header">
+        <h5 class="modal-title" >{{'CONFIG.CONFIG_COMPANY.UPDATE' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onUpdateConfigCompany()" enctype="multipart/form-data">
+            <div class="form-group mb-3 row">
+                <div class="col-6">
+                    <!-- <div class="d-flex flex-column flex-md-row flex-fill align-items-center  justify-content-center" ng-if="tab == 1">
+                        <div class="fa-web-icon">
+                            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal">
+                                <img ng-src="{{preViewConfigCompany.fa_icon}}"  class="navbar-brand-image mr-2">
+                                <span>{{preViewConfigCompany.name_app}}</span>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="card shadow-none" style="border-radius: 0px;" ng-if="tab == 1">
+                        <div class="card-body" style="position: relative;">
+                            <div class="row" style=" height: 70vh;
+                                        background: url('{{preViewConfigCompany.logo_background}}') no-repeat;
+                                        -webkit-background-size: cover;
+                                        -moz-background-size: cover;
+                                        -o-background-size: cover;
+                                        background-size: cover;">
+                                <div class="container-tight py-6">
+                                    <div class="text-center mb-4 mt-3">
+                                        <a href="./"><img ng-src="{{preViewConfigCompany.logo_login}}" height="68"
+                                                alt=""></a>
+                                    </div>
+                                    <form>
+                                        <div class="card card-md shadow border-0">
+                                            <div class="card-body">
+                                                <h2 class="card-title text-center mb-4 font-weight-bold text-uppercase">
+                                                    Đăng nhập hệ
+                                                    thống</h2>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Email đăng nhập</label>
+                                                    <input type="text" class="form-control" readonly>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label">Mật khẩu</label>
+                                                    <div class="input-group input-group-flat">
+                                                        <input type="password" class="form-control" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-footer">
+                                                    <button type="button" class="btn w-100 btn-login-layout">Thực hiện
+                                                        đăng nhập</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="card shadow-none" style="border-radius: 0px;" ng-if="tab == 1 || tab == 3">
+                        <div id="card-test-header" class="card-header" style="background: {{preViewConfigCompany.theme_header_color}}; color: {{preViewConfigCompany.text_color}}">
+                            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-lg-5">
+                                <img ng-src="{{preViewConfigCompany.logo_dashboard}}" alt="vContracts"
+                                    class="navbar-brand-image" ng-if="preViewConfigCompany.logo_dashboard">
+                                <label class="label-log-null" ng-if="!preViewConfigCompany.logo_dashboard">Logo</label>
+                            </h1>
+                        </div>
+                        <div class="card-body" style="position: relative;">
+                            <div class="row" style="height: 50vh;">
+                                <div class="container-xl">
+                                    <div class="d-flex flex-column flex-md-row flex-fill align-items-center align-items-md-center">
+                                        <div id="steps" class="steps steps-counter ">
+                                            <span class="step-item">
+                                            </span>
+                                            <span class="step-item">
+                                            </span>
+                                            <span class="step-item active">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row flex-fill align-items-center mt-5 justify-content-center ">
+                                        <div class="img-loading text-center">
+                                            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-lg-">
+                                                <img ng-src="{{preViewConfigCompany.loading}}"  class="navbar-brand-image">
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="card-test-footer" class="card-footer " style="height: 60px!important; background: {{preViewConfigCompany.theme_footer_color}}; color: {{preViewConfigCompany.text_color}}">
+                            <label class="label-log-null">{{preViewConfigCompany.name_app}}</label>
+                        </div>
+                    </div>
+                    <div class="card shadow-none" style="border-radius: 0px; top: 10vh;" ng-if="tab == 2">
+                        <div class="card-body" style="position: relative;">
+                            <div class="row" style="height: 50vh;">
+                                <div class="authentication">
+                                    <div class="bg-siginin-right">
+                                        <div id="form-signin-v" class="container-tight py-6 ">
+                                            <form>
+                                                <div>
+                                                    <div class="card-login-v">
+                                                        <h1 class="text-center mb-4 font-weight-bold"
+                                                            style="font-size:1.2em ;">Truy cập <span
+                                                                class="text-{{themeConfig.color}}">hệ thống</span></h1>
+                                                        <div style="border-bottom: 2px solid rgb(211, 211, 211);">
+
+                                                            <div class="mb-3 input-field-v">
+                                                                <label class="form-label">Email đăng nhập</label>
+                                                                <input type="text"
+                                                                    class="form-control transparent-input shadow"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="mb-2 input-field-v">
+                                                                <label class="form-label">Mã truy cập</label>
+                                                                <input type="password" class="form-control shadow"
+                                                                    readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-footer" align="center">
+                                                            <button type="button"
+                                                                class="shadow btn-sign-login">Thực hiện truy
+                                                                cập</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="bg-siginin-left" align="center" style="
+                                        background-image: url('/images/{{preViewConfigCompany.logo_sign}}-bgLogin.png');
+                                        background-size: cover;
+                                        -webkit-background-size: cover;
+                                        -moz-background-size: cover;
+                                        -o-background-size: cover;
+                                        background-position: center;
+                                        background-repeat: no-repeat;
+                                        ">
+                                        <div id="logo-sign-v" class="container-tight text-center mb-4 col-5">
+                                            <a href="#"><img class="img-logo " ng-src="{{preViewConfigCompany.logo_login}}"
+                                                    alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 ">
+                    <div class="tabs">
+                        <ul class="tabs--list">
+
+                            <li>
+                                <a href="javascript:;" title="TABS 1" data-content="tabs1"  class="actived" ng-click="changeTab(1)">Trang chủ</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" title="TABS 2" data-content="tabs2" ng-click="changeTab(2)">Trang ký ngoài</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" title="TABS 3" data-content="tabs3" ng-click="changeTab(3);">Config hệ thống</a>
+                            </li>
+                            <li class="moving-tab moving-tab--interaction"></li>
+                        </ul>
+                        <ul class="tabs--content">
+                            <li data-content="tabs1"  class="actived">
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <div class="preview img-wrapper">
+                                            <img  ng-src="{{preViewConfigCompany.logo_dashboard}}">
+                                        </div>
+                                        <div class="file-upload-wrapper">
+                                            <label for="upload_logo_dashboard">logo_dashboard</label>
+                                            <input type="file" id="upload_logo_dashboard"
+                                                onchange="angular.element(this).scope().setFile(this,4)"
+                                                class="file-upload-native" accept="image/*" />
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="preview img-wrapper">
+                                            <img  ng-src="{{preViewConfigCompany.loading}}">
+                                        </div>
+                                        <div class="file-upload-wrapper">
+                                            <label for="upload_loading">loading</label>
+                                            <input type="file" id="upload_loading"
+                                                onchange="angular.element(this).scope().setFile(this,3)"
+                                                class="file-upload-native" accept="image/*" />
+                                        </div>
+                                    </div>
+                                    <div class="mt-3" style="width: 100%; position: relative;">
+                                        <div class="examples">
+                                            <div class="example square">
+                                                <p>Theme header</p>
+                                                <input type="text" class="coloris instance1 theme-header-color"
+                                                    ng-model="preViewConfigCompany.theme_header_color">
+                                            </div>
+                                            <div class="example square">
+                                                <p>Theme footer</p>
+                                                <input type="text" class="coloris instance1 theme-footer-color"
+                                                    ng-model="preViewConfigCompany.theme_footer_color">
+                                            </div>
+                                            <div class="example square">
+                                                <p>Text</p>
+                                                <input type="text" class="coloris instance1 text-color"
+                                                    ng-model="preViewConfigCompany.text_color">
+                                            </div>
+                                            <div class="example square">
+                                                <p>Step</p>
+                                                <input type="text" class="coloris instance2 step-color"
+                                                    ng-model="preViewConfigCompany.step_color">
+                                            </div>
+                                            <div class="example">
+                                                <p>App Name</p>
+                                                <input type="text" ng-model="preViewConfigCompany.name_app"
+                                                    class="form-group" style="width: 80%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li data-content="tabs2">
+                                <div class="row">
+                                    <div class="table-color">
+                                        <div style="line-height: 20px;">
+                                            <span class="font-weight-bold">Theme color</span>
+                                        </div>
+                                        <div style="width: 100%;">
+                                            <input type="radio" name="color" id="bg-sign-blue" value="blue" hidden>
+                                            <label for="bg-sign-blue" style="background-color:blue;"></label>
+                                            <input type="radio" name="color" id="bg-sign-azure" value="azure" hidden>
+                                            <label for="bg-sign-azure" style="background-color:azure ;"></label>
+                                            <input type="radio" name="color" id="bg-sign-indigo" value="indigo" hidden>
+                                            <label for="bg-sign-indigo" style="background-color:indigo ;"></label>
+                                            <input type="radio" name="color" id="bg-sign-purple" value="purple" hidden>
+                                            <label for="bg-sign-purple" style="background-color:purple ;"></label>
+                                            <input type="radio" name="color" id="bg-sign-pink" value="pink" hidden>
+                                            <label for="bg-sign-pink" style="background-color:pink ;"></label>
+                                            <input type="radio" name="color" id="bg-sign-red" value="red" hidden>
+                                            <label for="bg-sign-red" style="background-color: red;"></label>
+                                            <input type="radio" name="color" id="bg-sign-orange" value="orange" hidden>
+                                            <label for="bg-sign-orange" style="background-color:orange ;"></label>
+                                            <input type="radio" name="color" id="bg-sign-yellow" value="yellow" hidden>
+                                            <label for="bg-sign-yellow" style="background-color: yellow;"></label>
+                                            <input type="radio" name="color" id="bg-sign-lime" value="lime" hidden>
+                                            <label for="bg-sign-lime" style="background-color: lime;"></label>
+                                            <input type="radio" name="color" id="bg-sign-green" value="green" hidden>
+                                            <label for="bg-sign-green" style="background-color: green;"></label>
+                                            <input type="radio" name="color" id="bg-sign-teal" value="teal" hidden>
+                                            <label for="bg-sign-teal" style="background-color: teal;"></label>
+                                            <input type="radio" name="color" id="bg-sign-cyan"  value="cyan" hidden>
+                                            <label for="bg-sign-cyan" style="background-color:cyan ;"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="preview img-wrapper">
+                                            <img  ng-src="{{preViewConfigCompany.logo_login}}">
+                                        </div>
+                                        <div class="file-upload-wrapper">
+                                            <label for="upload_logo_login">Logo</label>
+                                            <input type="file" id="upload_logo_login"
+                                                onchange="angular.element(this).scope().setFile(this,0)"
+                                                class="file-upload-native" accept="image/*" />
+                                        </div>
+                                    </div>
+<!--                                    <div class="col-6">-->
+<!--                                        <div class="preview img-wrapper">-->
+<!--                                            <img ng-src="{{preViewConfigCompany.logo_background}}">-->
+<!--                                        </div>-->
+<!--                                        <div class="file-upload-wrapper">-->
+<!--                                            <label for="upload_logo_background">logo_background</label>-->
+<!--                                            <input type="file" id="upload_logo_background"-->
+<!--                                                onchange="angular.element(this).scope().setFile(this,1)"-->
+<!--                                                class="file-upload-native" accept="image/*" />-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                </div>
+                            </li>
+                            <li data-content="tabs3">
+                                <div class="row ">
+                                    <form>
+                                        <div class="form-group mb-3 row">
+                                            <label
+                                                class="form-label col-md-4 col-form-label font-weight-normal">Size file Upload (mb):</label>
+                                            <div class="col-md-6">
+                                                <input class="form-control" ng-model="preViewConfigCompany.file_size_upload" type="number">
+                                            </div>
+                                            <label class="col-md-2"></label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-secondary" on-click="onResetDefault()">
+                {{'CONFIG.CONFIG_COMPANY.RESET' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="onUpdateConfigCompany()">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var colors = angular.element(document.getElementById("updateConfigCompany")).scope().preViewConfigCompany;
+        $('.theme-header-color').val(colors.theme_header_color);
+        $('.theme-footer-color').val(colors.theme_footer_color);
+        $('.step-color').val(colors.step_color);
+        $('.text-color').val(colors.text_color);
+
+    var init = function () {
+        colors.theme_header_color = $('.theme-header-color').val();
+        colors.theme_footer_color = $('.theme-footer-color').val();
+        colors.step_color = $('.step-color').val();
+        colors.text_color = $('.text-color').val();
+        if($("input[type='radio'][name='color']:checked").val()){
+            colors.logo_sign = $("input[type='radio'][name='color']:checked").val();
+        }
+        $('#card-test-header').css({
+            backgroundColor:  colors.theme_color,
+            color : colors.text_color
+        });
+        $('#card-test-footer').css({
+            backgroundColor:  colors.theme_color,
+            color : colors.text_color
+        });
+        $(".btn-login-layout").addClass("bg-"+ colors.theme_color);
+        $(".bg-siginin-left").css({
+            backgroundImage: "url('/images/"+ colors.logo_sign +"-bgLogin.png')"
+        });
+        $(".btn-sign-login").css({
+            backgroundColor: colors.logo_sign
+        });
+        $("#steps").addClass("steps steps-" + colors.step_color + " steps-counter");
+    }
+
+    var onResetDefault = function() {
+        colors.theme_color = "#206bc4";
+        colors.step_color = "yellow";
+        colors.text_color = "white";
+        colors.name_app = "Fcontract";
+        colors.logo_sign = "blue";
+        colors.logo_login = "images/fcontract-logo.png";
+        colors.logo_background = "images/bg-white-login.png";
+        colors.fa_icon = "fcontract-favicon.png";
+        colors.loading = "images/loading.jpg";
+        colors.logo_dashboard = "images/fcontract-dashboard.png";
+        init();
+    }
+
+    var tabs = $('.tabs'),
+        tabsLists = $('.tabs ul.tabs--list li');
+    tabs.each(function () {
+        var tab = $(this),
+            tabItems = tab.find('ul.tabs--list'),
+            tabContentWrapper = tab.children('ul.tabs--content');
+
+        tabItems.on('click', 'a', function (event) {
+            event.preventDefault();
+            var activedItem = $(this);
+            if (!activedItem.hasClass('actived')) {
+                var activedTab = activedItem.data('content'),
+                    activedContent = tabContentWrapper.find('li[data-content="' + activedTab + '"]');
+
+                tabItems.find('a.actived').removeClass('actived');
+                activedItem.addClass('actived');
+                activedContent.addClass('actived').siblings('li').removeClass('actived');
+            }
+        });
+    });
+
+    tabsLists.click(function (e) {
+        if ($(this).hasClass('moving-tab')) {
+            return;
+        }
+        var whatTab = $(this).index();
+        var howFar = 34 * whatTab;
+        $(".moving-tab").css({
+            left: howFar + "%"
+        });
+        init();
+    });
+
+    Coloris({
+        el: '.coloris',
+        swatches: [
+            '#206bc4',
+            '#ae3ec9',
+            '#d6336c',
+            '#ed1a36',
+            '#f59f00',
+            '#74b816',
+            '#0ca678',
+            '#17a2b8',
+            '#f4f6fa',
+            '#232e3c',
+        ]
+    });
+
+    /** Instances **/
+
+    Coloris.setInstance('.instance1', {
+        theme: 'pill',
+        themeMode: 'dark',
+        formatToggle: true,
+        swatches: [
+            '#206bc4',
+            '#ae3ec9',
+            '#d6336c',
+            '#ed1a36',
+            '#74b816',
+            '#0ca678'
+        ]
+    });
+
+    Coloris.setInstance('.instance2', {
+        theme: 'polaroid',
+        format: 'color',
+        swatchesOnly: true
+    });
+
+    $('.theme-header-color').on('change', function () {
+        init();
+    })
+    $('.theme-footer-color').on('change', function () {
+        init();
+    })
+    $('.text-color').on('change', function () {
+        init();
+    })
+    $('.step-color').on('change', function () {
+        $("#steps").removeClass();
+        init();
+    })
+    $("input[type='radio'][name='color']").on('change', function () {
+        init();
+    });
+    init();
+</script>

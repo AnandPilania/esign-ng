@@ -1,0 +1,515 @@
+<div class="container-fluid" style="padding: 0" ng-controller="DetailDocumentSampleCtrl as detailDocumentSampleCtrl">
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <div class="navbar-expand-md">
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <div class="navbar navbar-light">
+                        <div class="container-xl">
+                            <label class="form-label font-weight-bold mt-auto mb-auto">{{'DOCUMENT.DESIGN_DOCUMENT'
+                            |
+                            translate}}: {{detailDocumentSampleCtrl.sampleDocument.name}}</label>
+                            <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                                <div class="pageTool">
+                                    <div class="btn-group w-100">
+                                        <div class="col-auto ms-auto" style="margin: 0 5px 0 0;" id="scale">
+                                            <select class="form-select" ng-change="onChangeScale()" ng-model="scale">
+                                            <option ng-repeat="scale in lstScale |limitTo:1" value="{{scale.value}}">{{scale.description}}</option>
+                                            </select>
+                                        </div>
+                                        <a href="javascript:void(0)" class="btn btn-white btn-icon"
+                                           aria-label="Button" id="prev">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor" fill="none" stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M21 5v14l-8 -7z"></path>
+                                                <path d="M10 5v14l-8 -7z"></path>
+                                            </svg>
+                                        </a>
+                                        <div class="btn btn-white btn-icon">
+                                            <label>{{'DOCUMENT.PAGE' | translate}}:</label>
+                                            &nbsp;<span id="page-num">1</span>&nbsp;/&nbsp;<span
+                                            id="total-page"></span>
+                                        </div>
+                                        <a href="javascript:void(0)" class="btn btn-white btn-icon"
+                                           aria-label="Button" id="next">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor" fill="none" stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M3 5v14l8 -7z"></path>
+                                                <path d="M14 5v14l8 -7z"></path>
+                                            </svg>
+                                        </a>
+                                        <div class="btn-list" style="padding-left: 20px">
+                                            <button type="button" class="btn btn-primary" ng-click="detailDocumentSampleCtrl.onSaveSampleDocument()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                     viewBox="0 0 58 58" stroke-width="2" stroke="currentColor" fill="currentColor"
+                                                     stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M39.914,0H37.5h-28h-9v49h7h33h8V8.586L39.914,0z M35.5,2v14h-24V2H35.5z M9.5,47V28h29v19H9.5z M46.5,47h-6V26h-33v21h-5 V2h7v16h28V2h1.586L46.5,9.414V47z"/>
+                                                    <path
+                                                        d="M13.5,33h7c0.553,0,1-0.447,1-1s-0.447-1-1-1h-7c-0.553,0-1,0.447-1,1S12.947,33,13.5,33z"/>
+                                                    <path
+                                                        d="M23.5,35h-10c-0.553,0-1,0.447-1,1s0.447,1,1,1h10c0.553,0,1-0.447,1-1S24.053,35,23.5,35z"/>
+                                                    <path d="M25.79,35.29c-0.181,0.189-0.29,0.45-0.29,0.71s0.109,0.52,0.29,0.71C25.979,36.89,26.229,37,26.5,37 c0.26,0,0.52-0.11,0.71-0.29c0.18-0.19,0.29-0.45,0.29-0.71s-0.11-0.521-0.29-0.71C26.84,34.92,26.16,34.92,25.79,35.29z"/>
+                                                    <path d="M33.5,4h-6v10h6V4z M31.5,12h-2V6h2V12z"/>
+                                                </svg>
+                                                {{'COMMON.SAVE' | translate}}
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" ng-click="detailDocumentSampleCtrl.onCancelDetailDocumentSample()">
+                                                {{'COMMON.CLOSE' | translate}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container-xl">
+                    <div class="row">
+                        <div class="d-none d-lg-block col-lg-3">
+                            <div class="menuleft-preview" style="z-index:1">
+                                <div class="row row-cards align-content-center">
+                                    <div class="col-12">
+                                        <div class="text-muted">{{'DOCUMENT.DRAG_DROP_GUIDE' | translate}}</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-selectgroup-item signature-content"
+                                               data-type="signature">
+                                                <span class="form-selectgroup-label bg-green-lt p-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path
+                                                            d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2">
+                                                        </path>
+                                                        <path d="M13 13l9 3l-4 2l-2 4l-3 -9"></path>
+                                                        <line x1="3" y1="3" x2="3" y2="3.01"></line>
+                                                        <line x1="7" y1="3" x2="7" y2="3.01"></line>
+                                                        <line x1="11" y1="3" x2="11" y2="3.01"></line>
+                                                        <line x1="15" y1="3" x2="15" y2="3.01"></line>
+                                                        <line x1="3" y1="7" x2="3" y2="7.01"></line>
+                                                        <line x1="3" y1="11" x2="3" y2="11.01"></line>
+                                                        <line x1="3" y1="15" x2="3" y2="15.01"></line>
+                                                    </svg>
+                                                    {{'DOCUMENT.DRAG_SIGNATURE' | translate}}
+                                                </span>
+                                            <img class="signature hidden"
+                                                 src="vcontract/assets/images/signature-icon.svg">
+                                        </label>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-selectgroup-item signature-content" data-type="text">
+                                                <span class="form-selectgroup-label bg-blue-lt vanban p-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path
+                                                            d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2">
+                                                        </path>
+                                                        <path d="M13 13l9 3l-4 2l-2 4l-3 -9"></path>
+                                                        <line x1="3" y1="3" x2="3" y2="3.01"></line>
+                                                        <line x1="7" y1="3" x2="7" y2="3.01"></line>
+                                                        <line x1="11" y1="3" x2="11" y2="3.01"></line>
+                                                        <line x1="15" y1="3" x2="15" y2="3.01"></line>
+                                                        <line x1="3" y1="7" x2="3" y2="7.01"></line>
+                                                        <line x1="3" y1="11" x2="3" y2="11.01"></line>
+                                                        <line x1="3" y1="15" x2="3" y2="15.01"></line>
+                                                    </svg>
+                                                    {{'DOCUMENT.DRAG_TEXT' | translate}}
+                                                </span>
+                                        </label>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-selectgroup-item signature-content" data-type="checkbox">
+                                                <span class="form-selectgroup-label bg-blue-lt vanban p-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path
+                                                            d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2">
+                                                        </path>
+                                                        <path d="M13 13l9 3l-4 2l-2 4l-3 -9"></path>
+                                                        <line x1="3" y1="3" x2="3" y2="3.01"></line>
+                                                        <line x1="7" y1="3" x2="7" y2="3.01"></line>
+                                                        <line x1="11" y1="3" x2="11" y2="3.01"></line>
+                                                        <line x1="15" y1="3" x2="15" y2="3.01"></line>
+                                                        <line x1="3" y1="7" x2="3" y2="7.01"></line>
+                                                        <line x1="3" y1="11" x2="3" y2="11.01"></line>
+                                                        <line x1="3" y1="15" x2="3" y2="15.01"></line>
+                                                    </svg>
+                                                    {{'DOCUMENT.DRAG_CHECKBOX' | translate}}
+                                                </span>
+                                            <img class="drag_checkbox hidden"
+                                                 src="vcontract/assets/images/tick.svg">
+                                        </label>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-selectgroup-item signature-content" data-type="radio">
+                                                <span class="form-selectgroup-label bg-blue-lt vanban p-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24"
+                                                         height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                         stroke="currentColor" fill="none" stroke-linecap="round"
+                                                         stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path
+                                                            d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2">
+                                                        </path>
+                                                        <path d="M13 13l9 3l-4 2l-2 4l-3 -9"></path>
+                                                        <line x1="3" y1="3" x2="3" y2="3.01"></line>
+                                                        <line x1="7" y1="3" x2="7" y2="3.01"></line>
+                                                        <line x1="11" y1="3" x2="11" y2="3.01"></line>
+                                                        <line x1="15" y1="3" x2="15" y2="3.01"></line>
+                                                        <line x1="3" y1="7" x2="3" y2="7.01"></line>
+                                                        <line x1="3" y1="11" x2="3" y2="11.01"></line>
+                                                        <line x1="3" y1="15" x2="3" y2="15.01"></line>
+                                                    </svg>
+                                                    {{'DOCUMENT.DRAG_RADIOBUTTON' | translate}}
+                                                </span>
+                                        </label>
+                                    </div>
+                                    <div class="col-12">
+                                        <div ng-if="currentSignature.Type == 1">
+                                            <hr>
+                                            <h5 class="card-title">{{'DOCUMENT.TEXT_FRAME' | translate}}</h5>
+                                            <div class="card-subtitle">{{'DOCUMENT.TEXT_GUIDE' | translate}}</div>
+                                            <div class="col-md-5 col-xl-12">
+                                                <div class="mb-3">
+                                                    <label class="form-check">
+                                                        <input class="form-check-input" ng-model="currentSignature.is_code" type="checkbox" ng-change="currentSignature.is_time = false; detailDocumentSampleCtrl.changeIsDocumentCode()">
+                                                        <span class="form-check-label">Mã hợp đồng</span>
+                                                    </label>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-check">
+                                                        <input class="form-check-input" ng-model="currentSignature.is_time" type="checkbox" ng-change="currentSignature.is_code = false; detailDocumentSampleCtrl.changeIsTime()" >
+                                                        <span class="form-check-label">Thời gian hệ thống</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-if="currentSignature.is_time">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Định dạng</label>
+                                                        <select class="form-select" ng-model="currentSignature.description">
+                                                            <option ng-repeat="format in detailDocumentSampleCtrl.formatDate" value="{{format.description}}">{{format.description}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-if="!currentSignature.is_code && !currentSignature.is_time">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Mã trường</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.field_code"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">{{'DOCUMENT_SAMPLE.DESCRIPTION' | translate}}</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.description"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_editable" type="checkbox">
+                                                            <span class="form-check-label">{{'DOCUMENT_SAMPLE.ALLOW_USER_EDITABLE' | translate}}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_required" type="checkbox">
+                                                            <span class="form-check-label">{{'DOCUMENT_SAMPLE.REQUIRED' | translate}}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">{{'DOCUMENT.FONT_SIZE' |
+                                                        translate}}</label>
+                                                        <select class="form-select" id="text-font-size" ng-model="currentSignature.size" ng-change="detailDocumentSampleCtrl.onChangeFontSize()">
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                            <option value="13">13</option>
+                                                            <option value="14">14</option>
+                                                            <option value="15">15</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
+                                                            <option value="18">18</option>
+                                                            <option value="19">19</option>
+                                                            <option value="20">20</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">{{'DOCUMENT.FONT_STYLE' |
+                                                        translate}}</label>
+                                                        <select class="form-select" id="text-font-style" ng-model="currentSignature.FontFamily" ng-change="detailDocumentSampleCtrl.onChangeFontStyle()">
+                                                            <option value="Arial">Arial</option>
+                                                            <option value="Tahoma">Tahoma</option>
+                                                            <option value="Times New Roman">Times New Roman</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="currentSignature.Type == 2">
+                                            <hr>
+                                            <h5 class="card-title">{{'DOCUMENT.SIGNATURE_FRAME' | translate}}</h5>
+                                            <div class="card-subtitle">{{'DOCUMENT.SIGNATURE_GUIDE' | translate}}</div>
+                                            <div class="row">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">{{'DOCUMENT_SAMPLE.DESCRIPTION' | translate}}</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.description"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">{{'DOCUMENT_SAMPLE.SIGN_ORDER' | translate}}</label>
+                                                        <input type="number" class="form-control" ng-model="currentSignature.order_assignee"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Hình thức ký</label>
+                                                        <selectize options="detailDocumentSampleCtrl.lstSignMethod"
+                                                                   config="detailDocumentSampleCtrl.tagSelectConfig"
+                                                                   ng-model="currentSignature.signing_method">
+                                                        </selectize>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Hình thức thông báo</label>
+                                                        <select ng-model="currentSignature.noti_type" class="form-select">
+                                                            <option ng-repeat="type in lstNotiType" value="{{type.id}}">{{type.description | translate}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_my_organisation" type="checkbox">
+                                                            <span class="form-check-label">Tổ chức của tôi</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="currentSignature.is_my_organisation">
+                                                    <div class="col-md-5 col-xl-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label required">Họ tên</label>
+                                                            <input type="text" class="form-control" ng-model="currentSignature.full_name"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 col-xl-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label required">Email</label>
+                                                            <input type="text" class="form-control" ng-model="currentSignature.email"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 col-xl-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Số điện thoại</label>
+                                                            <input type="text" class="form-control" ng-model="currentSignature.phone"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 col-xl-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label required">CMND/CCCD</label>
+                                                            <input type="text" class="form-control" ng-model="currentSignature.national_id"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-5 col-xl-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-check">
+                                                                <input class="form-check-input" ng-model="currentSignature.is_auto_sign" type="checkbox">
+                                                                <span class="form-check-label">Ký tự động</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title required">Chữ ký</h3>
+                                                            <div class="ms-auto">
+                                                                <a href="" ng-click="detailDocumentSampleCtrl.createSignature()" class="nav-link">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+                                                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                                         stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path
+                                                                            d="M3 17c3.333 -3.333 5 -6 5 -8c0 -3 -1 -3 -2 -3s-2.032 1.085 -2 3c.034 2.048 1.658 4.877 2.5 6c1.5 2 2.5 2.5 3.5 1l2 -3c.333 2.667 1.333 4 3 4c.53 0 2.639 -2 3 -2c.517 0 1.517 .667 3 2">
+                                                                        </path>
+                                                                    </svg>
+                                                                    {{'CONFIG.ACCOUNT.CREATE_SIGNATURE' | translate}}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <p>
+                                                            </p>
+                                                            <div class="card-body text-center">
+                                                                <img id="signatureImg" class="w-50"
+                                                                     ng-src="{{currentSignature.image_signature}}"
+                                                                     width="316">
+                                                            </div>
+                                                            <p></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="currentSignature.Type == 3">
+                                            <hr>
+                                            <h5 class="card-title">{{'DOCUMENT.CHECKBOX_FRAME' | translate}}</h5>
+                                            <div class="card-subtitle">{{'DOCUMENT.CHECKBOX_GUIDE' | translate}}</div>
+                                            <div class="row">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Tên biểu mẫu</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.form_name" ng-change="detailDocumentSampleCtrl.checkFormName()"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Mô tả nhóm hộp chọn</label>
+                                                        <input type="text" class="form-control" ng-disabled="!currentSignature.form_name" ng-model="currentSignature.form_description" ng-blur="detailDocumentSampleCtrl.saveFormName()"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_editable" type="checkbox" ng-change="detailDocumentSampleCtrl.changeCheckboxForm()">
+                                                            <span class="form-check-label">Cho người dùng cập nhật</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_required" type="checkbox" ng-change="detailDocumentSampleCtrl.changeCheckboxForm()">
+                                                            <span class="form-check-label">Bắt buộc nhập</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3 required">
+                                                        <label class="form-label">Mã trường</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.field_code"/>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Mô tả</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.description"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="currentSignature.Type == 4">
+                                            <hr>
+                                            <h5 class="card-title">{{'DOCUMENT.RADIOBUTTON_FRAME' | translate}}</h5>
+                                            <div class="card-subtitle">{{'DOCUMENT.RADIOBUTTON_GUIDE' | translate}}</div>
+                                            <div class="row">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Tên biểu mẫu</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.form_name" ng-change="detailDocumentSampleCtrl.checkFormName()"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Mô tả nhóm hộp chọn</label>
+                                                        <input type="text" class="form-control" ng-disabled="!currentSignature.form_name" ng-model="currentSignature.form_description" ng-blur="detailDocumentSampleCtrl.saveFormName()"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_editable" type="checkbox" ng-change="detailDocumentSampleCtrl.changeCheckboxForm()">
+                                                            <span class="form-check-label">Cho người dùng cập nhật</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-check">
+                                                            <input class="form-check-input" ng-model="currentSignature.is_required" type="checkbox" ng-change="detailDocumentSampleCtrl.changeCheckboxForm()">
+                                                            <span class="form-check-label">Bắt buộc nhập</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-md-5 col-xl-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Mã trường</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.field_code"/>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Mô tả</label>
+                                                        <input type="text" class="form-control" ng-model="currentSignature.description"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="document-container">
+                                <div id="doc-viewer" class="docs-scroll page-content">
+                                    <div id="viewer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    // $("#text-description").on("change", evt => {
+    //     angular.element(document.getElementById('text-description')).scope().onChangeDescription(evt);
+    // });
+    // $("#checkbox-description").on("change", evt => {
+    //     angular.element(document.getElementById('checkbox-description')).scope().onChangeCheckboxDescription(evt);
+    // });
+    //
+    // $("#text-font-size").on("change", evt => {
+    //     angular.element(document.getElementById('text-font-size')).scope().onChangeFontSize(evt);
+    // });
+    // $("#text-font-style").on("change", evt => {
+    //     angular.element(document.getElementById('text-font-style')).scope().onChangeFontStyle(evt);
+    // });
+</script>
+

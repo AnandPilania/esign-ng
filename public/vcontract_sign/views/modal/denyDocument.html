@@ -1,0 +1,31 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'DOCUMENT.DENY_DOCUMENT' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div>
+                        <label class="form-label">{{'DOCUMENT.DENY_REASON' | translate}}</label>
+                        <textarea class="form-control autosize-sms" data-bs-toggle="autosize"
+                            placeholder="Nhập lý do từ chối" ng-model="denyDoc.reason" maxlength="500"
+                            style="overflow-x: hidden; overflow-wrap: break-word;"></textarea>
+                        <small class="form-hint">Quá trình giao kết bị hủy bỏ khi bạn thực hiện <strong
+                                class="text-danger font-weight-bold">từ chối giao kết</strong>. Các bên tham gia đã thực
+                            hiện giao kết sẽ nhận được email thông báo.</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a ng-click="cancel()" class="btn btn-outline-primary btn-outline-primary-customer">
+            {{'COMMON.CANCEL' | translate}}
+        </a>
+        <button type="button" class="btn btn-primary ms-auto" ng-click="onDenyDocument()">
+            {{'COMMON.NOTIFICATION.OK' | translate}}
+        </button>
+    </div>
+</div>

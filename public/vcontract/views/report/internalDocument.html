@@ -1,0 +1,513 @@
+<div class="container-fluid" ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{'REPORT.INTERNAL_DOCUMENT_LIST' | translate}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xl-6">
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="row">
+                            <div class="d-flex d-print-none">
+                                <h3 class="card-title">{{'REPORT.TIME_TO_COMPLETE_DOCUMENT' | translate}}</h3>
+                                <!-- <a class="text-right" title="T?i v? máy"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="12" y1="11" x2="12" y2="17" /><polyline points="9 14 12 17 15 14" /></svg></a> -->
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <canvas id="barInternalChart" style="width: 100%;height: 360px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="d-print-none">
+                            <h3 class="card-title">{{'REPORT.COMPLETED_DOCUMENT_PERIOD' | translate}}</h3>
+                        </div>
+                        <div class="col-md-12">
+                            <canvas id="pieChart_internal_report_2" style="width: 100%;height: 360px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-6">
+            <style>
+                li {
+                    list-style-type: none;
+                }
+                .label {
+                    margin-left: 15px;
+                    font-family: 'Source Sans Pro', sans-serif;
+                    color: #666666;
+                    font-size: 14px;
+                }
+
+                .legendValue {
+                    float: left;
+                }
+
+                .clear {
+                    clear: both
+                }
+            </style>
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="d-print-none">
+                            <h3 class="card-title">{{'REPORT.USING_DOCUMENT_STATE' | translate}}</h3>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group mb-2">
+                                        <label>{{'DOCUMENT.DOCUMENT_TYPE' | translate}}</label>
+                                        <select class="form-select" ng-change="searchInternalDocument()"
+                                            ng-model="internalDocumentReportCtrl.searchInternalDocument.document_type_id">
+                                            <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                            <option
+                                                ng-repeat="document_type in internalDocumentReportCtrl.lstDocumentType"
+                                                value="{{document_type.id}}">{{document_type.dc_type_name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label>{{'COMMON.FROM_DATE' | translate}}</label>
+                                        <div class="input-icon">
+                                            <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                fp-on-setup="datePostSetup(fpItem)"
+                                                placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                ng-model="internalDocumentReportCtrl.searchInternalDocument.start_date"
+                                                data-enabletime="false">
+                                            <span class="input-icon-addon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-2">
+                                        <label>{{'COMMON.STATUS' | translate}}</label>
+                                        <select class="form-select" ng-change="searchInternalDocument()"
+                                            ng-model="internalDocumentReportCtrl.searchInternalDocument.document_state">
+                                            <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                            <option ng-repeat="state in internalDocumentReportCtrl.lstDocumentState"
+                                                value="{{state.id}}">{{state.description | translate}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label>{{'COMMON.TO_DATE' | translate}}</label>
+                                        <div class="input-icon">
+                                            <input class="form-control" ng-flatpickr fp-opts="dateOpts"
+                                                fp-on-setup="datePostSetup(fpItem)"
+                                                placeholder="{{'COMMON.PH_DATEPICKER' | translate}}"
+                                                ng-model="internalDocumentReportCtrl.searchInternalDocument.end_date"
+                                                data-enabletime="false">
+                                            <span class="input-icon-addon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-2">
+                                        <label>{{'DOCUMENT.DOCUMENT_STYLE' | translate}}</label>
+                                        <select class="form-select" ng-change="searchInternalDocument()"
+                                            ng-model="internalDocumentReportCtrl.searchInternalDocument.dc_style">
+                                            <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                                            <option
+                                                ng-repeat="style in lstDocumentStyle"
+                                                value="{{style.id}}">{{style.description | translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="form-group">
+                                    <button class="btn btn-small btn-primary"
+                                        ng-click="onSearchInternalDocument()">{{'COMMON.SEARCH' | translate}}</button>
+                                    <button class="btn btn-small btn-primary"
+                                    ng-click="onViewReportDetail()" ng-if="internalDocumentReportCtrl.lstInternalReport.length > 0">{{'REPORT.VIEW_REPORT' | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card shadow-none" style="border-radius: 0px;">
+                    <div class="card-body" style="position: relative;">
+                        <div class="col-md-12" >
+                            <canvas id="pieChart_internal_report" style="width: 100%;height: 360px;"></canvas>
+                            <div id="pieChart_internal_report_legend"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="renderInternalChart" onclick="render_internal_chart()" hidden></button>
+    <div class="modal fade" id="reportInternalDetail" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="pointer-events:inherit;">
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title">{{'REPORT.REPORT_DETAIL' | translate}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-content table-responsive" style="border-radius: 0px; border-top: 1px solid; border-bottom: 1px solid">
+                <table
+                    class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer"
+                    datatable="" dt-instance="internalDocumentReportCtrl.dtInstance"
+                    dt-options="internalDocumentReportCtrl.dtOptions" style="width:100%;" dt-columns="internalDocumentReportCtrl.dtColumns">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-list ms-auto">
+                    <a class="btn btn-secondary" data-bs-dismiss="modal" >{{"COMMON.CLOSE" |
+                        translate}}</a>
+                    <button type="button" class="btn btn-primary ms-auto" ng-click="export()">{{'REPORT.EXPORT' |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var getSuitableYInternal = (y, yArray = [], direction) => {
+            let result = y;
+            yArray.forEach((existedY) => {
+                if (existedY - 16 < result && existedY + 16 > result) {
+                if (direction === "right") {
+                    result = existedY + 16;
+                } else {
+                    result = existedY - 16;
+                }
+              }
+            });
+
+            return result;
+        };
+        var pieLabelsLineInternal = {
+            id: "pieLabelsLineInternal",
+            afterDraw: function(chart){
+                const ctx = chart.chart.ctx;
+                ctx.save();
+                ctx.font = "12px 'Averta Std CY'";
+                const leftLabelCoordinates = [];
+                const rightLabelCoordinates = [];
+                const chartCenterPoint = {
+                x: (chart.chartArea.right - chart.chartArea.left) / 2 + chart.chartArea.left,
+                y: (chart.chartArea.bottom - chart.chartArea.top) / 2 + chart.chartArea.top
+                };
+
+                chart.config.data.labels.forEach((label, i) => {
+                    const meta = chart.getDatasetMeta(0);
+                    const arc = meta.data[i];
+                    const dataset = chart.config.data.datasets[0];
+                    const sum = dataset.data.reduce((a, b) => a + b, 0);
+                    // Prepare data to draw
+                    // important point 1
+                    const centerPoint = arc.getCenterPoint();
+                    const model = arc._model;
+                    let color = model.backgroundColor;
+                    let labelColor = model.backgroundColor;
+
+                    const angle = Math.atan2(
+                        centerPoint.y - chartCenterPoint.y,
+                        centerPoint.x - chartCenterPoint.x
+                    );
+                    // important point 2, this point overlapsed with existed points
+                    // so we will reduce y by 14 if it's on the right
+                    // or add by 14 if it's on the left
+                    const point2X = chartCenterPoint.x + Math.cos(angle) * (model.outerRadius + 10);
+                    let point2Y = chartCenterPoint.y + Math.sin(angle) * (model.outerRadius + 10);
+
+                    let suitableY;
+                    if (point2X < chartCenterPoint.x) {
+                    // on the left
+                        suitableY = getSuitableYInternal(point2Y, leftLabelCoordinates, "left");
+                    } else {
+                    // on the right
+
+                    suitableY = getSuitableYInternal(point2Y, rightLabelCoordinates, "right");
+                    }
+
+                    point2Y = suitableY;
+
+                    let value = ((dataset.data[i] * 100) / sum).toFixed(2) + '%';
+                    if (dataset.polyline && dataset.polyline.formatter) {
+                        value = dataset.polyline.formatter(value);
+                    }
+                    let edgePointX = point2X < chartCenterPoint.x ? chart.width/5.5 : chart.width - (chart.width/5.5);
+
+                    if (point2X < chartCenterPoint.x) {
+                        leftLabelCoordinates.push(point2Y);
+                    } else {
+                        rightLabelCoordinates.push(point2Y);
+                    }
+                    //DRAW CODE
+                    // first line: connect between arc's center point and outside point
+                    if(dataset.data[i] > 0){
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(centerPoint.x, centerPoint.y);
+                        ctx.lineTo(point2X, point2Y);
+                        ctx.stroke();
+                        // second line: connect between outside point and chart's edge
+                        ctx.beginPath();
+                        ctx.moveTo(point2X, point2Y);
+                        ctx.lineTo(edgePointX, point2Y);
+                        ctx.stroke();
+                        //fill custom label
+                        const labelAlignStyle =
+                        edgePointX < chartCenterPoint.x ? "left" : "right";
+                        const labelX = edgePointX;
+                        const labelY = point2Y;
+                        ctx.textAlign = labelAlignStyle;
+                        ctx.textBaseline = "bottom";
+
+                        ctx.fillStyle = labelColor;
+                        ctx.fillText(value, labelX, labelY);
+                    }
+                });
+                ctx.restore();
+            }
+        }
+        var noDataLabelsInternal = {
+            id: "noDataLabelsInternal",
+            afterDraw: function (chart) {
+                if (chart.data.datasets[0].data.every(item => item === 0)) {
+                    let ctx = chart.chart.ctx;
+                    let width = chart.chart.width;
+                    let height = chart.chart.height;
+
+                    chart.clear();
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = "20px Arial";
+                    ctx.fillText('Không có dữ liệu để hiển thị', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }
+        }
+        var pieChart_internal_report;
+        var pieChart_internal_report_2;
+        var barChart_internal_report;
+        function render_internal_chart() {
+            if(pieChart_internal_report){
+                pieChart_internal_report.destroy();
+            }
+            if(pieChart_internal_report_2){
+                pieChart_internal_report_2.destroy();
+            }
+            if(barChart_internal_report){
+                barChart_internal_report.destroy();
+            }
+            var pieCtx_internal_report = document.getElementById('pieChart_internal_report').getContext('2d');
+            var pieCtx_internal_report_2 = document.getElementById('pieChart_internal_report_2').getContext('2d');
+            var barCtx_internal_report = document.getElementById('barInternalChart').getContext('2d');
+            var completedDoc_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().completedData;
+            var processing_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().processingData;
+            var deniedDoc_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().deniedData;
+            var cancelledDoc_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().cancelledData;
+            var expiredDataDoc_commerce_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().expiredData;
+            var document_state_label_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().document_state_label;
+            var document_state_label_internal_report_2 = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().document_state_label_2;
+            var time_to_complete_label_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().time_to_complete_label;
+            var barData_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().barData;
+            var pieData_internal_report = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().pieData;
+            var pieData_internal_report_2 = angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().pieData_2;
+            var total_completed = (parseFloat(pieData_internal_report_2[0]) / parseFloat((pieData_internal_report_2[0] + pieData_internal_report_2[1])) * 100).toFixed(2) + '%';
+            if(total_completed == 'NaN%') total_completed = '0%';
+            barChart_internal_report = new Chart(barCtx_internal_report, {
+                type: 'bar',
+                data: {
+                    labels: time_to_complete_label_internal_report,
+                    datasets: [{
+                        data: barData_internal_report,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(255, 159, 64, 0.5)',
+                            'rgba(255, 205, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(201, 203, 207, 0.5)',
+                            'rgba(18, 220, 36, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)',
+                            'rgb(18, 220, 36)'
+                        ]
+                    }]
+                },
+                options:{
+                    title: {
+                        display: true,
+                        text: angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().barChartTitle,
+                        position: 'bottom'
+                    },
+                    legend:{
+                        display: false,
+                    },
+                }
+
+            })
+
+            pieChart_internal_report = new Chart(pieCtx_internal_report, {
+                type: 'pie',
+                plugins: [pieLabelsLineInternal, noDataLabelsInternal],
+                data: {
+                    labels: document_state_label_internal_report,
+                    datasets: [
+                        {
+                            backgroundColor: [
+                                "rgba(116, 184, 22, 1)",
+                                "rgba(242, 101, 62, 1)",
+                                "rgba(241, 242, 62, 1)",
+                                "rgba(183, 17, 5, 1)",
+                                "rgba(66, 41, 19, 1)",
+                            ],
+                            hoverBackgroundColor: ["rgba(116, 184, 22, 0.6)", "rgba(242, 101, 62, 0.6)", "rgba(241, 242, 62, 0.6)", "rgba(183, 17, 5, 0.6)", "rgba(66, 41, 19, 1)"],
+                            borderColor: "#fff",
+                            borderCapStyle: 'butt',
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            data: pieData_internal_report,
+                            polyline: {
+                                formatter: (value) => `${value}`
+                            }
+                        },
+                    ],
+                },
+                options: {
+                    cutoutPercentage: 60,
+                    legend: false,
+                    legendCallback: function (chart) {
+                        var text = [];
+                        text.push('<ul class="' + chart.id + '-legend_url">');
+                        for (var i = 0; i < chart.data.labels.length; i++) {
+                            if (chart.data.labels[i] && chart.data.datasets[0].data[i] > 0) {
+                                var bgColor = chart.data.datasets[0].backgroundColor[i] ? chart.data.datasets[0].backgroundColor[i] : '#6c757d';
+                                text.push('<li><div class="legendValue"><span style="background-color:' + bgColor + '">&nbsp;&nbsp;&nbsp;</span>');
+                                text.push('<span class="label">' + chart.data.labels[i] + '</span>');
+                                text.push('</div></li><div class="clear"></div>');
+                            }
+                        }
+
+                        text.push('</ul>');
+                        return text.join('');
+                    },
+                    layout: {
+                        padding: 50
+                    },
+                    plugins: {
+                        datalabels: {
+                            display: false,
+                            // labels: {
+                            //     title: {
+                            //         font: {
+                            //             weight: 'bold',
+                            //             size: '18'
+                            //         }
+                            //     }
+                            // },
+                            // formatter: (value, ctx) => {
+
+                            //     let datasets = ctx.chart.data.datasets;
+
+                            //     if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                            //         let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                            //         let percentage = Math.round((value / sum) * 100) + '%';
+                            //         return percentage;
+                            //     } else {
+                            //         return percentage;
+                            //     }
+                            // },
+                            // color: '#fff',
+                        }
+                    }
+                }
+            })
+            pieChart_internal_report_2 = new Chart(pieCtx_internal_report_2, {
+                type: 'doughnut',
+                data: {
+                    labels: document_state_label_internal_report_2,
+                    datasets: [
+                        {
+                            backgroundColor: [
+                                "rgba(7, 149, 20, 1)",
+                                "rgba(210, 210, 210, 1)",
+                            ],
+                            borderColor: "#fff",
+                            borderCapStyle: 'butt',
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            data: pieData_internal_report_2,
+                        },
+                    ],
+                },
+                options: {
+                    rotation: 1 * Math.PI,
+                    circumference: 1 * Math.PI,
+                    cutoutPercentage: 80,
+                    plugins: {
+                        doughnutlabel: {
+                            labels: [{
+                              text: total_completed,
+                              font: {
+                                size: 24,
+                              }
+                            }, {
+                              text: angular.element(document.querySelector('[ng-controller="InternalDocumentReportCtrl as internalDocumentReportCtrl"]')).scope().doughnutChartTitle,
+                              font: {
+                                size: 36,
+                                weight: 'bold'
+                              }
+                            }]
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            })
+            $('#pieChart_internal_report_legend').html(pieChart_internal_report.generateLegend());
+        }
+    </script>
+</div>

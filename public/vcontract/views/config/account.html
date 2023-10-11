@@ -1,0 +1,257 @@
+<div class="container-xl" ng-controller="AccountCtrl as accountCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{'CONFIG.ACCOUNT.LIST' | translate}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <form role="form" novalidate="novalidate">
+        <div class="row row-cards row-deck mb-5">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">{{'CONFIG.ACCOUNT.OVERVIEW' | translate}}</h3>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label required">
+                                {{'CONFIG.ACCOUNT.ACCOUNT_TAX_NUMBER' | translate}}
+                            </label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" ng-model="accountCtrl.account.tax_number"
+                                    disabled>
+                            </div>
+                            <label class="form-label col-lg-2 col-md-auto col-form-label text-lg-end">
+                                {{'CONFIG.ACCOUNT.ACCOUNT_SIGN_METHOD' | translate}}
+                            </label>
+                            <div class="col-lg-4">
+                                <div class="row g-2">
+                                    <div class="col">
+                                        <select class="form-select" ng-model="accountCtrl.account.sign_type"
+                                            ng-change="accountCtrl.signTypeChange();">
+                                            <option ng-repeat="signType in lstSignType"
+                                                value="{{signType.id}}">{{signType.description}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a class="btn btn-outline-primary btn-outline-primary-customer btn-icon" ng-class="accountCtrl.account.sign_type != 1 ? 'disabled' : ''" title="Thiết lập Remote Signing" ng-click="accountCtrl.updateRemoteSigning()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path
+                                                    d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                                </path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label required">{{'CONFIG.ACCOUNT.ACCOUNT_NAME' | translate}}</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" data-val="true" maxlength="1000"
+                                    ng-model="accountCtrl.account.name" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label required">{{'CONFIG.ACCOUNT.ACCOUNT_ADDRESS' | translate}}</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" ng-model="accountCtrl.account.address" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label">{{'CONFIG.ACCOUNT.ACCOUNT_PHONE' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="50" ng-model="accountCtrl.account.phone"
+                                    type="text">
+                            </div>
+                            <label class="form-label col-lg-2 col-md-auto col-form-label text-lg-end">{{'CONFIG.ACCOUNT.ACCOUNT_FAX_NUMBER' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="50" ng-model="accountCtrl.account.fax_number"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label required">{{'CONFIG.ACCOUNT.ACCOUNT_EMAIL' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="255" ng-model="accountCtrl.account.email"
+                                    type="text">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="thuebao.Email"
+                                    data-valmsg-replace="true"></span>
+                            </div>
+                            <label class="form-label col-lg-2 col-md-auto col-form-label text-lg-end">{{'CONFIG.ACCOUNT.ACCOUNT_WEBSITE' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="255" ng-model="accountCtrl.account.website"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label">{{'CONFIG.ACCOUNT.ACCOUNT_REPRESENTATIVE' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="255"
+                                    ng-model="accountCtrl.account.representative" type="text">
+                            </div>
+                            <label class="form-label col-lg-2 col-md-auto col-form-label text-lg-end">{{'CONFIG.ACCOUNT.ACCOUNT_REPRESENTATIVE_POSITION' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="250"
+                                    ng-model="accountCtrl.account.representative_position" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="form-label col-lg-2 col-md-auto col-form-label">{{'CONFIG.ACCOUNT.ACCOUNT_BANK_INFO' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="500" ng-model="accountCtrl.account.bank_info"
+                                    type="text">
+                            </div>
+                            <label class="form-label col-lg-2 col-md-auto col-form-label text-lg-end">{{'CONFIG.ACCOUNT.ACCOUNT_BANK_NUMBER' | translate}}</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" maxlength="250" ng-model="accountCtrl.account.bank_number"
+                                    type="text">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="form-label col-md-2 col-form-label">{{'CONFIG.ACCOUNT.ACCOUNT_CONTACT_NAME' | translate}}</label>
+                            <div class="col">
+                                <input class="form-control" maxlength="250" ng-model="accountCtrl.account.contact_name"
+                                    type="text">
+                            </div>
+                            <label class="form-label col-auto col-form-label text-lg-end">{{'CONFIG.ACCOUNT.ACCOUNT_CONTACT_EMAIL' | translate}}</label>
+                            <div class="col">
+                                <input class="form-control valid" maxlength="255"
+                                    ng-model="accountCtrl.account.contact_email" type="text">
+                            </div>
+                            <label class="form-label col-auto col-form-label text-lg-end">{{'CONFIG.ACCOUNT.ACCOUNT_CONTACT_PHONE' | translate}}</label>
+                            <div class="col">
+                                <input class="form-control" maxlength="50" ng-model="accountCtrl.account.contact_phone"
+                                    type="text">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col">
+                                <a ui-sref="index.dashboard" class="btn btn-secondary">
+                                    {{'COMMON.CLOSE' | translate}}
+                                </a>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <button ng-click="accountCtrl.onUpdateAccount()" class="btn btn-primary ms-auto" ng-if="accountCtrl.permission.is_write == 1">
+                                    {{'COMMON.UPDATE' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{'CONFIG.ACCOUNT.CONSIGNEE' | translate}}</h3>
+                        <div class="ms-auto">
+                            <a href="" ng-click="accountCtrl.addCompanyConsigneeCreateAndUpdate()" class="nav-link" ng-if="accountCtrl.permission.is_write == 1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                {{'COMMON.CREATE' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th class="w-1">
+                                        #
+                                    </th>
+                                    <th>{{'CONFIG.ACCOUNT.CONSIGNEE_NAME' | translate}}</th>
+                                    <th>{{'CONFIG.ACCOUNT.CONSIGNEE_ROLE' | translate}}</th>
+                                    <th class="text-end">
+                                        {{'CONFIG.ACCOUNT.CONSIGNEE_ACTION' | translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="companyConsignee in lstCompanyConsignee track by $index">
+                                    <td><span class="badge bg-success me-1"></span></td>
+                                    <td>
+                                        <div class="flex-fill">
+                                            <div class="font-weight-medium">{{companyConsignee.name}}</div>
+                                            <div class="text-muted">{{companyConsignee.email}}</div>
+                                            <div class="text-muted">{{companyConsignee.phone}}</div>
+                                        </div>
+                                    </td>
+                                    <td>{{companyConsignee.role_name}}</td>
+                                    <td class="text-end">
+                                        <a href="" ng-click="accountCtrl.editCompanyConsigneeCreateAndUpdate($index);"
+                                            class="btn btn-outline-primary btn-icon" ng-if="accountCtrl.permission.is_write == 1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3">
+                                                </path>
+                                                <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3"></path>
+                                                <line x1="16" y1="5" x2="19" y2="8"></line>
+                                            </svg>
+                                        </a>
+                                        <a href="" ng-click="accountCtrl.onDeleteCompanyConsignee($index)"
+                                            class="btn btn-outline-danger btn-icon" ng-if="accountCtrl.permission.is_write == 1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{'CONFIG.ACCOUNT.ACCOUNT_SIGNATURE' | translate}}</h3>
+                        <div class="ms-auto">
+                            <a href="" ng-click="accountCtrl.createSignature()" class="nav-link" ng-if="accountCtrl.permission.is_write == 1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path
+                                        d="M3 17c3.333 -3.333 5 -6 5 -8c0 -3 -1 -3 -2 -3s-2.032 1.085 -2 3c.034 2.048 1.658 4.877 2.5 6c1.5 2 2.5 2.5 3.5 1l2 -3c.333 2.667 1.333 4 3 4c.53 0 2.639 -2 3 -2c.517 0 1.517 .667 3 2">
+                                    </path>
+                                </svg>
+                                {{'CONFIG.ACCOUNT.CREATE_SIGNATURE' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                        </p>
+                        <div class="card-body p-4 text-center">
+                            <img id="signatureImg" class="w-50"
+                                ng-src="{{companySignature.image_signature}}"
+                                width="316">
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

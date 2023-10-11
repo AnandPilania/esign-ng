@@ -1,0 +1,64 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Thông tin cá nhân</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onChangeUserInfo()">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">Họ và tên</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="changeUserInfo.name" maxlength="100">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">Ngày sinh</label>
+                <div class="col-md-4 mb-3">
+                    <div class="input-icon">
+                        <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="Ngày/Tháng/Năm" ng-model="changeUserInfo.dob" data-enabletime="false">
+                        <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="4" y="5" width="16" height="16" rx="2"></rect><line x1="16" y1="3" x2="16" y2="7"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line><line x1="11" y1="15" x2="12" y2="15"></line><line x1="12" y1="15" x2="12" y2="18"></line></svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-5 mt-auto mb-auto">
+                    <div class="align-content-end">
+                        <label class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" ng-model="changeUserInfo.sex" value="0">
+                            <span class="form-check-label">Nam</span>
+                        </label>
+                        <label class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" ng-model="changeUserInfo.sex" value="1">
+                            <span class="form-check-label">Nữ</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">Số điện thoại</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="changeUserInfo.phone" maxlength="50">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">Ngôn ngữ</label>
+                <div class="col-md-9">
+                    <select class="form-select" ng-model="changeUserInfo.language">
+                        <option ng-repeat="lang in lstLanguage" value="{{lang.id}}">{{lang.description}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">Địa chỉ</label>
+                <div class="col-md-9">
+                    <textarea class="form-control" data-bs-toggle="autosize" ng-model="changeUserInfo.address" maxlength="255" style="overflow: hidden; overflow-wrap: break-word; resize: none;"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a class="btn btn-white" ng-click="cancel()">Đóng</a>
+        <button type="button" class="btn btn-primary ms-auto" ng-click="onChangeUserInfo()">Cập nhật</button>
+    </div>
+</div>

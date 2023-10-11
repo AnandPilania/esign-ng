@@ -1,0 +1,44 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'DOCUMENT.TRANSFER_DOCUMENT' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onTransferDocument()">
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT.FULL_NAME' | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="transferDoc.name" maxlength="100">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT.EMAIL' | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="transferDoc.email" maxlength="100">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal required">{{'DOCUMENT.NATIONAL_ID' | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="transferDoc.national_id" maxlength="100">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'DOCUMENT.PHONE' | translate}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="transferDoc.phone" maxlength="50">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">{{'DOCUMENT.MESSAGE' | translate}}</label>
+                <div class="col-md-9">
+                    <textarea class="form-control" data-bs-toggle="autosize" ng-model="transferDoc.message" maxlength="255" style="overflow: hidden; overflow-wrap: break-word; resize: none;"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a class="btn btn-white" ng-click="cancel()">{{'COMMON.CLOSE' | translate}}</a>
+        <button type="button" class="btn btn-primary ms-auto" ng-click="onTransferDocument()">{{'COMMON.NOTIFICATION.OK' | translate}}</button>
+    </div>
+</div>

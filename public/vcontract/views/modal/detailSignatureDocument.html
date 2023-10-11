@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{'DOCUMENT.DETAIL_SIGNATURE' | translate}}</h5>
+    <button type="button" class="btn-close" ng-click="closeViewDetailSignature()" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="row" ng-if="data.verifySignature">
+        <div class="form-group border-bottom-wide mb-2 pb-2">
+            <span class="strong">{{'DOCUMENT.TIME_SIGNATURE_SIGN' | translate}}</span>:
+            <span>{{data.date}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2">
+            <span class="strong">{{'DOCUMENT.SIGNATURE_NAME' | translate}}</span>:
+            <span>{{data.name}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2">
+            <span class="strong">{{'DOCUMENT.SIGNATURE_PROVIDER' | translate}}</span>:
+            <span>{{data.issuerName}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 ">
+            <span class="strong">{{'DOCUMENT.VALID_FROM' | translate}}</span>:
+            <span>{{data.validFrom}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 ">
+            <span class="strong">{{'DOCUMENT.VALID_TO' | translate}}</span>:
+            <span>{{data.validTo}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 text-break">
+            <span class="strong">{{'DOCUMENT.REASON' | translate}}</span>:
+            <span>{{data.reason}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 text-break">
+            <span class="strong">{{'DOCUMENT.LOCATION' | translate}}</span>:
+            <span>{{data.location}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 text-break">
+            <span class="strong">{{'DOCUMENT.DIGEST' | translate}}</span>:
+            <span>{{data.digest}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 text-break">
+            <span class="strong">{{'DOCUMENT.HASH' | translate}}</span>:
+            <span>{{data.hash}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 text-break">
+            <span class="strong">{{'DOCUMENT.SIGN_ALGORITHM' | translate}}</span>:
+            <span>{{data.signingAlgorithm}}</span>
+        </div>
+        <div class="form-group border-bottom-wide mb-2 pb-2 text-break">
+            <span class="strong">{{'DOCUMENT.CTS' | translate}}</span>:
+            <span>{{data.x509Certificate}}</span>
+        </div>
+    </div>
+    <div class="text-center card card-body card-noti border border-danger text-danger" ng-if="!data.verifySignature">
+        {{'DOCUMENT.ERR_INVALID_SIGNATURE' | translate}}
+    </div>
+</div>
+<div class="modal-footer mt-3">
+    <a ng-click="closeViewDetailSignature()" class="btn btn-outline-primary btn-outline-primary-customer">
+        {{'COMMON.CLOSE' | translate}}
+    </a>
+</div>

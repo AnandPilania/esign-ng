@@ -1,0 +1,14 @@
+{
+    "name": "its/core",
+    "description": "Contains entities project and repository",
+    "type": "library",
+    "license": "admin@its.com",
+    "authors": [
+        {
+            "name": "ITs Developer",
+            "email": "admin@its.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

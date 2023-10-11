@@ -1,0 +1,57 @@
+<div class="container-fluid" ng-controller="TemplateCtrl as templateCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{'CONFIG.TEMPLATE.LIST' | translate}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <form ng-submit="onSearchTemplate()">
+                <input type="submit" hidden>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg-2 col-md-2">
+                        <select class="form-select" ng-change="onSearchTemplate()" ng-model="templateCtrl.searchTemplate.type">
+                            <option ng-repeat="type in lstTemplateType" value="{{type.id}}">{{type.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-auto">
+                        <input type="text" class="form-control search-box" placeholder="{{'CONFIG.TEMPLATE.SEARCH_KEYWORD' | translate}}" ng-model="templateCtrl.searchTemplate.keyword">
+                    </div>
+                    <div class="col-auto ms-auto d-print-none">
+                        <a ng-click="onSearchTemplate()" class="btn btn-primary btn-icon"
+                           aria-label="Button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="10" cy="10" r="7"></circle>
+                                <line x1="21" y1="21" x2="15" y2="15"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="templateCtrl.dtInstance" dt-options="templateCtrl.dtOptions"
+                       dt-columns="templateCtrl.dtColumns"></table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function validNumeric(field) {
+        var charCode = (field.which) ? field.which : field.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+</script>

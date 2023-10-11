@@ -1,0 +1,146 @@
+<div class="container-fluid" ng-controller="SignManageCommerceCtrl as signManageCtrl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <span class="h2" ng-if="signManageCtrl.searchSignManage.parent_id == -1">
+                    {{'COMMERCE.SIGN_MANAGE.LIST' | translate}}
+                </span>
+                <a
+                ng-if="signManageCtrl.searchSignManage.parent_id != -1"
+                ng-click="onsearchSignManage(); signManageCtrl.searchSignManage.parent_id = -1"
+                class="btn btn-outline-primary btn-outline-primary-customer d-none d-sm-inline-block">
+                 {{'COMMERCE.SIGN_MANAGE.LIST' | translate}}
+                </a>
+                <span> | </span>
+                <a
+                ng-if="signManageCtrl.searchSignManage.parent_id == -1"
+                ng-click="onsearchSignManage(); signManageCtrl.searchSignManage.parent_id = 0"
+                class="btn btn-outline-primary btn-outline-primary-customer d-none d-sm-inline-block">
+                 {{'COMMERCE.ADDENDUM_MANAGE.SIGN_LIST' | translate}}
+                </a>
+                <span class="h2" class="h2" ng-if="signManageCtrl.searchSignManage.parent_id != -1">
+                    {{'COMMERCE.ADDENDUM_MANAGE.SIGN_LIST' | translate}}
+                </span>
+            </div>
+            <div class="col-auto ms-auto d-print-none" ng-if="signManageCtrl.permission.is_write == 1">
+                <div class="btn-list">
+                    <a ng-if="signManageCtrl.searchSignManage.creator_type_id == 0" ng-click="signManageCtrl.onSignMultiDocument()"
+                        class="btn btn-outline-primary d-none d-sm-inline-block">
+                        {{'COMMERCE.SIGN_MANAGE.DIGITAL_SIGN' | translate}}
+                    </a>
+                    <a ui-sref="createCOMMERCE"
+                        ng-if="signManageCtrl.searchSignManage.parent_id == -1"
+                        class="btn btn-outline-primary btn-outline-primary-signManage d-none d-sm-inline-block">
+                        {{'COMMON.CREATE' | translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <form ng-submit="onSearchSignManage()">
+                <input type="submit" hidden />
+                <div class="row g-2 mb-3">
+                    <div class="col-lg col-md-2" ng-if="signManageCtrl.searchSignManage.parent_id != -1">
+                        <select class="form-select" ng-change="onsearchSignManage()" ng-model="signManageCtrl.searchSignManage.addendum_type">
+                            <option value="-1">{{'COMMERCE.ADDENDUM_MANAGE.ADDENDUM_TYPE' | translate}}</option>
+                            <option ng-repeat="AddendumType in signManageCtrl.lstAddendumType" value="{{AddendumType.id}}">{{AddendumType.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-2" ng-if="signManageCtrl.searchSignManage.parent_id == -1">
+                        <select class="form-select" ng-change="onsearchSignManage()" ng-model="signManageCtrl.searchSignManage.document_type_id">
+                            <option value="-1">{{'COMMERCE.APPROVAL_MANAGE.DOCUMENT_TYPE' | translate}}</option>
+                            <option ng-repeat="document_type in signManageCtrl.lstDocumentType" value="{{document_type.id}}">{{document_type.dc_type_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2" ng-if="signManageCtrl.searchSignManage.parent_id == -1">
+                        <select class="form-select" ng-change="onsearchSignManage()" ng-model="signManageCtrl.searchSignManage.dc_style">
+                            <option value="-1">{{'UTILITES.DOCUMENT_TYPE.DOCUMENT_STYLE.DEFAULT' | translate}}</option>
+                            <option ng-repeat="style in lstDocumentStyle" value="{{style.id}}">{{style.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <select class="form-select" ng-change="onSearchSignManage()" ng-model="signManageCtrl.searchSignManage.sign_method">
+                            <option value="-1">{{'COMMERCE.SIGN_MANAGE.SIGN_MANAGE_METHOD' | translate}}</option>
+                            <option ng-repeat="sign_method in lstMethodSign" value="{{sign_method.id}}">{{sign_method.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <select class="form-select" ng-change="onSearchSignManage()" ng-model="signManageCtrl.searchSignManage.consignee_type_id">
+                            <option ng-repeat="consignee_type in lstConsigneeType" value="{{consignee_type.id}}">{{consignee_type.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <select class="form-select" ng-change="onSearchSignManage()" ng-model="signManageCtrl.searchSignManage.creator_type_id" ng-disabled="signManageCtrl.searchSignManage.consignee_type_id != 0">
+                            <option ng-repeat="creator in lstConsigneeCreator" value="{{creator.id}}">{{creator.description | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-auto">
+                        <input type="text" class="form-control search-box" placeholder="{{'COMMERCE.SIGN_MANAGE.SEARCH_KEYWORD' | translate}}" maxlength="255" ng-model="signManageCtrl.searchSignManage.keyword">
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <div class="input-icon">
+                            <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="{{'COMMON.PH_DATEPICKER' | translate}}" ng-model="signManageCtrl.searchSignManage.start_date" data-enabletime="false">
+                            <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg col-md-2">
+                        <div class="input-icon">
+                            <input class="form-control" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)" placeholder="{{'COMMON.PH_DATEPICKER' | translate}}" ng-model="signManageCtrl.searchSignManage.end_date" data-enabletime="false">
+                            <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-auto ms-auto d-print-none">
+                        <a ng-click="onSearchSignManage()" class="btn btn-primary btn-icon"
+                            aria-label="Button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="10" cy="10" r="7"></circle>
+                                <line x1="21" y1="21" x2="15" y2="15"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-12">
+            <div class="table-responsive" ng-if="signManageCtrl.searchSignManage.parent_id == -1">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="signManageCtrl.dtInstance" dt-options="signManageCtrl.dtOptions"
+                    dt-columns="signManageCtrl.dtColumns"></table>
+            </div>
+            <div class="table-responsive" ng-if="signManageCtrl.searchSignManage.parent_id != -1">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover dataTable no-footer" datatable="" dt-instance="signManageCtrl.dtInstance" dt-options="signManageCtrl.dtOptions"
+                    dt-columns="signManageCtrl.dtColumnsAddendum"></table>
+            </div>
+        </div>
+    </div>
+</div>

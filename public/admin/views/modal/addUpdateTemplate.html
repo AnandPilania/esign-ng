@@ -1,0 +1,61 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'CONFIG.TEMPLATE.UPDATE_TEMPLATE' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onCreateUpdateTemplate(0)">
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-2 col-form-label font-weight-normal">{{'CONFIG.TEMPLATE.TEMPLATE_DESCRIPTION'
+                    | translate}}</label>
+                <div class="col-md-10">
+                    <input class="form-control" ng-model="editTemplate.template_description" type="text" maxlength="500"
+                        disabled>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-2 col-form-label font-weight-normal">{{'CONFIG.TEMPLATE.TEMPLATE_CONTENT'
+                    | translate}}</label>
+                <div class="col-md-10" ng-if="editTemplate.type == 0">
+                    <textarea class="form-control" style="resize:none; width: 100%" name="smsText" id="smsText" rows="5"
+                        ng-keyup="smsCount()" ng-model="editTemplate.template_content" autofocus></textarea>
+                    <div id="count" class="form-check-description" style="text-align: right;">
+                        <span id="current_count">{{current_count}}</span>
+                        <span id="maximum_count">{{maximum_count}}</span>
+                    </div>
+                    <div class="form-check-description mb-3">
+                        <span style="color: red;">* {{'CONFIG.TEMPLATE.DEFAULT_TEMPLATE_IF_EMPTY' | translate}}</span>
+                        <br/>
+                        <span style="color: red;">* {{'CONFIG.TEMPLATE.COUNT_CHANGE_WHEN_HAS_PARAM' | translate}}</span>
+                    </div>
+                    <a href="" ng-click="showParam = !showParam">{{'CONFIG.TEMPLATE.LIST_PARAM' | translate}}</a>
+                    <div ng-show="showParam">
+                        <li style="list-style: none;" ng-repeat="param in lstParamTemplate"><code><span style="font-weight:bold;">{{param.name}}</span></code> - {{param.description | translate}}</li>
+                    </div>
+                </div>
+                <div class="col-md-10" ng-if="editTemplate.type == 1">
+                    <textarea class="form-control" ck-editor ng-model="editTemplate.template_content"></textarea>
+                    <div class="form-check-description mb-3">
+                        <span style="color: red;">* {{'CONFIG.TEMPLATE.DEFAULT_TEMPLATE_IF_EMPTY' | translate}}</span>
+                    </div>
+                    <a href="" class="mb-3" ng-click="showParam = !showParam">{{'CONFIG.TEMPLATE.LIST_PARAM' | translate}}</a>
+                    <div ng-show="showParam">
+                        <li style="list-style: none;" ng-repeat="param in lstParamTemplate"><span style="font-weight:bold;">{{param.name}}</span> - {{param.description | translate}}</li>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-primary" ng-click="onCreateUpdateTemplate()">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

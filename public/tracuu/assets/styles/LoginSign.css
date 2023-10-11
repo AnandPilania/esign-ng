@@ -1,0 +1,163 @@
+@media (min-width: 992px) {
+    .img-logo {
+        height: 68px;
+    }
+    .bg-siginin-right {
+        width: 50%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: 0;
+    }
+    .bg-siginin-left {
+        width: 50%;
+        position: absolute;
+        background-color: rgb(249, 245, 244);
+        height: 100vh;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        margin: 0;
+    }
+
+    .card-login-v {
+        position: absolute;
+        width: 70%;
+        top: 20%;
+        right: 12%;
+    }
+    .input-field-v{
+        margin-top: 1em;
+        width: 65%;
+        margin: auto;
+    }
+    .input-field-v label{
+        margin-left: 1em;
+    }
+    .card-login-v input {
+        height: 3.5em;
+        margin-bottom: 3em;
+        border-radius: 2em ;
+    }
+    .card-login-v button {
+        height: 2.5em;
+        width: 60%;
+        color: rgb(255, 255, 255);
+        margin-bottom: 3em;
+        border-radius: 2em ;
+        font-size: 1.2em;
+        border: 0;
+    }
+
+    #logo-sign-v {
+        margin-top: 7%;
+    }
+}
+@media (max-width: 767.98px) {
+    .img-logo {
+        height: 34px;
+    }
+    #logo-sign-v {
+        width: 30%;
+        height: 50%;
+        position: fixed;
+        top: 1%;
+    }
+    .bg-siginin-right {
+        width: 100%;
+        position: absolute;
+        top: 40%;
+        right: 0;
+        margin: 0;
+        z-index: 10;
+    }
+
+    .input-field-v{
+        margin-top: 1em;
+        width: 100%;
+        margin: auto;
+    }
+    .input-field-v label{
+        margin-left: 1em;
+    }
+    .card-login-v input {
+        height: 3.5em;
+        margin-bottom: 1em;
+        border-radius: 0.7em ;
+    }
+    .card-login-v button {
+        height: 2.5em;
+        width: 90%;
+        color: rgb(255, 255, 255);
+        margin-bottom: 3em;
+        border-radius: 2em ;
+        font-size: 1.2em;
+        border: 0;
+    }
+    .bg-siginin-left {
+        width: 100%;
+        position: absolute;
+        background-color: rgb(249, 245, 244);
+        height: 50vh;
+        top: -8vh;
+        left: 0;
+        margin: 0;
+        z-index: 1;
+    }
+
+}
+@media (max-width: 991.98px) {
+    .img-logo {
+        height: 34px;
+    }
+    #logo-sign-v {
+        width: 30%;
+        height: 50%;
+        position: fixed;
+        top: 1%;
+        left: 2%;
+    }
+    .bg-siginin-right {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin: 0;
+        z-index: 10;
+    }
+
+    .input-field-v{
+        margin-top: 1em;
+        width: 100%;
+        margin: auto;
+    }
+    .input-field-v label{
+        margin-left: 1em;
+    }
+    .card-login-v input {
+        height: 3.5em;
+        margin-bottom: 1em;
+        border-radius: 0.7em ;
+    }
+    .card-login-v button {
+        height: 2.5em;
+        width: 90%;
+        color: rgb(255, 255, 255);
+        margin-bottom: 3em;
+        border-radius: 2em ;
+        font-size: 1.2em;
+        border: 0;
+    }
+    .bg-siginin-left {
+        width: 100%;
+        position: absolute;
+        background-color: rgb(249, 245, 244);
+        height: 50vh;
+        top: 0;
+        left: 0;
+        margin: 0;
+        z-index: 1;
+    }
+
+}

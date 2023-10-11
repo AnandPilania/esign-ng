@@ -1,0 +1,14 @@
+{
+    "name": "its/customer",
+    "description": "Customers API",
+    "type": "library",
+    "license": "admin@its.com",
+    "authors": [
+        {
+            "name": "Nam Nguyen",
+            "email": "admin@its.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

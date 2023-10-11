@@ -1,0 +1,12 @@
+<div class="loadingapp hidden">
+	<div class="spinner">
+		<img src="/vcontract/assets/images/loading.jpg">
+	</div>
+</div>
+<div id="mainContentHome" class="page" ng-controller="MainCtrl as mainCtrl">
+	<div class="navbar navbar-expand-md d-print-none sticky-top navbar-primary" style="background: {{configData.theme_header_color}}; color: {{configData.text_color}}" ng-include="'vcontract/views/common/header.html'"></div>
+
+	<div class="content"  ng-class="{'m-0':$state.includes('index.utilities.detail_document_sample')}" ng-include="'vcontract/views/common/main-content.html'"></div>
+
+	<div class="footer d-print-none shadow" style="background: {{configData.theme_footer_color}}; color: {{configData.text_color}}" ng-include="'vcontract/views/common/footer.html'"></div>
+</div>

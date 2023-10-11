@@ -1,0 +1,41 @@
+    <style>
+    .choose-sign {
+        border-bottom: 1px solid #7f8081;
+        border-left: 1px solid #7f8081;
+        border-right: 1px solid #7f8081;
+        background: #fff;
+        padding: .5rem 1.5rem;
+        /* font-size: 1.125rem; */
+        border-radius: .3rem
+    }
+</style>
+<div class="modal-content" >
+    <div class="modal-header">
+        <h5 class="modal-title">{{ 'LAYOUT.CHOOSE_SIGN_HOST ' | translate }}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <div class="row choose-sign m-1" style="border-top: 3px solid #d31818">
+                <div class="col-10 d-flex align-items-center">
+                    {{ 'DOCUMENT.REMOTE_SIGNING.VIETTEL.MY_SIGN' | translate }}
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-outline-danger" ng-click="choose('1')">Chọn</button>
+                </div>
+            </div>
+            <div class="row choose-sign m-1 mt-2" style="border-top: 3px solid #1c7ef3">
+                <div class="col-10 d-flex align-items-center">
+                    {{ 'DOCUMENT.REMOTE_SIGNING.ICA.DEFAULT' | translate }}
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-outline-primary" ng-click="choose('2')">Chọn</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+</script>
+

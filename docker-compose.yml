@@ -1,0 +1,43 @@
+version: '3'
+services:
+  # eContract Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: econtract/php
+    container_name: econtract
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/econtract
+    volumes:
+      - ./:/var/www/econtract
+      - /mnt/econtracts:/var/www/econtract/storage/app/public/
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    env_file: .env.example
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "localhost:127.0.0.1"
+    networks:
+      - econtract
+
+  # Nginx Service
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: econtract-nginx
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    volumes:
+      - ./:/var/www/econtract
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - econtract
+
+# Docker Networks
+networks:
+  econtract:
+    driver: bridge

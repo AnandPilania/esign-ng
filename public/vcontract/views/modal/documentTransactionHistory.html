@@ -1,0 +1,71 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{'DOCUMENT.HISTORY_TRANSACTION.TITLE' | translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()"></button>
+    </div>
+    <form id="frmLichSu">
+        <div class="table-responsive">
+            <table class="table card-table table-vcenter text-nowrap datatable table-striped">
+                <thead class="bg-light">
+                    <tr>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.TIME' | translate}}</th>
+                        <th>{{'DOCUMENT.DOCUMENT_CODE' | translate}}</th>
+                        <th>{{'DOCUMENT.DOCUMENT_NAME' | translate}}</th>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.MESSAGE_CODE' | translate}}</th>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.TRANSACTION_ID' | translate}}</th>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.CONTRACT_CODE' | translate}}</th>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.STATUS' | translate}}</th>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.RECEIVER' | translate}}</th>
+                        <th>{{'DOCUMENT.HISTORY_TRANSACTION.SENDER' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody id="list-item">
+                    <tr ng-repeat="history in lstDocumentTransactionHistory">
+                        <td class="text-muted">
+                            {{history.created_at}}
+                        </td>
+                        <td>{{history.docCode}}</td>
+                        <td>{{history.docName}}</td>
+                        <td>
+                            {{history.info.messageId ? history.info.messageId : history.info.MessageId }}
+                        </td>
+                        <td>
+                            {{history.transaction_id }}
+                        </td>
+                        <td>
+                            {{history.verificationCode}}
+                        </td>
+                        <td>
+                            {{history.info.responseMessage ? history.info.responseMessage: history.info.ResponseMessage}}
+                        </td>
+                        <td>
+                            {{history.info.senderId ? history.info.senderId : history.info.SenderId }}
+                        </td>
+                        <td>
+                            {{history.info.receiverId ? history.info.receiverId: history.info.ReceiverId}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <a ng-click="cancel()" class="btn btn-outline-primary btn-outline-primary-customer">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto">
+            <button type="button" class="btn btn-primary" ng-click="printTransactionHistory()">
+                {{'DOCUMENT.PRINT_HISTORY' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+</script>

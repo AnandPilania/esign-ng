@@ -1,0 +1,233 @@
+<style>
+.choose-sign {
+    background: #fff;
+    padding: .5rem 1.5rem;
+}
+
+form {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.check-box-custom {
+    /* border: 1px solid #004a7f; */
+    left: -15px;
+    min-height: 50px;
+    padding: 1px 0px 1px 1px;
+}
+
+.check-box-custom  label {
+    position: relative;
+    box-sizing: border-box;
+    padding: 16px 62px 16px 8px;
+    background-color: #ededed;
+    border: 1px solid #004a7f;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #004a7f;
+    cursor: pointer;
+    transition: all .25s ease-in-out;
+}
+
+.check-box-custom  label:hover::before {
+    border: 6px solid #004a7f;
+}
+
+.check-box-custom label::before {
+    position: absolute;
+    content: "";
+    right: 12px;
+    top: 9px;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    border: 1px  solid #004a7f;
+    border-radius: 8px;
+    transition: all .25s ease-in-out;
+}
+
+.check-box-custom input:checked + label {
+    background-color: #004a7f;
+    color: #ededed;
+}
+
+.check-box-custom input:checked + label::before {
+    background-color: #004a7f;
+    border: 6px solid #ddd;
+    border-radius:  50%;
+}
+
+.loading-count-container
+{
+  width:75px;
+  height:75px;
+  top: -10%;
+  overflow:hidden;
+  position:relative;
+  display:inline-block;
+  vertical-align:middle;
+}
+.loading-count-color-rotate
+{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  animation: rotation 1.3s linear infinite;
+  border-radius:50%;
+  overflow:hidden;
+}
+@-webkit-keyframes rotation {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes rotation {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.loading__colored-block:nth-child(1) {
+  -webkit-transform: rotate(0deg) skewX(-30deg);
+          transform: rotate(0deg) skewX(-30deg);
+  background-color: #FD3359;
+}
+.loading__colored-block:nth-child(2) {
+  -webkit-transform: rotate(120deg) skewX(-30deg);
+          transform: rotate(120deg) skewX(-30deg);
+  background-color: #F4D302;
+}
+.loading__colored-block:nth-child(3) {
+  -webkit-transform: rotate(240deg) skewX(-30deg);
+          transform: rotate(240deg) skewX(-30deg);
+  background-color: #21BDFF;
+}
+.loading__colored-block {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+}
+.loading-count-inner
+{
+  position:absolute;
+  width:90%;
+  height:90%;
+  background:#FFF;
+  top:5%;
+  left:5%;
+  border-radius:50%;
+  overflow:hidden;
+  color:#757575;
+  text-align:center;
+  font-size:30px;
+  line-height:65px;
+
+}
+.loading-count-text
+{
+  display:inline-block;
+  vertical-align:middle;
+  margin-left:10px;
+  font-size:20px;
+  color:#757575;
+}
+.loading-text-extra
+{
+  font-size: 14px;
+}
+
+.card-noti {
+    height: 100px;
+    width:50%;
+}
+</style>
+<div class="modal-content" >
+    <div class="modal-header">
+        <h5 class="modal-title">{{ 'LAYOUT.SIGN_MY_SIGN' | translate }}</h5>
+        <button type="button" class="btn-close" ng-click="closeMySign()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body" id="choose-cts-remote-signing">
+        <div>
+            <span>{{'DOCUMENT.INFOR_MYSIGN' | translate }}</span>
+        </div>
+        <div class="row choose-sign m-1">
+            <form>
+                <div class="form-group mb-3 row">
+                    <div class="col-10 row">
+                        <label class="form-label col-md-1 col-1 col-form-label font-weight-normal">{{'DOCUMENT.ID_MYSIGN' | translate }}</label>
+                        <div class="col-md-10 col-10">
+                            <input type="text" class="form-control" ng-model="mySignData.user_id" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-primary" ng-if="mySignData.status != 2 && mySignData.status != 3 && mySignData.status != 7" ng-click="get_cts()">{{'DOCUMENT.GET_LIST_CTS' | translate }}</button>
+                        <button type="button" class="btn btn-primary" ng-if="mySignData.status == 2 || mySignData.status == 3 || mySignData.status == 7" ng-click="return false;">{{'DOCUMENT.GET_LIST_CTS' | translate }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row mb-3" style="border-bottom: 1px solid #7f8081" ng-if="mySignData.status != -1" ></div>
+        <span ng-if="mySignData.status == 1 || mySignData.status == 0">{{'DOCUMENT.LIST_CTS' | translate }}</span>
+        <div class="row m-1 btn-group check-box-custom" ng-if="mySignData.status == 1 || mySignData.status == 0">
+            <form>
+                <div class="row m-1" ng-repeat="CTS in listCts.data">
+                    <input type="radio" id="{{CTS.key}}" class="btn-check" name="credential_id" autocomplete="off" ng-model="mySignData.credential_id" value="{{CTS.key}}">
+                    <label for="{{CTS.key}}" class="row btn btn-outline-primary col-12" >
+                        <span>{{CTS.name}}</span>
+                    </label>
+                </div>
+
+            </form>
+        </div>
+        <div ng-if="mySignData.status == 0" class="p-auto text-center">
+            {{'LAYOUT.NO_DATA' | translate }}
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="text-center card card-body card-noti border border-primary text-primary" ng-if="mySignData.status == 2">
+                {{'DOCUMENT.SIGN_MYSIGN_LOADING' | translate}}
+            </div>
+            <div class="text-center card card-body card-noti border border-info text-info" ng-if="mySignData.status == 3" >
+                <div class="loading-count-main">
+                    <div class="loading-count-container">
+                        <div class="loading-count-color-rotate">
+                            <div class="loading__colored-block"></div>
+                            <div class="loading__colored-block"></div>
+                            <div class="loading__colored-block"></div>
+                        </div>
+                        <div class="loading-count-inner" id="loading-count" ng-bind="mainCtrl.mySignData.timeOut">
+                    </div>
+                    </div>
+                    <div class="loading-count-text">
+                    <div class="loading-text-extra" id="loading-text-extra">{{'DOCUMENT.REQUEST_APP_MYSIGN' | translate }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center card card-body card-noti border border-success text-success" ng-if="mySignData.status == 4">
+               {{'DOCUMENT.SIGN_MYSIGN_SUCCESS' | translate}}
+            </div>
+            <div class="text-center card card-body card-noti border border-warning text-warning " ng-if="mySignData.status == 5">
+                {{'DOCUMENT.REMOTE_SIGNING.VIETTEL.ERROR_MY_SIGN.' + mySignData.message  | translate}}
+            </div>
+            <div class="text-center card card-body card-noti border border-danger text-success" ng-if="mySignData.status == 6">
+                {{'DOCUMENT.SIGN_MYSIGN_TIMEOUT' | translate}}
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row m-1" ng-if="mySignData.status == 1">
+            <button type="button" class="btn btn-primary float-right" ng-click="onSignMySign()">{{'DOCUMENT.ON_SIGN' | translate }}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+</script>
+

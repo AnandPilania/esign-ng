@@ -1,0 +1,87 @@
+<div class="container-fluid" style="padding: 0" ng-controller="DetailDocumentTutorialCtrl as detailDocumentTutorialCtrl">
+    <div class="row align-content-center d-print-none">
+        <div class="col-12">
+            <div class="navbar-expand-md">
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <div class="navbar navbar-light">
+                        <div class="container-xl">
+                            <label class="form-label font-weight-bold mt-auto mb-auto">{{'Tài liệu hướng dẫn'
+                            }}: {{detailDocumentTutorialCtrl.tutorialDocument.name}}</label>
+                            <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                                <div class="pageTool">
+                                    <div class="btn-group w-100">
+                                        <div class="col-auto ms-auto" style="margin-right:5%" id="scale">
+                                            <select class="form-select" ng-change="detailDocumentTutorialCtrl.onChangeScale()" ng-model="scale">
+                                                <option ng-repeat="scale in lstScale" value="{{scale.value}}">{{scale.description}}</option>
+                                            </select>
+                                        </div>
+                                        <a href="javascript:void(0)" class="btn btn-white btn-icon"
+                                           aria-label="Button" id="prev">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor" fill="none" stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M21 5v14l-8 -7z"></path>
+                                                <path d="M10 5v14l-8 -7z"></path>
+                                            </svg>
+                                        </a>
+                                        <div class="btn btn-white btn-icon">
+                                            <label>{{'DOCUMENT.PAGE' | translate}}:</label>
+                                            &nbsp;<span id="page-num">1</span>&nbsp;/&nbsp;<span
+                                            id="total-page"></span>
+                                        </div>
+                                        <a href="javascript:void(0)" class="btn btn-white btn-icon"
+                                           aria-label="Button" id="next">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor" fill="none" stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M3 5v14l8 -7z"></path>
+                                                <path d="M14 5v14l8 -7z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container-xl">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="document-container">
+                                <div id="doc-viewer" class="docs-scroll page-content">
+                                    <div id="viewer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    // $("#text-description").on("change", evt => {
+    //     angular.element(document.getElementById('text-description')).scope().onChangeDescription(evt);
+    // });
+    // $("#checkbox-description").on("change", evt => {
+    //     angular.element(document.getElementById('checkbox-description')).scope().onChangeCheckboxDescription(evt);
+    // });
+    //
+    // $("#text-font-size").on("change", evt => {
+    //     angular.element(document.getElementById('text-font-size')).scope().onChangeFontSize(evt);
+    // });
+    // $("#text-font-style").on("change", evt => {
+    //     angular.element(document.getElementById('text-font-style')).scope().onChangeFontStyle(evt);
+    // });
+</script>
+

@@ -1,0 +1,205 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" ng-if="!editServiceConfig.id">{{'CONFIG.SERVICE_CONFIG.INSERT_SERVICE_CONFIG' |
+            translate}}</h5>
+        <h5 class="modal-title" ng-if="editServiceConfig.id">{{'CONFIG.SERVICE_CONFIG.UPDATE_SERVICE_CONFIG' |
+            translate}}</h5>
+        <button type="button" class="btn-close" ng-click="cancel()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="onCreateUpdateServiceConfig(0)">
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal required">{{'CONFIG.SERVICE_CONFIG.CODE'
+                    |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editServiceConfig.service_code" type="text" maxlength="30" ng-disabled="loginUser.role_id != 1">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal required">{{'CONFIG.SERVICE_CONFIG.NAME'
+                    |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editServiceConfig.service_name" type="text" maxlength="255" ng-disabled="loginUser.role_id != 1">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SERVICE_CONFIG.DESCRIPTION'
+                    | translate}}</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="editServiceConfig.description" maxlength="255" type="text" ng-disabled="loginUser.role_id != 1">
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SERVICE_CONFIG.TYPE' |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <select class="form-select" ng-model="editServiceConfig.service_type" ng-disabled="loginUser.role_id != 1" disabled>
+                        <option value="-1">{{'COMMON.CHOOSE' | translate}}</option>
+                        <option ng-repeat="type in lstServiceConfigType" value="{{type.id}}">{{type.description |
+                            translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SERVICE_CONFIG.QUANTITY'
+                    | translate}}</label>
+                <div class="col-md-3">
+                    <label>
+                        <input class="form-control" type="text" string-to-number ng-model="editServiceConfig.quantity" min="1"/>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SERVICE_CONFIG.PRICE'
+                    | translate}}</label>
+                <div class="col-md-3">
+                    <label>
+                        <input class="form-control" type="text" string-to-number ng-model="editServiceConfig.price" />
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">{{"CONFIG.CUSTOMER.VALID" | translate}}</label>
+                <div class="col-md-7">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editServiceConfig.unlimited" type="checkbox">
+                        <span class="form-check-label">{{"CONFIG.CUSTOMER.UNLIMITED" | translate}}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mb-3 row" ng-if="!editServiceConfig.unlimited">
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SERVICE_CONFIG.END_DATE'
+                    | translate}}</label>
+                <div class="col-md-3">
+                    <label>
+                        <input class="form-control" type="text" string-to-number ng-model="editServiceConfig.expires_time"  />
+                    </label>
+                </div>
+                <label
+                    class="form-label col-md-3 col-form-label font-weight-normal">{{'CONFIG.SERVICE_CONFIG.DAY'
+                | translate}}</label>
+            </div>
+            <div class="form-group row mb-3">
+                <label class="form-label col-md-3 col-form-label font-weight-normal pt-0">{{'COMMON.OPTION' |
+                    translate}}</label>
+                <div class="col-md-9">
+                    <label class="form-check">
+                        <input class="form-check-input" ng-model="editServiceConfig.status" type="checkbox" ng-disabled="loginUser.role_id != 1">
+                        <span class="form-check-label">{{'COMMON.USING' | translate}}</span>
+                    </label>
+                </div>
+            </div>
+
+        </form>
+        <!-- <div ng-if="editServiceConfig.service_type == 1 && editServiceConfig.id" class=" card mb-3">
+            <div class="card-header">
+                <p>
+                    {{'CONFIG.SERVICE_CONFIG.TYPE_CONTRACT_SETUP'|translate}}
+                </p>
+                <div class="btn-list ms-auto" style="margin-bottom: 0px;">
+                    <button class="btn btn-sm btn-primary float-right" ng-if="loginUser.role_id == 1"
+                        ng-click="addServiceConfigDetail()">{{'COMMON.ADD_NEW'|translate}}</button>
+                </div>
+            </div>
+            <div class="card-body small">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover">
+                    <tr>
+                        <th>{{'CONFIG.SERVICE_CONFIG.FROM_CONTRACT'|translate}}</th>
+                        <th>{{'CONFIG.SERVICE_CONFIG.QUANTITY'|translate}}</th>
+                        <th>{{'CONFIG.SERVICE_CONFIG.PRICE'|translate}}</th>
+                        <th>{{'CONFIG.SERVICE_CONFIG.UPDATED_AT'|translate}}</th>
+                    </tr>
+                    <tr ng-repeat="csc in editServiceConfig.service_detail track by $index"
+                        ng-class="csc.status ==2?'text-muted':''">
+
+                        <td ng-if="!csc.edit">{{csc.from}}</td>
+                        <td ng-if="!csc.edit">{{csc.quantity}}</td>
+                        <td ng-if="!csc.edit">{{csc.fee}}</td>
+
+
+                        <td ng-if="csc.edit"><input class="form-control" type="number" string-to-number ng-model="csc.from"></td>
+                        <td ng-if="csc.edit "><input class="form-control" type="number" string-to-number ng-model="csc.quantity" min="1"/></td>
+                        <td ng-if="csc.edit "><input class="form-control" type="number" string-to-number ng-model="csc.fee"  min="1000"/></td>
+                        <td>{{csc.updated_at}}</td>
+                        <td class="text-center">
+                            <button ng-if="!csc.edit && loginUser.role_id == 1" class="btn btn-sm btn-default"
+                                ng-click="editServiceConfigDetail(csc);">{{'COMMON.EDIT'|translate}}
+                            </button>
+                            <button ng-if="!csc.edit && loginUser.role_id == 1" class="btn btn-sm btn-danger"
+                                ng-click="deleteServiceConfigDetail($index);">{{'COMMON.DELETE'|translate}}</button>
+                            <button ng-if="csc.edit && (csc.from < csc.to || csc.to==-1) && csc.fee > 0 && loginUser.role_id == 1"
+                                class="btn btn-sm btn-warning" ng-click="saveServiceConfigDetail(csc)">
+                                {{'COMMON.UPDATE'|translate}} </button>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div> -->
+        <!-- <div ng-if="editServiceConfig.service_type == 2 && editServiceConfig.id" class=" card mb-3">
+            <div class="card-header">
+                <p>
+                    {{'CONFIG.SERVICE_CONFIG.TYPE_TIME_SETUP'|translate}}
+                </p>
+                <div class="btn-list ms-auto" style="margin-bottom: 0px;">
+                    <button class="btn btn-sm btn-primary float-right" ng-if="loginUser.role_id == 1"
+                        ng-click="addServiceConfigDetail()">{{'COMMON.ADD_NEW'|translate}}</button>
+                </div>
+            </div>
+            <div class="card-body small">
+                <table class="table card-table table-vcenter table-striped text-nowrap datatable table-hover">
+                    <tr>
+                        <th>{{'CONFIG.SERVICE_CONFIG.FROM_MONTH'|translate}}</th>
+                        <th>{{'CONFIG.SERVICE_CONFIG.TO_MONTH'|translate}}</th>
+                        <th>{{'CONFIG.SERVICE_CONFIG.PRICE'|translate}}</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="tsc in editServiceConfig.service_detail track by $index"
+                        ng-class="tsc.status ==2?'text-muted':''">
+
+                        <td ng-if="!tsc.edit">{{tsc.from}}</td>
+                        <td ng-if="!tsc.edit">{{tsc.to}}</td>
+                        <td ng-if="!tsc.edit">{{tsc.fee}}</td>
+                        <td ng-if="tsc.edit"><input class="form-control" type="number" string-to-number ng-model="tsc.from"></td>
+                        <td ng-if="tsc.edit"><input class="form-control" type="number" string-to-number ng-model="tsc.to" /></td>
+                        <td ng-if="tsc.edit"><input class="form-control" type="text" ng-model="tsc.fee" /></td>
+                        <td>{{tsc.updated_at}}</td>
+                        <td class="text-center">
+                            <button ng-if="!tsc.edit && loginUser.role_id == 1" class="btn btn-sm btn-default"
+                                ng-click="editServiceConfigDetail(tsc);">{{'COMMON.EDIT'|translate}}
+                            </button>
+                            <button ng-if="!tsc.edit && loginUser.role_id == 1" class="btn btn-sm btn-danger"
+                                ng-click="deleteServiceConfigDetail($index);">{{'COMMON.DELETE'|translate}}</button>
+                            <button ng-if="tsc.edit && (tsc.from < tsc.to || tsc.to==-1) && tsc.fee > 0 && loginUser.role_id == 1"
+                                class="btn btn-sm btn-warning" ng-click="saveServiceConfigDetail(tsc)">
+                                {{'COMMON.UPDATE'|translate}} </button>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div> -->
+    </div>
+    <div class="modal-footer mt-3">
+        <a href="" class="btn btn-secondary" ng-click="cancel()">
+            {{'COMMON.CLOSE' | translate}}
+        </a>
+        <div class="btn-list ms-auto" ng-if="loginUser.role_id == 1">
+            <button type="button" class="btn btn-outline-primary btn-outline-primary-customer"
+                ng-click="onCreateUpdateServiceConfig(1)">
+                {{'COMMON.SAVE_AND_ADD' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="onCreateUpdateServiceConfig(0)">
+                {{'COMMON.SAVE' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
