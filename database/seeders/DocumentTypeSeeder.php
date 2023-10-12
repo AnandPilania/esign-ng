@@ -1,5 +1,5 @@
 <?php
-
+namespace Database\Seeders;
 
 class DocumentTypeSeeder extends \Illuminate\Database\Seeder
 {

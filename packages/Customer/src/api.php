@@ -57,8 +57,6 @@ Route::group(['namespace' => 'Customer\Controllers'], function () {
                 Route::post('quan-ly-mau-thong-bao/cap-nhat', 'eCConfigController@updateTemplate');
                 Route::post('quan-ly-mau-thong-bao/xoa', 'eCConfigController@deleteTemplate');
                 Route::post('quan-ly-mau-thong-bao/xoa-nhieu', 'eCConfigController@deleteMultiTemplate');
-
-
             });
 
             Route::prefix('tien-ich')->group(function() {

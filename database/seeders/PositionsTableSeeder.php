@@ -1,9 +1,10 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RoleTableSeeder extends Seeder
+class PositionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,27 +13,21 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ec_s_roles')->insert([
+        DB::table('ec_s_positions')->insert([
             [
-                "id" => 1,
                 "company_id" => 1,
-                "role_name" => "Administrator",
+                "name" => "Giám đốc",
+                "position_code" => "0001",
+                "delete_flag" => 0,
                 'created_by' => 1,
                 'updated_by' => 1,
                 'status' => 1
             ],
             [
-                "id" => 2,
                 "company_id" => 1,
-                "role_name" => "Xem tài liệu",
-                'created_by' => 1,
-                'updated_by' => 1,
-                'status' => 1
-            ],
-            [
-                "id" => 3,
-                "company_id" => 1,
-                "role_name" => "Ký tài liệu",
+                "name" => "Nhân viên",
+                "position_code" => "0002",
+                "delete_flag" => 0,
                 'created_by' => 1,
                 'updated_by' => 1,
                 'status' => 1
